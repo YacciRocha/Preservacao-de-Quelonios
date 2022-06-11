@@ -32,13 +32,21 @@ public class CoordenadorService {
 		repository.deleteById(matricula);		
 	}
 	
-	public Coordenador update(String matricula, Coordenador coordenador) {
+	
+	public Coordenador update(String matricula, Coordenador coordenador) { 
+		  Coordenador entity = findById(matricula); 
+		  entity.setNome(coordenador.getNome()); 
+		  entity.setEmail(coordenador.getEmail()); 
+		  return repository.save(entity); 
+		 }		
+	
+	/*public Coordenador update(String matricula, Coordenador coordenador) {
 		Coordenador entity = findById(coordenador.getMatricula());
 		entity.setNome(coordenador.getNome());
 		entity.setEmail(coordenador.getEmail());	
 		
 		
 		return repository.save(entity);		
-	}
+	}*/
 	
 }
