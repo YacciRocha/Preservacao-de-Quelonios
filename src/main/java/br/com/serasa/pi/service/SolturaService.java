@@ -36,7 +36,22 @@ public class SolturaService {
 	public Soltura update(Integer idSoltura, Soltura Soltura) { 
 		  Soltura entity = findById(idSoltura); 
 		  entity.setDataViagem(Soltura.getDataViagem()); 
-		  entity.setComunidade(Soltura.getComunidade()); 
+		  entity.setEstadoUF(Soltura.getEstadoUF());
+		  entity.setMunicipio(Soltura.getMunicipio()); 
+		  entity.setComunidade(Soltura.getComunidade());   
+		  entity.setNumeroAnimal(Soltura.getNumeroAnimal()); 
+		  entity.setEspecie(Soltura.getEspecie()); 
+		  entity.setDataSoltura(Soltura.getDataSoltura()); 
+		  entity.setCarapacaComprimento(Soltura.getCarapacaComprimento()); 
+		  entity.setCarapacaLargura(Soltura.getCarapacaLargura()); 
+		  entity.setPlastraoComprimento(Soltura.getPlastraoComprimento()); 
+		  entity.setPlastraoLargura(Soltura.getPlastraoLargura()); 
+		  entity.setPeso(Soltura.getPeso()); 
+		  entity.setAltura(Soltura.getAltura()); 
+		  
+		  
+		  
+		  
 		  return repository.save(entity); 
 		 }		
 }
