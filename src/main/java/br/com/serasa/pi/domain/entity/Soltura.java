@@ -13,24 +13,23 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
-
 @Data
 @Entity
-@Table(name="viagem_soltura")
+@Table(name = "viagem_soltura")
 public class Soltura extends Viagem implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name= "id_soltura")
-	private Integer idSoltura;	
+	@Column(name = "id_soltura")
+	private Integer idSoltura;
 
 	@Column(name = "numero_animal")
 	private String numeroAnimal;
-	
+
 	@Column(name = "especie")
-	private String especie;	
-	
+	private String especie;
+
 	@Column(name = "data_soltura")
 	private Date dataSoltura;
 
@@ -44,7 +43,7 @@ public class Soltura extends Viagem implements Serializable {
 	private float plastraoComprimento;
 
 	@Column(name = "plastrao_largura")
-	private float plastraoLargura ;
+	private float plastraoLargura;
 
 	@Column(name = "peso")
 	private float peso;
@@ -57,6 +56,8 @@ public class Soltura extends Viagem implements Serializable {
 		if (this == obj)
 			return true;
 		if (!super.equals(obj))
+			return false;
+		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -73,13 +74,7 @@ public class Soltura extends Viagem implements Serializable {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + Objects.hash(altura, carapacaComprimento, carapacaLargura, dataSoltura, especie,
-				idSoltura, numeroAnimal, peso, plastraoComprimento, plastraoLargura);
-		return result;
+		return Objects.hash(altura, carapacaComprimento, carapacaLargura, dataSoltura, especie, idSoltura, numeroAnimal,
+				peso, plastraoComprimento, plastraoLargura);
 	}
-	
-	
-
 }

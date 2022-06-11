@@ -15,7 +15,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="coleta")
+@Table(name = "coleta")
 public class Coleta extends Viagem implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -24,51 +24,39 @@ public class Coleta extends Viagem implements Serializable {
 	@Column(name = "id_coleta")
 	private Integer idColeta;
 
-	
 	@Column(name = "data_coleta")
 	private Date dataColeta;
 
-	
 	@Column(name = "nome_praia_tabuleiro")
 	private String nomePraiaTabuleiro;
 
-	
 	@Column(name = "numero_cova")
 	private Integer numeroCova;
 
-	
 	@Column(name = "quantidade_ovos")
 	private Integer quantidadeOvos;
 
-	
 	@Column(name = "especie")
 	private String especie;
 
-	
 	@Column(name = "distancia_agua")
 	private double distanciaAgua;
 
-	
 	@Column(name = "distancia_vegetacao")
 	private double distanciaVegetacao;
 
-	
 	@Column(name = "profundidade_primeiro_ovo")
 	private float profundidadePrimeiroOvo;
 
-	
 	@Column(name = "profundidade_total")
 	private float profundidadeTotal;
 
-	
 	@Column(name = "largura_ninho")
 	private float larguraNinho;
 
-	
 	@Column(name = "largura_patas")
 	private float larguraPata;
 
-	
 	@Column(name = "largura_entre_patas")
 	private float larguraEntrePatas;
 
@@ -77,6 +65,8 @@ public class Coleta extends Viagem implements Serializable {
 		if (this == obj)
 			return true;
 		if (!super.equals(obj))
+			return false;
+		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -97,15 +87,8 @@ public class Coleta extends Viagem implements Serializable {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + Objects.hash(dataColeta, distanciaAgua, distanciaVegetacao, especie, idColeta,
-				larguraEntrePatas, larguraNinho, larguraPata, nomePraiaTabuleiro, numeroCova, profundidadePrimeiroOvo,
-				profundidadeTotal, quantidadeOvos);
-		return result;
+		return Objects.hash(dataColeta, distanciaAgua, distanciaVegetacao, especie, idColeta, larguraEntrePatas,
+				larguraNinho, larguraPata, nomePraiaTabuleiro, numeroCova, profundidadePrimeiroOvo, profundidadeTotal,
+				quantidadeOvos);
 	}
-	
-	
-	
-
 }
