@@ -47,13 +47,13 @@ public class CoordenadorController {
 	}
 	
 	@DeleteMapping(value = "/{matricula}")
-	public ResponseEntity<Void> delete(@PathVariable String matricula) {
+	public ResponseEntity<Void> delete(@PathVariable ("matricula") String matricula) {
 		service.delete(matricula);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@PutMapping(value = "/{matricula}")
-	public ResponseEntity<Coordenador> update(@PathVariable String matricula, @RequestBody Coordenador obj) {
+	public ResponseEntity<Coordenador> update(@PathVariable ("matricula") String matricula, @RequestBody Coordenador obj) {
 		obj = service.update(matricula, obj);
 		return ResponseEntity.ok().body(obj);
 	}

@@ -15,46 +15,46 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.serasa.pi.domain.entity.Voluntario;
-import br.com.serasa.pi.service.VoluntarioService;
+import br.com.serasa.pi.domain.entity.Soltura;
+import br.com.serasa.pi.service.SolturaService;
 
 @RestController
-@RequestMapping("/voluntario")
-public class VoluntarioController {
+@RequestMapping("/soltura")
+public class SolturaController {
 	
 	@Autowired
-	VoluntarioService service;
+	SolturaService service;
 	
 	@GetMapping
-	public ResponseEntity<List<Voluntario>> findAll() {
-		List<Voluntario> list = service.findAll();
+	public ResponseEntity<List<Soltura>> findAll() {
+		List<Soltura> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 	
-	@GetMapping("/{matricula}")
-	public ResponseEntity<Voluntario> findById(@PathVariable("matricula") String matricula) {
-		Voluntario obj = service.findById(matricula);
+	@GetMapping("/{id}")
+	public ResponseEntity<Soltura> findById(@PathVariable("id") Integer idSoltura) {
+		Soltura obj = service.findById(idSoltura);
 		return ResponseEntity.ok().body(obj);
 				
 	}
 	
 	@PostMapping
-	public ResponseEntity<Voluntario> insert(@RequestBody Voluntario obj) {
+	public ResponseEntity<Soltura> insert(@RequestBody Soltura obj) {
 		obj = service.insert(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matricula}")
-				.buildAndExpand(obj.getMatricula()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+				.buildAndExpand(obj.getIdSoltura()).toUri();
 		return ResponseEntity.created(uri).body(obj);
 	}
 	
-	@DeleteMapping(value = "/{matricula}")
-	public ResponseEntity<Void> delete(@PathVariable ("matricula") String matricula) {
-		service.delete(matricula);
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> delete(@PathVariable ("id") Integer idSoltura) {
+		service.delete(idSoltura);
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PutMapping(value = "/{matricula}")
-	public ResponseEntity<Voluntario> update(@PathVariable ("matricula") String matricula, @RequestBody Voluntario obj) {
-		obj = service.update(matricula, obj);
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<Soltura> update(@PathVariable ("id") Integer idSoltura, @RequestBody Soltura obj) {
+		obj = service.update(idSoltura, obj);
 		return ResponseEntity.ok().body(obj);
 	}
 
