@@ -35,8 +35,23 @@ public class ColetaService {
 	
 	public Coleta update(Integer idColeta, Coleta Coleta) { 
 		  Coleta entity = findById(idColeta); 
-		  entity.setDataViagem(Coleta.getDataViagem()); 
-		  entity.setComunidade(Coleta.getComunidade()); 
+		  entity.setDataViagem(Coleta.getDataViagem());
+		  entity.setEstadoUF(Coleta.getEstadoUF());
+		  entity.setMunicipio(Coleta.getMunicipio());
+		  entity.setComunidade(Coleta.getComunidade());
+		  entity.setDataColeta(Coleta.getDataColeta()); 
+		  entity.setNomePraiaTabuleiro(Coleta.getNomePraiaTabuleiro()); 
+		  entity.setNumeroCova(Coleta.getNumeroCova()); 
+		  entity.setQuantidadeOvos(Coleta.getQuantidadeOvos());
+		  entity.setEspecie(Coleta.getEspecie());
+		  entity.setDistanciaAgua(Coleta.getDistanciaAgua());
+		  entity.setDistanciaVegetacao(Coleta.getDistanciaVegetacao());
+		  entity.setProfundidadePrimeiroOvo(Coleta.getProfundidadePrimeiroOvo());
+		  entity.setProfundidadeTotal(Coleta.getProfundidadeTotal());
+		  entity.setLarguraNinho(Coleta.getLarguraNinho());
+		  entity.setLarguraPata(Coleta.getLarguraPata());
+		  entity.setLarguraEntrePatas(Coleta.getLarguraEntrePatas());		  
+		  
 		  return repository.save(entity); 
-		 }		
+		 }			
 }
