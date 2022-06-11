@@ -1,4 +1,4 @@
-package br.com.serasa.pi.domain;
+package br.com.serasa.pi.domain.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

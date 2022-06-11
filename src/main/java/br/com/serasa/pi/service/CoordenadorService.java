@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.serasa.pi.domain.Coordenador;
+import br.com.serasa.pi.domain.entity.Coordenador;
 import br.com.serasa.pi.repository.CoordenadorRepository;
 
 @Service
@@ -39,14 +39,4 @@ public class CoordenadorService {
 		  entity.setEmail(coordenador.getEmail()); 
 		  return repository.save(entity); 
 		 }		
-	
-	/*public Coordenador update(String matricula, Coordenador coordenador) {
-		Coordenador entity = findById(coordenador.getMatricula());
-		entity.setNome(coordenador.getNome());
-		entity.setEmail(coordenador.getEmail());	
-		
-		
-		return repository.save(entity);		
-	}*/
-	
 }
