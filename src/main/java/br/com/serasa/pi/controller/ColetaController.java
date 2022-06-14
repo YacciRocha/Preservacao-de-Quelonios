@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.serasa.pi.common.ColetaVO;
 import br.com.serasa.pi.domain.entity.Coleta;
+import br.com.serasa.pi.mapper.ColetaMapper;
 import br.com.serasa.pi.service.ColetaService;
 
 @RestController
@@ -24,6 +26,9 @@ public class ColetaController {
 	
 	@Autowired
 	ColetaService service;
+	
+	@Autowired
+    private ColetaMapper mapper;
 	
 	@GetMapping
 	public ResponseEntity<List<Coleta>> findAll() {
@@ -40,10 +45,13 @@ public class ColetaController {
 	
 	@PostMapping
 	public ResponseEntity<Coleta> insert(@RequestBody Coleta obj) {
-		obj = service.insert(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(obj.getIdColeta()).toUri();
-		return ResponseEntity.created(uri).body(obj);
+		ColetaVO coletaVO = ColetaMapper.INSTANCE.coletaToColetaVO( obj );
+		ColetaVO coletaUsandoAutowiredVO = mapper.coletaToColetaVO( obj );
+//		obj = service.insert(obj);
+//		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+//				.buildAndExpand(obj.getIdColeta()).toUri();
+//		return ResponseEntity.created(uri).body(obj);
+		return ResponseEntity.ok(obj);
 	}
 	
 	@DeleteMapping(value = "/{id}")
