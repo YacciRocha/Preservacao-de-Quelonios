@@ -1,5 +1,6 @@
 package br.com.serasa.pi.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,8 +27,33 @@ public class ColetaService {
 		return coletaMapper.coletaToColetaVO(coletaInserida);
 	}
 
-	public List<Coleta> findAll() {
-		return repository.findAll();
+	public List<ColetaVO> findAll() {
+		List<Coleta> allColetas = repository.findAll();
+		
+		List<ColetaVO> retorno = new ArrayList<>();
+		if(allColetas != null && !allColetas.isEmpty()) {
+			
+			// Forma com 'for' tradicional...
+			for(int i = 0; i < allColetas.size(); i++) {
+				Coleta coleta = allColetas.get(i);
+				ColetaVO coletaVO = coletaMapper.coletaToColetaVO(coleta);
+				retorno.add(coletaVO);
+			}
+			
+//			Foreach...
+//			for(Coleta coleta : allColetas) {
+//				ColetaVO coletaVO = coletaMapper.coletaToColetaVO(coleta);
+//				retorno.add(coletaVO);
+//			}
+			
+//			Utilizando as Streams....
+//			retorno = allColetas.stream().map(
+//				coleta -> {
+//					return coletaMapper.coletaToColetaVO(coleta);
+//				}
+//			).collect(Collectors.toList());
+		}
+		return retorno;
 	}
 
 	public Coleta findById(Integer idColeta) {
