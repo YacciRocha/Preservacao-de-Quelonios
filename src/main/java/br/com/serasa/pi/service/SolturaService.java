@@ -1,57 +1,117 @@
 package br.com.serasa.pi.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.serasa.pi.domain.entity.Soltura;
+import br.com.serasa.pi.common.SolturaVO;
+import br.com.serasa.pi.domain.entity.SolturaEntity;
+import br.com.serasa.pi.mapper.SolturaMapper;
 import br.com.serasa.pi.repository.SolturaRepository;
 
 @Service
 public class SolturaService {
-	
+
 	@Autowired
 	SolturaRepository repository;
-	
-	public Soltura insert (Soltura Soltura) {
-		return repository.save(Soltura);
+	@Autowired
+	SolturaMapper solturaMapper;
+
+	public SolturaVO insert(SolturaVO solturaVO) {
+		SolturaEntity solturaAInserir = solturaMapper.solturaVOToSolturaEntity(solturaVO);
+		SolturaEntity solturaInserida = repository.save(solturaAInserir);
+		return solturaMapper.solturaEntityToSolturaVO(solturaInserida);
 	}
-	
-	public List<Soltura> findAll () {
-		return repository.findAll();
+
+	public List<SolturaVO> findAll() {
+		List<SolturaEntity> allSolturas = repository.findAll();
+
+		List<SolturaVO> retorno = new ArrayList<>();
+		if (allSolturas != null && !allSolturas.isEmpty()) {
+			retorno = solturaMapper.listSolturaEntityToListSolturaVO(allSolturas);
+		}
+		return retorno;
 	}
-	
-	public Soltura findById(Integer idSoltura) {
-		Optional<Soltura> obj = repository.findById(idSoltura);
-				return obj.get();
+
+	public SolturaVO findById(Integer idSoltura) {
+		Optional<SolturaEntity> optionalSoltura = repository.findById(idSoltura);
+		SolturaVO retorno = null;
+		if (optionalSoltura.isPresent()) {
+			retorno = solturaMapper.solturaEntityToSolturaVO(optionalSoltura.get());
+		}
+		return retorno;
 	}
-	
+
 	public void delete(Integer idSoltura) {
-		repository.deleteById(idSoltura);		
+		repository.deleteById(idSoltura);
 	}
-	
-	
-	public Soltura update(Integer idSoltura, Soltura Soltura) { 
-		  Soltura entity = findById(idSoltura); 
-		  entity.setDataViagem(Soltura.getDataViagem()); 
-		  entity.setEstadoUF(Soltura.getEstadoUF());
-		  entity.setMunicipio(Soltura.getMunicipio()); 
-		  entity.setComunidade(Soltura.getComunidade());   
-		  entity.setNumeroAnimal(Soltura.getNumeroAnimal()); 
-		  entity.setEspecie(Soltura.getEspecie()); 
-		  entity.setDataSoltura(Soltura.getDataSoltura()); 
-		  entity.setCarapacaComprimento(Soltura.getCarapacaComprimento()); 
-		  entity.setCarapacaLargura(Soltura.getCarapacaLargura()); 
-		  entity.setPlastraoComprimento(Soltura.getPlastraoComprimento()); 
-		  entity.setPlastraoLargura(Soltura.getPlastraoLargura()); 
-		  entity.setPeso(Soltura.getPeso()); 
-		  entity.setAltura(Soltura.getAltura()); 
-		  
-		  
-		  
-		  
-		  return repository.save(entity); 
-		 }		
+
+	public SolturaVO update(Integer idSoltura, SolturaVO solturaVoAtualizacao) {
+		Optional<SolturaEntity> optionalSoltura = repository.findById(idSoltura);
+		if(optionalSoltura.isPresent()) {
+			SolturaEntity solturaEncontrada = optionalSoltura.get();
+			SolturaEntity solturaAtualizacao = solturaMapper.solturaVOToSolturaEntity(solturaVoAtualizacao);	
+		
+		if(solturaAtualizacao.getDataViagem() != null) {
+			solturaEncontrada.setDataViagem(solturaAtualizacao.getDataViagem());
+		}
+		if(solturaAtualizacao.getEstadoUF() != null) {
+		solturaEncontrada.setEstadoUF(solturaAtualizacao.getEstadoUF());
+		}
+		
+		if(solturaAtualizacao.getMunicipio() != null) {
+		solturaEncontrada.setMunicipio(solturaAtualizacao.getMunicipio());
+		}
+		
+		if(solturaAtualizacao.getComunidade() != null) {
+		solturaEncontrada.setComunidade(solturaAtualizacao.getComunidade());
+		}
+		
+		if(solturaAtualizacao.getNumeroAnimal() != null) {
+		solturaEncontrada.setNumeroAnimal(solturaAtualizacao.getNumeroAnimal());
+		}
+		
+		if(solturaAtualizacao.getEspecie() != null) {
+		solturaEncontrada.setEspecie(solturaAtualizacao.getEspecie());
+		}
+		
+		if(solturaAtualizacao.getDataSoltura() != null) {
+		solturaEncontrada.setDataSoltura(solturaAtualizacao.getDataSoltura());
+		}
+		
+		if(solturaAtualizacao.getCarapacaComprimento() != null) {
+		solturaEncontrada.setCarapacaComprimento(solturaAtualizacao.getCarapacaComprimento());
+		}
+		
+		if(solturaAtualizacao.getCarapacaLargura() != null) {
+		solturaEncontrada.setCarapacaLargura(solturaAtualizacao.getCarapacaLargura());
+		}
+		
+		if(solturaAtualizacao.getPlastraoComprimento() != null) {
+		solturaEncontrada.setPlastraoComprimento(solturaAtualizacao.getPlastraoComprimento());
+		}
+		
+		if(solturaAtualizacao.getPlastraoLargura() != null) {
+		solturaEncontrada.setPlastraoLargura(solturaAtualizacao.getPlastraoLargura());
+		}
+		
+		if(solturaAtualizacao.getPeso() != null) {
+		solturaEncontrada.setPeso(solturaAtualizacao.getPeso());
+		}
+		
+		if(solturaAtualizacao.getAltura() != null) {
+		solturaEncontrada.setAltura(solturaAtualizacao.getAltura());
+		}
+		
+		SolturaEntity solturaAtualizada = repository.save(solturaEncontrada);
+		return solturaMapper.solturaEntityToSolturaVO(solturaAtualizada);
+		}else {
+			throw new RuntimeException("Soltura não encontrada");
+		}
+	}
 }

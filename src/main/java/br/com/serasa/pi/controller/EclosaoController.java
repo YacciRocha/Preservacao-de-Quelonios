@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.serasa.pi.domain.entity.Eclosao;
+import br.com.serasa.pi.common.EclosaoVO;
+import br.com.serasa.pi.domain.entity.EclosaoEntity;
 import br.com.serasa.pi.service.EclosaoService;
 
 @RestController
@@ -23,39 +24,39 @@ import br.com.serasa.pi.service.EclosaoService;
 public class EclosaoController {
 	
 	@Autowired
-	EclosaoService service;
+	EclosaoService eclosaoService;
 	
 	@GetMapping
-	public ResponseEntity<List<Eclosao>> findAll() {
-		List<Eclosao> list = service.findAll();
-		return ResponseEntity.ok().body(list);
+	public ResponseEntity<List<EclosaoVO>> findAll() {
+		List<EclosaoVO> retorno = eclosaoService.findAll();
+		return ResponseEntity.ok().body(retorno);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Eclosao> findById(@PathVariable("id") Integer idEclosao) {
-		Eclosao obj = service.findById(idEclosao);
-		return ResponseEntity.ok().body(obj);
+	public ResponseEntity<EclosaoVO> findById(@PathVariable("id") Integer idEclosao) {
+		EclosaoVO retorno = eclosaoService.findById(idEclosao);
+		return ResponseEntity.ok().body(retorno);
 				
 	}
 	
 	@PostMapping
-	public ResponseEntity<Eclosao> insert(@RequestBody Eclosao obj) {
-		obj = service.insert(obj);
+	public ResponseEntity<EclosaoVO> insert(@RequestBody EclosaoVO eclosaoVO) {
+		EclosaoVO retorno = eclosaoService.insert(eclosaoVO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(obj.getIdEclosao()).toUri();
-		return ResponseEntity.created(uri).body(obj);
+				.buildAndExpand(retorno.getIdEclosao()).toUri();
+		return ResponseEntity.created(uri).body(retorno);
 	}
 	
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable ("id") Integer idEclosao) {
-		service.delete(idEclosao);
+		eclosaoService.delete(idEclosao);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Eclosao> update(@PathVariable ("id") Integer idEclosao, @RequestBody Eclosao obj) {
-		obj = service.update(idEclosao, obj);
-		return ResponseEntity.ok().body(obj);
+	public ResponseEntity<EclosaoVO> update(@PathVariable ("id") Integer idEclosao, @RequestBody EclosaoVO eclosaoVO) {
+		EclosaoVO retorno = eclosaoService.update(idEclosao, eclosaoVO);
+		return ResponseEntity.ok().body(retorno);
 	}
 
 }

@@ -15,8 +15,8 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "viagem_eclosao")
-public class Eclosao extends Viagem implements Serializable {
+@Table(name = "eclosao")
+public class EclosaoEntity extends Viagem implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -61,7 +61,7 @@ public class Eclosao extends Viagem implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Eclosao other = (Eclosao) obj;
+		EclosaoEntity other = (EclosaoEntity) obj;
 		return Objects.equals(dataNascimento, other.dataNascimento) && Objects.equals(especie, other.especie)
 				&& Objects.equals(idEclosao, other.idEclosao) && Objects.equals(numeroCova, other.numeroCova)
 				&& Objects.equals(quantidadeFilhoteMortoBicheira, other.quantidadeFilhoteMortoBicheira)

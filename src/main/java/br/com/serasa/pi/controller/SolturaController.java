@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.serasa.pi.domain.entity.Soltura;
+import br.com.serasa.pi.common.SolturaVO;
+import br.com.serasa.pi.mapper.SolturaMapper;
 import br.com.serasa.pi.service.SolturaService;
 
 @RestController
@@ -23,27 +24,27 @@ import br.com.serasa.pi.service.SolturaService;
 public class SolturaController {
 	
 	@Autowired
-	SolturaService service;
+	SolturaService service;	
 	
 	@GetMapping
-	public ResponseEntity<List<Soltura>> findAll() {
-		List<Soltura> list = service.findAll();
-		return ResponseEntity.ok().body(list);
+	public ResponseEntity<List<SolturaVO>> findAll() {
+		List<SolturaVO> retorno = service.findAll();
+		return ResponseEntity.ok().body(retorno);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Soltura> findById(@PathVariable("id") Integer idSoltura) {
-		Soltura obj = service.findById(idSoltura);
-		return ResponseEntity.ok().body(obj);
+	public ResponseEntity<SolturaVO> findById(@PathVariable("id") Integer idSoltura) {
+		SolturaVO retorno = service.findById(idSoltura);
+		return ResponseEntity.ok().body(retorno);
 				
 	}
 	
 	@PostMapping
-	public ResponseEntity<Soltura> insert(@RequestBody Soltura obj) {
-		obj = service.insert(obj);
+	public ResponseEntity<SolturaVO> insert(@RequestBody SolturaVO solturaVO) {
+		SolturaVO retorno = service.insert(solturaVO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(obj.getIdSoltura()).toUri();
-		return ResponseEntity.created(uri).body(obj);
+				.buildAndExpand(retorno.getIdSoltura()).toUri();
+		return ResponseEntity.created(uri).body(retorno);
 	}
 	
 	@DeleteMapping(value = "/{id}")
@@ -53,9 +54,9 @@ public class SolturaController {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Soltura> update(@PathVariable ("id") Integer idSoltura, @RequestBody Soltura obj) {
-		obj = service.update(idSoltura, obj);
-		return ResponseEntity.ok().body(obj);
+	public ResponseEntity<SolturaVO> update(@PathVariable ("id") Integer idSoltura, @RequestBody SolturaVO solturaVO) {
+		SolturaVO retorno = service.update(idSoltura, solturaVO);
+		return ResponseEntity.ok().body(retorno);
 	}
 
 }
