@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 @MappedSuperclass
-public abstract class Viagem {
+public class Viagem {
 	
 	@Column(name = "data_viagem")
 	private Date dataViagem;

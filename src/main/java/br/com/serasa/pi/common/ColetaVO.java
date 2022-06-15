@@ -8,6 +8,14 @@ import lombok.Data;
 public class ColetaVO {
 
 	private Integer idColeta;
+	
+	private Date dataViagem;
+	
+	private String estadoUF;	
+	
+	private String municipio;	
+	
+	private String comunidade;
 
 	private Date dataColeta;
 
