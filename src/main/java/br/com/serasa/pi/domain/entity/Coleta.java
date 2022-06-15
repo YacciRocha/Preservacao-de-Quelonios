@@ -40,25 +40,25 @@ public class Coleta extends Viagem implements Serializable {
 	private String especie;
 
 	@Column(name = "distancia_agua")
-	private double distanciaAgua;
+	private Double distanciaAgua;
 
 	@Column(name = "distancia_vegetacao")
-	private double distanciaVegetacao;
+	private Double distanciaVegetacao;
 
 	@Column(name = "profundidade_primeiro_ovo")
-	private float profundidadePrimeiroOvo;
+	private Float profundidadePrimeiroOvo;
 
 	@Column(name = "profundidade_total")
-	private float profundidadeTotal;
+	private Float profundidadeTotal;
 
 	@Column(name = "largura_ninho")
-	private float larguraNinho;
+	private Float larguraNinho;
 
 	@Column(name = "largura_patas")
-	private float larguraPata;
+	private Float larguraPata;
 
 	@Column(name = "largura_entre_patas")
-	private float larguraEntrePatas;
+	private Float larguraEntrePatas;
 
 	@Override
 	public boolean equals(Object obj) {

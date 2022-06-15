@@ -27,17 +27,17 @@ public class ColetaVO {
 
 	private String especie;
 
-	private double distanciaAgua;
+	private Double distanciaAgua;
 
-	private double distanciaVegetacao;
+	private Double distanciaVegetacao;
 
-	private float profundidadePrimeiroOvo;
+	private Float profundidadePrimeiroOvo;
 
-	private float profundidadeTotal;
+	private Float profundidadeTotal;
 
-	private float larguraNinho;
+	private Float larguraNinho;
 
-	private float larguraPata;
+	private Float larguraPata;
 
-	private float larguraEntrePatas;
+	private Float larguraEntrePatas;
 }

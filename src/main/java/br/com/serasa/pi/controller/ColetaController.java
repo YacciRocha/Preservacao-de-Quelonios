@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.serasa.pi.common.ColetaVO;
-import br.com.serasa.pi.domain.entity.Coleta;
 import br.com.serasa.pi.service.ColetaService;
 
 @RestController
@@ -33,9 +32,9 @@ public class ColetaController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Coleta> findById(@PathVariable("id") Integer idColeta) {
-		Coleta obj = coletaService.findById(idColeta);
-		return ResponseEntity.ok().body(obj);
+	public ResponseEntity<ColetaVO> findById(@PathVariable("id") Integer idColeta) {
+		ColetaVO retorno = coletaService.findById(idColeta);
+		return ResponseEntity.ok().body(retorno);
 	}
 	
 	@PostMapping
@@ -53,8 +52,8 @@ public class ColetaController {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Coleta> update(@PathVariable ("id") Integer idColeta, @RequestBody Coleta obj) {
-		obj = coletaService.update(idColeta, obj);
-		return ResponseEntity.ok().body(obj);
+	public ResponseEntity<ColetaVO> update(@PathVariable ("id") Integer idColeta, @RequestBody ColetaVO coletaVO) {
+		ColetaVO retorno = coletaService.update(idColeta, coletaVO);
+		return ResponseEntity.ok().body(retorno);
 	}
 }
