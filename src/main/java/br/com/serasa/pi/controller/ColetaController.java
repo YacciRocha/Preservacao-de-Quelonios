@@ -17,7 +17,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.serasa.pi.common.ColetaVO;
 import br.com.serasa.pi.domain.entity.Coleta;
-import br.com.serasa.pi.mapper.ColetaMapper;
 import br.com.serasa.pi.service.ColetaService;
 
 @RestController
@@ -25,45 +24,37 @@ import br.com.serasa.pi.service.ColetaService;
 public class ColetaController {
 	
 	@Autowired
-	ColetaService service;
-	
-	@Autowired
-    private ColetaMapper mapper;
+	private ColetaService coletaService;
 	
 	@GetMapping
 	public ResponseEntity<List<Coleta>> findAll() {
-		List<Coleta> list = service.findAll();
+		List<Coleta> list = coletaService.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Coleta> findById(@PathVariable("id") Integer idColeta) {
-		Coleta obj = service.findById(idColeta);
+		Coleta obj = coletaService.findById(idColeta);
 		return ResponseEntity.ok().body(obj);
-				
 	}
 	
 	@PostMapping
-	public ResponseEntity<Coleta> insert(@RequestBody Coleta obj) {
-		ColetaVO coletaVO = ColetaMapper.INSTANCE.coletaToColetaVO( obj );
-		ColetaVO coletaUsandoAutowiredVO = mapper.coletaToColetaVO( obj );
-//		obj = service.insert(obj);
-//		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-//				.buildAndExpand(obj.getIdColeta()).toUri();
-//		return ResponseEntity.created(uri).body(obj);
-		return ResponseEntity.ok(obj);
+	public ResponseEntity<ColetaVO> insert(@RequestBody ColetaVO coletaVO) {		
+		ColetaVO retorno = coletaService.insert(coletaVO);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+				.buildAndExpand(retorno.getIdColeta()).toUri();
+		return ResponseEntity.created(uri).body(retorno);
 	}
 	
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable ("id") Integer idColeta) {
-		service.delete(idColeta);
+		coletaService.delete(idColeta);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Coleta> update(@PathVariable ("id") Integer idColeta, @RequestBody Coleta obj) {
-		obj = service.update(idColeta, obj);
+		obj = coletaService.update(idColeta, obj);
 		return ResponseEntity.ok().body(obj);
 	}
-
 }
