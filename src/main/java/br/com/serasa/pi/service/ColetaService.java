@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.serasa.pi.common.ColetaVO;
-import br.com.serasa.pi.domain.entity.Coleta;
+import br.com.serasa.pi.domain.entity.ColetaEntity;
 import br.com.serasa.pi.mapper.ColetaMapper;
 import br.com.serasa.pi.repository.ColetaRepository;
 
@@ -17,52 +17,31 @@ public class ColetaService {
 
 	@Autowired
 	private ColetaRepository repository;
-
 	@Autowired
 	private ColetaMapper coletaMapper;
 
 	public ColetaVO insert(ColetaVO coletaVO) {
-		Coleta coletaAInserir = coletaMapper.coletaVOToColeta(coletaVO);
-		Coleta coletaInserida = repository.save(coletaAInserir);
-		return coletaMapper.coletaToColetaVO(coletaInserida);
+		ColetaEntity coletaAInserir = coletaMapper.coletaVOToColetaEntity(coletaVO);
+		ColetaEntity coletaInserida = repository.save(coletaAInserir);
+		return coletaMapper.coletaEntityToColetaVO(coletaInserida);
 	}
 
 	public List<ColetaVO> findAll() {
-		List<Coleta> allColetas = repository.findAll();
+		List<ColetaEntity> allColetas = repository.findAll();
 
 		List<ColetaVO> retorno = new ArrayList<>();
 		if (allColetas != null && !allColetas.isEmpty()) {
 
-			retorno = coletaMapper.listColetaToListColetaVO(allColetas);
-
-//			Forma com 'for' tradicional...
-//			for(int i = 0; i < allColetas.size(); i++) {
-//				Coleta coleta = allColetas.get(i);
-//				ColetaVO coletaVO = coletaMapper.coletaToColetaVO(coleta);
-//				retorno.add(coletaVO);
-//			}
-
-//			Foreach...
-//			for(Coleta coleta : allColetas) {
-//				ColetaVO coletaVO = coletaMapper.coletaToColetaVO(coleta);
-//				retorno.add(coletaVO);
-//			}
-
-//			Utilizando as Streams....
-//			retorno = allColetas.stream().map(
-//				coleta -> {
-//					return coletaMapper.coletaToColetaVO(coleta);
-//				}
-//			).collect(Collectors.toList());
+			retorno = coletaMapper.listColetaEntityToListColetaVO(allColetas);
 		}
 		return retorno;
 	}
 
 	public ColetaVO findById(Integer idColeta) {
-		Optional<Coleta> optionalColeta = repository.findById(idColeta);
+		Optional<ColetaEntity> optionalColeta = repository.findById(idColeta);
 		ColetaVO retorno = null;
 		if (optionalColeta.isPresent()) {
-			retorno = coletaMapper.coletaToColetaVO(optionalColeta.get());
+			retorno = coletaMapper.coletaEntityToColetaVO(optionalColeta.get());
 		}
 		return retorno;
 	}
@@ -72,10 +51,10 @@ public class ColetaService {
 	}
 
 	public ColetaVO update(Integer idColeta, ColetaVO coletaVoAtualizacao) {
-		Optional<Coleta> optionalColeta = repository.findById(idColeta);
+		Optional<ColetaEntity> optionalColeta = repository.findById(idColeta);
 		if (optionalColeta.isPresent()) {
-			Coleta coletaEncontrada = optionalColeta.get();
-			Coleta coletaAtualizacao = coletaMapper.coletaVOToColeta(coletaVoAtualizacao);
+			ColetaEntity coletaEncontrada = optionalColeta.get();
+			ColetaEntity coletaAtualizacao = coletaMapper.coletaVOToColetaEntity(coletaVoAtualizacao);
 
 			if (coletaAtualizacao.getDataViagem() != null) {
 				coletaEncontrada.setDataViagem(coletaAtualizacao.getDataViagem());
@@ -141,8 +120,8 @@ public class ColetaService {
 				coletaEncontrada.setLarguraEntrePatas(coletaAtualizacao.getLarguraEntrePatas());
 			}
 
-			Coleta coletaAtualizada = repository.save(coletaEncontrada);
-			return coletaMapper.coletaToColetaVO(coletaAtualizada);
+			ColetaEntity coletaAtualizada = repository.save(coletaEncontrada);
+			return coletaMapper.coletaEntityToColetaVO(coletaAtualizada);
 		} else {
 			// Lançar exceção
 			throw new RuntimeException("Coleta não encontrada");

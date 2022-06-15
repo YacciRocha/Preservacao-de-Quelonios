@@ -6,21 +6,21 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 import br.com.serasa.pi.common.ColetaVO;
-import br.com.serasa.pi.domain.entity.Coleta;
+import br.com.serasa.pi.domain.entity.ColetaEntity;
 
 @Mapper(componentModel = "spring")
 public interface ColetaMapper {
 	ColetaMapper INSTANCE = Mappers.getMapper(ColetaMapper.class);
 
-	ColetaVO coletaToColetaVO(Coleta coleta);
+	ColetaVO coletaEntityToColetaVO(ColetaEntity coleta);
 	
-	Coleta coletaVOToColeta(ColetaVO coletaVO);
+	ColetaEntity coletaVOToColetaEntity(ColetaVO coletaVO);
 	
-	List<ColetaVO> listColetaToListColetaVO(List<Coleta> coleta);
+	List<ColetaVO> listColetaEntityToListColetaVO(List<ColetaEntity> coleta);
 	
-	List<Coleta> listColetaVOToListColeta(List<ColetaVO> coletaVO);
+	List<ColetaEntity> listColetaVOToListColetaEntity(List<ColetaVO> coletaVO);
 
-	default Coleta createColeta() {
-		return new Coleta();
+	default ColetaEntity createColeta() {
+		return new ColetaEntity();
 	}
 }

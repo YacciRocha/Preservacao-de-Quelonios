@@ -16,7 +16,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "coleta")
-public class Coleta extends Viagem implements Serializable {
+public class ColetaEntity extends Viagem implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -70,7 +70,7 @@ public class Coleta extends Viagem implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Coleta other = (Coleta) obj;
+		ColetaEntity other = (ColetaEntity) obj;
 		return Objects.equals(dataColeta, other.dataColeta)
 				&& Double.doubleToLongBits(distanciaAgua) == Double.doubleToLongBits(other.distanciaAgua)
 				&& Double.doubleToLongBits(distanciaVegetacao) == Double.doubleToLongBits(other.distanciaVegetacao)

@@ -15,8 +15,8 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "viagem_soltura")
-public class Soltura extends Viagem implements Serializable {
+@Table(name = "soltura")
+public class SolturaEntity extends Viagem implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -34,22 +34,22 @@ public class Soltura extends Viagem implements Serializable {
 	private Date dataSoltura;
 
 	@Column(name = "carapaca_comprimento")
-	private float carapacaComprimento;
+	private Float carapacaComprimento;
 
 	@Column(name = "carapaca_largura")
-	private float carapacaLargura;
+	private Float carapacaLargura;
 
 	@Column(name = "plastrao_comprimento")
-	private float plastraoComprimento;
+	private Float plastraoComprimento;
 
 	@Column(name = "plastrao_largura")
-	private float plastraoLargura;
+	private Float plastraoLargura;
 
 	@Column(name = "peso")
-	private float peso;
+	private Float peso;
 
 	@Column(name = "altura")
-	private float altura;
+	private Float altura;
 
 	@Override
 	public boolean equals(Object obj) {
@@ -61,7 +61,7 @@ public class Soltura extends Viagem implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Soltura other = (Soltura) obj;
+		SolturaEntity other = (SolturaEntity) obj;
 		return Float.floatToIntBits(altura) == Float.floatToIntBits(other.altura)
 				&& Float.floatToIntBits(carapacaComprimento) == Float.floatToIntBits(other.carapacaComprimento)
 				&& Float.floatToIntBits(carapacaLargura) == Float.floatToIntBits(other.carapacaLargura)
