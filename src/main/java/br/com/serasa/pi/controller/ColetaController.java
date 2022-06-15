@@ -27,9 +27,9 @@ public class ColetaController {
 	private ColetaService coletaService;
 	
 	@GetMapping
-	public ResponseEntity<List<Coleta>> findAll() {
-		List<Coleta> list = coletaService.findAll();
-		return ResponseEntity.ok().body(list);
+	public ResponseEntity<List<ColetaVO>> findAll() {
+		List<ColetaVO> retorno = coletaService.findAll();
+		return ResponseEntity.ok().body(retorno);
 	}
 	
 	@GetMapping("/{id}")
