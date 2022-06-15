@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.serasa.pi.domain.entity.Coordenador;
+import br.com.serasa.pi.domain.entity.CoordenadorEntity;
 import br.com.serasa.pi.service.CoordenadorService;
 
 @RestController
@@ -26,20 +26,20 @@ public class CoordenadorController {
 	CoordenadorService service;
 	
 	@GetMapping
-	public ResponseEntity<List<Coordenador>> findAll() {
-		List<Coordenador> list = service.findAll();
+	public ResponseEntity<List<CoordenadorEntity>> findAll() {
+		List<CoordenadorEntity> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping("/{matricula}")
-	public ResponseEntity<Coordenador> findById(@PathVariable("matricula") String matricula) {
-		Coordenador obj = service.findById(matricula);
+	public ResponseEntity<CoordenadorEntity> findById(@PathVariable("matricula") String matricula) {
+		CoordenadorEntity obj = service.findById(matricula);
 		return ResponseEntity.ok().body(obj);
 				
 	}
 	
 	@PostMapping
-	public ResponseEntity<Coordenador> insert(@RequestBody Coordenador obj) {
+	public ResponseEntity<CoordenadorEntity> insert(@RequestBody CoordenadorEntity obj) {
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matricula}")
 				.buildAndExpand(obj.getMatricula()).toUri();
@@ -53,7 +53,7 @@ public class CoordenadorController {
 	}
 	
 	@PutMapping(value = "/{matricula}")
-	public ResponseEntity<Coordenador> update(@PathVariable ("matricula") String matricula, @RequestBody Coordenador obj) {
+	public ResponseEntity<CoordenadorEntity> update(@PathVariable ("matricula") String matricula, @RequestBody CoordenadorEntity obj) {
 		obj = service.update(matricula, obj);
 		return ResponseEntity.ok().body(obj);
 	}

@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.serasa.pi.domain.entity.Coordenador;
+import br.com.serasa.pi.domain.entity.CoordenadorEntity;
 import br.com.serasa.pi.repository.CoordenadorRepository;
 
 @Service
@@ -15,16 +15,16 @@ public class CoordenadorService {
 	@Autowired
 	CoordenadorRepository repository;
 	
-	public Coordenador insert (Coordenador coordenador) {
+	public CoordenadorEntity insert (CoordenadorEntity coordenador) {
 		return repository.save(coordenador);
 	}
 	
-	public List<Coordenador> findAll () {
+	public List<CoordenadorEntity> findAll () {
 		return repository.findAll();
 	}
 	
-	public Coordenador findById(String matricula) {
-		Optional<Coordenador> obj = repository.findById(matricula);
+	public CoordenadorEntity findById(String matricula) {
+		Optional<CoordenadorEntity> obj = repository.findById(matricula);
 				return obj.get();
 	}
 	
@@ -33,8 +33,8 @@ public class CoordenadorService {
 	}
 	
 	
-	public Coordenador update(String matricula, Coordenador coordenador) { 
-		  Coordenador entity = findById(matricula); 
+	public CoordenadorEntity update(String matricula, CoordenadorEntity coordenador) { 
+		  CoordenadorEntity entity = findById(matricula); 
 		  entity.setNome(coordenador.getNome()); 
 		  entity.setEmail(coordenador.getEmail()); 
 		  return repository.save(entity); 

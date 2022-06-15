@@ -11,9 +11,8 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table( name = "coordenador")
-public class Coordenador implements  Serializable {
-
+@Table( name = "voluntario")
+public class VoluntarioEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id	

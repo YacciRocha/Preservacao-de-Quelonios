@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.serasa.pi.domain.entity.Voluntario;
+import br.com.serasa.pi.domain.entity.VoluntarioEntity;
 import br.com.serasa.pi.service.VoluntarioService;
 
 @RestController
@@ -26,20 +26,20 @@ public class VoluntarioController {
 	VoluntarioService service;
 	
 	@GetMapping
-	public ResponseEntity<List<Voluntario>> findAll() {
-		List<Voluntario> list = service.findAll();
+	public ResponseEntity<List<VoluntarioEntity>> findAll() {
+		List<VoluntarioEntity> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping("/{matricula}")
-	public ResponseEntity<Voluntario> findById(@PathVariable("matricula") String matricula) {
-		Voluntario obj = service.findById(matricula);
+	public ResponseEntity<VoluntarioEntity> findById(@PathVariable("matricula") String matricula) {
+		VoluntarioEntity obj = service.findById(matricula);
 		return ResponseEntity.ok().body(obj);
 				
 	}
 	
 	@PostMapping
-	public ResponseEntity<Voluntario> insert(@RequestBody Voluntario obj) {
+	public ResponseEntity<VoluntarioEntity> insert(@RequestBody VoluntarioEntity obj) {
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matricula}")
 				.buildAndExpand(obj.getMatricula()).toUri();
@@ -53,7 +53,7 @@ public class VoluntarioController {
 	}
 	
 	@PutMapping(value = "/{matricula}")
-	public ResponseEntity<Voluntario> update(@PathVariable ("matricula") String matricula, @RequestBody Voluntario obj) {
+	public ResponseEntity<VoluntarioEntity> update(@PathVariable ("matricula") String matricula, @RequestBody VoluntarioEntity obj) {
 		obj = service.update(matricula, obj);
 		return ResponseEntity.ok().body(obj);
 	}
