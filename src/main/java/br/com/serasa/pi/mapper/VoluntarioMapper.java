@@ -1,5 +1,7 @@
 package br.com.serasa.pi.mapper;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -12,8 +14,12 @@ public interface VoluntarioMapper {
 
 	VoluntarioVO voluntarioEntityToVoluntarioVO(VoluntarioEntity voluntario);
 
-	VoluntarioEntity voluntarioVOTovoluntarioEntity(VoluntarioVO voluntarioVO);
-
+	VoluntarioEntity voluntarioVOToVoluntarioEntity(VoluntarioVO voluntarioVO);
+	
+	List<VoluntarioVO> listVoluntarioEntityToListVoluntarioVO(List<VoluntarioEntity> voluntario);
+	
+	List<VoluntarioEntity> listVoluntarioVOLIstVoluntarioEntity(List<VoluntarioVO> voluntarioVO);
+	
 	default VoluntarioEntity createVoluntario() {
 		return new VoluntarioEntity();
 	}
