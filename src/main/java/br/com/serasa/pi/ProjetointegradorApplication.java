@@ -7,8 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ProjetointegradorApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ProjetointegradorApplication.class, args);		
-		
+		SpringApplication.run(ProjetointegradorApplication.class, args);
 	}
-
 }

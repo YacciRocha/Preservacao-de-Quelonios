@@ -15,47 +15,46 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.serasa.pi.domain.entity.VoluntarioEntity;
+import br.com.serasa.pi.common.VoluntarioVO;
 import br.com.serasa.pi.service.VoluntarioService;
 
 @RestController
 @RequestMapping("/voluntario")
 public class VoluntarioController {
-	
+
 	@Autowired
-	VoluntarioService service;
-	
+	private VoluntarioService voluntarioService;
+
 	@GetMapping
-	public ResponseEntity<List<VoluntarioEntity>> findAll() {
-		List<VoluntarioEntity> list = service.findAll();
-		return ResponseEntity.ok().body(list);
-	}
-	
-	@GetMapping("/{matricula}")
-	public ResponseEntity<VoluntarioEntity> findById(@PathVariable("matricula") String matricula) {
-		VoluntarioEntity obj = service.findById(matricula);
-		return ResponseEntity.ok().body(obj);
-				
-	}
-	
-	@PostMapping
-	public ResponseEntity<VoluntarioEntity> insert(@RequestBody VoluntarioEntity obj) {
-		obj = service.insert(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matricula}")
-				.buildAndExpand(obj.getMatricula()).toUri();
-		return ResponseEntity.created(uri).body(obj);
-	}
-	
-	@DeleteMapping(value = "/{matricula}")
-	public ResponseEntity<Void> delete(@PathVariable ("matricula") String matricula) {
-		service.delete(matricula);
-		return ResponseEntity.noContent().build();
-	}
-	
-	@PutMapping(value = "/{matricula}")
-	public ResponseEntity<VoluntarioEntity> update(@PathVariable ("matricula") String matricula, @RequestBody VoluntarioEntity obj) {
-		obj = service.update(matricula, obj);
-		return ResponseEntity.ok().body(obj);
+	public ResponseEntity<List<VoluntarioVO>> findAll() {
+		List<VoluntarioVO> retorno = voluntarioService.findAll();
+		return ResponseEntity.ok().body(retorno);
 	}
 
+	@GetMapping("/{matricula}")
+	public ResponseEntity<VoluntarioVO> findById(@PathVariable("matricula") String matricula) {
+		VoluntarioVO retorno = voluntarioService.findById(matricula);
+		return ResponseEntity.ok().body(retorno);
+	}
+
+	@PostMapping
+	public ResponseEntity<VoluntarioVO> insert(@RequestBody VoluntarioVO voluntarioVO) {
+		VoluntarioVO retorno = voluntarioService.insert(voluntarioVO);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matricula}")
+				.buildAndExpand(retorno.getMatricula()).toUri();
+		return ResponseEntity.created(uri).body(retorno);
+	}
+
+	@DeleteMapping(value = "/{matricula}")
+	public ResponseEntity<Void> delete(@PathVariable("matricula") String matricula) {
+		voluntarioService.delete(matricula);
+		return ResponseEntity.noContent().build();
+	}
+
+	@PutMapping(value = "/{matricula}")
+	public ResponseEntity<VoluntarioVO> update(@PathVariable("matricula") String matricula,
+			@RequestBody VoluntarioVO voluntarioVO) {
+		VoluntarioVO retorno = voluntarioService.update(matricula, voluntarioVO);
+		return ResponseEntity.ok().body(retorno);
+	}
 }
