@@ -27,7 +27,6 @@ public class CoordenadorService {
 		CoordenadorEntity coordenadorAInserir = coordenadorMapper.coordenadorVOToCoordenadorEntity(coordenadorVO);
 		CoordenadorEntity coordenadorInserido = repository.save(coordenadorAInserir);
 		return coordenadorMapper.coordenadorEntityToCoordenadorVO(coordenadorInserido);
-
 	}
 
 	public List<CoordenadorVO> findAll() {
