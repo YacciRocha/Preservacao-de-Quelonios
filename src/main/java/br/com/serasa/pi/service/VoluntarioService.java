@@ -60,7 +60,7 @@ public class VoluntarioService {
 				voluntarioEncontrado.setNome(voluntarioVOAtualizacao.getNome());
 			}
 			if (voluntarioVOAtualizacao.getEmail() != null) {
-				voluntarioEncontrado.setEmail(voluntarioVOAtualizacao.getNome());
+				voluntarioEncontrado.setEmail(voluntarioVOAtualizacao.getEmail());
 
 			}
 			VoluntarioEntity voluntarioAtualizado = repository.save(voluntarioEncontrado);
