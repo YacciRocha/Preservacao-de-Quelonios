@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -25,30 +27,39 @@ public class SolturaEntity extends Viagem implements Serializable {
 	private Integer idSoltura;
 
 	@Column(name = "numero_animal")
+	@NotBlank
 	private String numeroAnimal;
 
 	@Column(name = "especie")
+	@NotBlank
 	private String especie;
 
 	@Column(name = "data_soltura")
+	@NotNull
 	private Date dataSoltura;
 
 	@Column(name = "carapaca_comprimento")
+	@NotNull
 	private Float carapacaComprimento;
 
 	@Column(name = "carapaca_largura")
+	@NotNull
 	private Float carapacaLargura;
 
 	@Column(name = "plastrao_comprimento")
+	@NotNull
 	private Float plastraoComprimento;
 
 	@Column(name = "plastrao_largura")
+	@NotNull
 	private Float plastraoLargura;
 
 	@Column(name = "peso")
+	@NotNull
 	private Float peso;
 
 	@Column(name = "altura")
+	@NotNull
 	private Float altura;
 
 	@Override

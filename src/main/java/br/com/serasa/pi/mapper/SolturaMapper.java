@@ -6,7 +6,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 import br.com.serasa.pi.common.SolturaVO;
-import br.com.serasa.pi.common.SolturaVO;
 import br.com.serasa.pi.domain.entity.SolturaEntity;
 
 @Mapper(componentModel = "spring")

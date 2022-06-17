@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -25,39 +27,51 @@ public class ColetaEntity extends Viagem implements Serializable {
 	private Integer idColeta;
 
 	@Column(name = "data_coleta")
+	@NotNull
 	private Date dataColeta;
 
 	@Column(name = "nome_praia_tabuleiro")
+	@NotBlank
 	private String nomePraiaTabuleiro;
 
 	@Column(name = "numero_cova")
+	@NotNull
 	private Integer numeroCova;
 
 	@Column(name = "quantidade_ovos")
+	@NotNull
 	private Integer quantidadeOvos;
 
 	@Column(name = "especie")
+	@NotBlank
 	private String especie;
 
 	@Column(name = "distancia_agua")
+	@NotNull
 	private Double distanciaAgua;
 
 	@Column(name = "distancia_vegetacao")
+	@NotNull
 	private Double distanciaVegetacao;
 
 	@Column(name = "profundidade_primeiro_ovo")
+	@NotNull
 	private Float profundidadePrimeiroOvo;
 
 	@Column(name = "profundidade_total")
+	@NotNull
 	private Float profundidadeTotal;
 
 	@Column(name = "largura_ninho")
+	@NotNull
 	private Float larguraNinho;
 
 	@Column(name = "largura_patas")
+	@NotNull
 	private Float larguraPata;
 
 	@Column(name = "largura_entre_patas")
+	@NotNull
 	private Float larguraEntrePatas;
 
 	@Override

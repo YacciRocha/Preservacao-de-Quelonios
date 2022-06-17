@@ -3,6 +3,8 @@ package br.com.serasa.pi.controller;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.serasa.pi.common.EclosaoVO;
-import br.com.serasa.pi.domain.entity.EclosaoEntity;
 import br.com.serasa.pi.service.EclosaoService;
 
 @RestController
@@ -40,7 +41,7 @@ public class EclosaoController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<EclosaoVO> insert(@RequestBody EclosaoVO eclosaoVO) {
+	public ResponseEntity<EclosaoVO> insert(@Valid @RequestBody EclosaoVO eclosaoVO) {
 		EclosaoVO retorno = eclosaoService.insert(eclosaoVO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(retorno.getIdEclosao()).toUri();
@@ -54,7 +55,7 @@ public class EclosaoController {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<EclosaoVO> update(@PathVariable ("id") Integer idEclosao, @RequestBody EclosaoVO eclosaoVO) {
+	public ResponseEntity<EclosaoVO> update(@Valid @PathVariable ("id") Integer idEclosao, @RequestBody EclosaoVO eclosaoVO) {
 		EclosaoVO retorno = eclosaoService.update(idEclosao, eclosaoVO);
 		return ResponseEntity.ok().body(retorno);
 	}

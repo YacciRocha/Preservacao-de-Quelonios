@@ -3,6 +3,8 @@ package br.com.serasa.pi.controller;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,7 +40,7 @@ public class VoluntarioController {
 	}
 
 	@PostMapping
-	public ResponseEntity<VoluntarioVO> insert(@RequestBody VoluntarioVO voluntarioVO) {
+	public ResponseEntity<VoluntarioVO> insert(@Valid @RequestBody VoluntarioVO voluntarioVO) {
 		VoluntarioVO retorno = voluntarioService.insert(voluntarioVO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matricula}")
 				.buildAndExpand(retorno.getMatricula()).toUri();
@@ -52,7 +54,7 @@ public class VoluntarioController {
 	}
 
 	@PutMapping(value = "/{matricula}")
-	public ResponseEntity<VoluntarioVO> update(@PathVariable("matricula") String matricula,
+	public ResponseEntity<VoluntarioVO> update(@Valid @PathVariable("matricula") String matricula,
 			@RequestBody VoluntarioVO voluntarioVO) {
 		VoluntarioVO retorno = voluntarioService.update(matricula, voluntarioVO);
 		return ResponseEntity.ok().body(retorno);

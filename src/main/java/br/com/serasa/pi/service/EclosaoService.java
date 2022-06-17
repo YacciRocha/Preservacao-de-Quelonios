@@ -2,13 +2,15 @@ package br.com.serasa.pi.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import br.com.serasa.pi.common.EclosaoVO;
 import br.com.serasa.pi.domain.entity.EclosaoEntity;
+import br.com.serasa.pi.exceptions.ResourceNotFoundException;
 import br.com.serasa.pi.mapper.EclosaoMapper;
 import br.com.serasa.pi.repository.EclosaoRepository;
 
@@ -17,7 +19,7 @@ public class EclosaoService {
 
 	@Autowired
 	EclosaoRepository repository;
-	
+
 	@Autowired
 	EclosaoMapper eclosaoMapper;
 
@@ -29,90 +31,55 @@ public class EclosaoService {
 
 	public List<EclosaoVO> findAll() {
 		List<EclosaoEntity> allEclosao = repository.findAll();
-		
-		List<EclosaoVO> retorno = new ArrayList<>();
-		if(allEclosao != null && !allEclosao.isEmpty()) {
-			retorno = eclosaoMapper.listEclosaoEntityToListEclosaoVO(allEclosao);
-		}		
-		return  retorno;
-	}
 
-	public EclosaoVO findById(Integer idEclosao) {
-		Optional<EclosaoEntity> optionalEclosao = repository.findById(idEclosao);
-		EclosaoVO retorno = null;
-		if(optionalEclosao.isPresent()) {
-			retorno = eclosaoMapper.eclosaoEntityToEclosaoVO(optionalEclosao.get());
+		List<EclosaoVO> retorno = new ArrayList<>();
+		if (allEclosao != null && !allEclosao.isEmpty()) {
+			retorno = eclosaoMapper.listEclosaoEntityToListEclosaoVO(allEclosao);
 		}
 		return retorno;
 	}
 
+	public EclosaoVO findById(Integer idEclosao) {
+		var entity = repository.findById(idEclosao).orElseThrow(() -> new ResourceNotFoundException(idEclosao));
+		;
+		EclosaoVO retorno = eclosaoMapper.eclosaoEntityToEclosaoVO(entity);
+		return retorno;
+	}
+
 	public void delete(Integer idEclosao) {
-		repository.deleteById(idEclosao);
+		try {
+			repository.deleteById(idEclosao);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException(idEclosao);
+		}
+
 	}
 
 	public EclosaoVO update(Integer idEclosao, EclosaoVO eclosaoVoAtualizacao) {
-		Optional<EclosaoEntity> optionalEclosao = repository.findById(idEclosao);
-		if(optionalEclosao.isPresent()) {
-			EclosaoEntity eclosaoEncontrada = optionalEclosao.get();
+		try {
+			var entity = repository.findById(idEclosao);
+			
+			EclosaoEntity eclosaoEncontrada = entity.get();
 			EclosaoEntity eclosaoAtualizacao = eclosaoMapper.eclosaoVOToEclosaoEntity(eclosaoVoAtualizacao);
-		
-		if(eclosaoAtualizacao.getDataViagem() != null) {
-			eclosaoEncontrada.setDataViagem(eclosaoAtualizacao.getDataViagem());
-		}
-		
-		if(eclosaoAtualizacao.getEstadoUF() != null) {
-		eclosaoEncontrada.setEstadoUF(eclosaoAtualizacao.getEstadoUF());
-		}
-		
-		if(eclosaoAtualizacao.getMunicipio()!= null) {
-		eclosaoEncontrada.setMunicipio(eclosaoAtualizacao.getMunicipio());
-		}
-		
-		if(eclosaoAtualizacao.getComunidade()!= null) {
-		eclosaoEncontrada.setComunidade(eclosaoAtualizacao.getComunidade());
-		}
-		
-		if(eclosaoAtualizacao.getNumeroCova()!= null) {
-		eclosaoEncontrada.setNumeroCova(eclosaoAtualizacao.getNumeroCova());
-		}
-		
-		if(eclosaoAtualizacao.getDataNascimento()!= null) {
-		eclosaoEncontrada.setDataNascimento(eclosaoAtualizacao.getDataNascimento());
-		}
-		
-		if(eclosaoAtualizacao.getEspecie()!= null) {
-		eclosaoEncontrada.setEspecie(eclosaoAtualizacao.getEspecie());
-		}
-		
-		if(eclosaoAtualizacao.getQuantidadeFilhoteVivo()!= null) {
-		eclosaoEncontrada.setQuantidadeFilhoteVivo(eclosaoAtualizacao.getQuantidadeFilhoteVivo());
-		}
-		
-		if(eclosaoAtualizacao.getQuantidadeOvoInviavel()!= null) {
-		eclosaoEncontrada.setQuantidadeOvoInviavel(eclosaoAtualizacao.getQuantidadeOvoInviavel());
-		}
-		
-		if(eclosaoAtualizacao.getQuantidadeOvoInfertil()!= null) {
-		eclosaoEncontrada.setQuantidadeOvoInfertil(eclosaoAtualizacao.getQuantidadeOvoInfertil());
-		}
-		
-		if(eclosaoAtualizacao.getQuantidadeFilhoteMortoFormiga()!= null) {
-		eclosaoEncontrada.setQuantidadeFilhoteMortoFormiga(eclosaoAtualizacao.getQuantidadeFilhoteMortoFormiga());
-		}
-		
-		if(eclosaoAtualizacao.getQuantidadeFilhoteMortoBicheira()!= null) {
-		eclosaoEncontrada.setQuantidadeFilhoteMortoBicheira(eclosaoAtualizacao.getQuantidadeFilhoteMortoBicheira());
-		}
-		
-		if(eclosaoAtualizacao.getQuantidadeFilhoteMortoOutros()!= null) {
-		eclosaoEncontrada.setQuantidadeFilhoteMortoOutros(eclosaoAtualizacao.getQuantidadeFilhoteMortoOutros());
-		}
-		
 
-		EclosaoEntity eclosaoAtualizada = repository.save(eclosaoEncontrada);
-		return eclosaoMapper.eclosaoEntityToEclosaoVO(eclosaoAtualizada);
-		}else {
-			throw new RuntimeException("Eclosao não encontrada");
+			eclosaoEncontrada.setDataViagem(eclosaoAtualizacao.getDataViagem());
+			eclosaoEncontrada.setEstadoUF(eclosaoAtualizacao.getEstadoUF());
+			eclosaoEncontrada.setMunicipio(eclosaoAtualizacao.getMunicipio());
+			eclosaoEncontrada.setComunidade(eclosaoAtualizacao.getComunidade());
+			eclosaoEncontrada.setNumeroCova(eclosaoAtualizacao.getNumeroCova());
+			eclosaoEncontrada.setDataNascimento(eclosaoAtualizacao.getDataNascimento());
+			eclosaoEncontrada.setEspecie(eclosaoAtualizacao.getEspecie());
+			eclosaoEncontrada.setQuantidadeFilhoteVivo(eclosaoAtualizacao.getQuantidadeFilhoteVivo());
+			eclosaoEncontrada.setQuantidadeOvoInviavel(eclosaoAtualizacao.getQuantidadeOvoInviavel());
+			eclosaoEncontrada.setQuantidadeOvoInfertil(eclosaoAtualizacao.getQuantidadeOvoInfertil());
+			eclosaoEncontrada.setQuantidadeFilhoteMortoFormiga(eclosaoAtualizacao.getQuantidadeFilhoteMortoFormiga());
+			eclosaoEncontrada.setQuantidadeFilhoteMortoBicheira(eclosaoAtualizacao.getQuantidadeFilhoteMortoBicheira());
+			eclosaoEncontrada.setQuantidadeFilhoteMortoOutros(eclosaoAtualizacao.getQuantidadeFilhoteMortoOutros());
+
+			EclosaoEntity eclosaoAtualizada = repository.save(eclosaoEncontrada);
+			return eclosaoMapper.eclosaoEntityToEclosaoVO(eclosaoAtualizada);
+		} catch (NoSuchElementException e) {
+			throw new ResourceNotFoundException(idEclosao);
 		}
 	}
 }
