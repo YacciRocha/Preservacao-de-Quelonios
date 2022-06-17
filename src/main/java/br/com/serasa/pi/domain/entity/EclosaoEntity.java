@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -22,18 +24,23 @@ public class EclosaoEntity extends Viagem implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_eclosao")
+	@NotNull
 	private Integer idEclosao;
 
 	@Column(name = "numero_cova")
+	@NotBlank
 	private String numeroCova;
 
 	@Column(name = "data_nascimento")
+	@NotNull
 	private Date dataNascimento;
 
 	@Column(name = "especie")
+	@NotBlank
 	private String especie;
 
 	@Column(name = "quantidade_filhote_vivo")
+	@NotNull
 	private Integer quantidadeFilhoteVivo;
 
 	@Column(name = "quantidade_ovo_inviavel")

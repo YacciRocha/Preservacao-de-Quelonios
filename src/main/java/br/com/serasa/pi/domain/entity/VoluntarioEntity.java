@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 import lombok.Data;
 
@@ -17,15 +19,20 @@ public class VoluntarioEntity implements Serializable {
 	
 	@Id	
 	@Column(name = "matricula")
+	@NotBlank
 	private String matricula;
 	
 	@Column(name = "nome")
+	@NotBlank
 	private String nome;
 	
 	@Column(name = "email")
+	@NotBlank
+	@Email
 	private String email;	
 	
 	@Column(name = "senha")
+	@NotBlank
 	private String senha;
 		
 }

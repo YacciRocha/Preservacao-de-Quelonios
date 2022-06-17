@@ -2,15 +2,15 @@ package br.com.serasa.pi.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import javax.management.RuntimeErrorException;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import br.com.serasa.pi.common.SolturaVO;
 import br.com.serasa.pi.domain.entity.SolturaEntity;
+import br.com.serasa.pi.exceptions.ResourceNotFoundException;
 import br.com.serasa.pi.mapper.SolturaMapper;
 import br.com.serasa.pi.repository.SolturaRepository;
 
@@ -39,79 +39,47 @@ public class SolturaService {
 	}
 
 	public SolturaVO findById(Integer idSoltura) {
-		Optional<SolturaEntity> optionalSoltura = repository.findById(idSoltura);
-		SolturaVO retorno = null;
-		if (optionalSoltura.isPresent()) {
-			retorno = solturaMapper.solturaEntityToSolturaVO(optionalSoltura.get());
-		}
+		var entity = repository.findById(idSoltura).orElseThrow(() -> new ResourceNotFoundException(idSoltura));
+		;
+		SolturaVO retorno = solturaMapper.solturaEntityToSolturaVO(entity);
 		return retorno;
 	}
 
 	public void delete(Integer idSoltura) {
-		repository.deleteById(idSoltura);
+		try {
+			repository.deleteById(idSoltura);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException(idSoltura);
+		}
+
 	}
 
 	public SolturaVO update(Integer idSoltura, SolturaVO solturaVoAtualizacao) {
-		Optional<SolturaEntity> optionalSoltura = repository.findById(idSoltura);
-		if(optionalSoltura.isPresent()) {
-			SolturaEntity solturaEncontrada = optionalSoltura.get();
+		try {	
+			var entity = repository.findById(idSoltura);
+		
+			SolturaEntity solturaEncontrada = entity.get();
 			SolturaEntity solturaAtualizacao = solturaMapper.solturaVOToSolturaEntity(solturaVoAtualizacao);	
 		
-		if(solturaAtualizacao.getDataViagem() != null) {
-			solturaEncontrada.setDataViagem(solturaAtualizacao.getDataViagem());
-		}
-		if(solturaAtualizacao.getEstadoUF() != null) {
-		solturaEncontrada.setEstadoUF(solturaAtualizacao.getEstadoUF());
-		}
-		
-		if(solturaAtualizacao.getMunicipio() != null) {
-		solturaEncontrada.setMunicipio(solturaAtualizacao.getMunicipio());
-		}
-		
-		if(solturaAtualizacao.getComunidade() != null) {
+		solturaEncontrada.setDataViagem(solturaAtualizacao.getDataViagem());		
+		solturaEncontrada.setEstadoUF(solturaAtualizacao.getEstadoUF());		
+		solturaEncontrada.setMunicipio(solturaAtualizacao.getMunicipio());		
 		solturaEncontrada.setComunidade(solturaAtualizacao.getComunidade());
-		}
-		
-		if(solturaAtualizacao.getNumeroAnimal() != null) {
 		solturaEncontrada.setNumeroAnimal(solturaAtualizacao.getNumeroAnimal());
-		}
-		
-		if(solturaAtualizacao.getEspecie() != null) {
 		solturaEncontrada.setEspecie(solturaAtualizacao.getEspecie());
-		}
-		
-		if(solturaAtualizacao.getDataSoltura() != null) {
 		solturaEncontrada.setDataSoltura(solturaAtualizacao.getDataSoltura());
-		}
-		
-		if(solturaAtualizacao.getCarapacaComprimento() != null) {
 		solturaEncontrada.setCarapacaComprimento(solturaAtualizacao.getCarapacaComprimento());
-		}
-		
-		if(solturaAtualizacao.getCarapacaLargura() != null) {
 		solturaEncontrada.setCarapacaLargura(solturaAtualizacao.getCarapacaLargura());
-		}
-		
-		if(solturaAtualizacao.getPlastraoComprimento() != null) {
 		solturaEncontrada.setPlastraoComprimento(solturaAtualizacao.getPlastraoComprimento());
-		}
-		
-		if(solturaAtualizacao.getPlastraoLargura() != null) {
 		solturaEncontrada.setPlastraoLargura(solturaAtualizacao.getPlastraoLargura());
-		}
-		
-		if(solturaAtualizacao.getPeso() != null) {
 		solturaEncontrada.setPeso(solturaAtualizacao.getPeso());
-		}
-		
-		if(solturaAtualizacao.getAltura() != null) {
 		solturaEncontrada.setAltura(solturaAtualizacao.getAltura());
-		}
+		
 		
 		SolturaEntity solturaAtualizada = repository.save(solturaEncontrada);
 		return solturaMapper.solturaEntityToSolturaVO(solturaAtualizada);
-		}else {
-			throw new RuntimeException("Soltura não encontrada");
+		}catch (NoSuchElementException e) {
+			throw new ResourceNotFoundException(idSoltura);
 		}
 	}
 }

@@ -3,6 +3,8 @@ package br.com.serasa.pi.controller;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,7 +40,7 @@ public class ColetaController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<ColetaVO> insert(@RequestBody ColetaVO coletaVO) {		
+	public ResponseEntity<ColetaVO> insert(@Valid @RequestBody ColetaVO coletaVO) {		
 		ColetaVO retorno = coletaService.insert(coletaVO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(retorno.getIdColeta()).toUri();
@@ -52,7 +54,7 @@ public class ColetaController {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<ColetaVO> update(@PathVariable ("id") Integer idColeta, @RequestBody ColetaVO coletaVO) {
+	public ResponseEntity<ColetaVO> update(@Valid @PathVariable ("id") Integer idColeta, @RequestBody ColetaVO coletaVO) {
 		ColetaVO retorno = coletaService.update(idColeta, coletaVO);
 		return ResponseEntity.ok().body(retorno);
 	}

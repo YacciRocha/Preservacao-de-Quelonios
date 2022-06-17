@@ -2,13 +2,15 @@ package br.com.serasa.pi.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import br.com.serasa.pi.common.VoluntarioVO;
 import br.com.serasa.pi.domain.entity.VoluntarioEntity;
+import br.com.serasa.pi.exceptions.ResourceNotFoundException;
 import br.com.serasa.pi.mapper.VoluntarioMapper;
 import br.com.serasa.pi.repository.VoluntarioRepository;
 
@@ -38,35 +40,34 @@ public class VoluntarioService {
 	}
 
 	public VoluntarioVO findById(String matricula) {
-		Optional<VoluntarioEntity> optionalVoluntarioEntity = repository.findById(matricula);
-		VoluntarioVO retorno = null;
-		if (optionalVoluntarioEntity.isPresent()) {
-			retorno = voluntarioMapper.voluntarioEntityToVoluntarioVO(optionalVoluntarioEntity.get());
-		}
+		var entity = repository.findById(matricula).orElseThrow(() -> new ResourceNotFoundException(matricula));
+		VoluntarioVO retorno = voluntarioMapper.voluntarioEntityToVoluntarioVO(entity);
 		return retorno;
 	}
 
 	public void delete(String matricula) {
-		repository.deleteById(matricula);
+		try {
+			repository.deleteById(matricula);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException(matricula);
+		}
 	}
 
 	public VoluntarioVO update(String matricula, VoluntarioVO voluntarioVOAtualizacao) {
-		Optional<VoluntarioEntity> optionalVoluntarioEntity = repository.findById(matricula);
+		try {
+			var entity = repository.findById(matricula);
+			
+			VoluntarioEntity voluntarioEncontrado = entity.get();
+			
+			voluntarioEncontrado.setNome(voluntarioVOAtualizacao.getNome());
+			voluntarioEncontrado.setEmail(voluntarioVOAtualizacao.getEmail());
 
-		if (optionalVoluntarioEntity.isPresent()) {
-			VoluntarioEntity voluntarioEncontrado = optionalVoluntarioEntity.get();
-
-			if (voluntarioVOAtualizacao.getNome() != null) {
-				voluntarioEncontrado.setNome(voluntarioVOAtualizacao.getNome());
-			}
-			if (voluntarioVOAtualizacao.getEmail() != null) {
-				voluntarioEncontrado.setEmail(voluntarioVOAtualizacao.getEmail());
-
-			}
 			VoluntarioEntity voluntarioAtualizado = repository.save(voluntarioEncontrado);
 			return voluntarioMapper.voluntarioEntityToVoluntarioVO(voluntarioAtualizado);
-		} else {
-			throw new RuntimeException("Voluntário não encontrado");
+			
+		} catch (NoSuchElementException e) {
+			throw new ResourceNotFoundException(matricula);
 		}
+
 	}
 }

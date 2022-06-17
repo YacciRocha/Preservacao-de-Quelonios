@@ -2,13 +2,15 @@ package br.com.serasa.pi.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import br.com.serasa.pi.common.CoordenadorVO;
 import br.com.serasa.pi.domain.entity.CoordenadorEntity;
+import br.com.serasa.pi.exceptions.ResourceNotFoundException;
 import br.com.serasa.pi.mapper.CoordenadorMapper;
 import br.com.serasa.pi.repository.CoordenadorRepository;
 
@@ -25,6 +27,7 @@ public class CoordenadorService {
 		CoordenadorEntity coordenadorAInserir = coordenadorMapper.coordenadorVOToCoordenadorEntity(coordenadorVO);
 		CoordenadorEntity coordenadorInserido = repository.save(coordenadorAInserir);
 		return coordenadorMapper.coordenadorEntityToCoordenadorVO(coordenadorInserido);
+
 	}
 
 	public List<CoordenadorVO> findAll() {
@@ -38,34 +41,33 @@ public class CoordenadorService {
 	}
 
 	public CoordenadorVO findById(String matricula) {
-		Optional<CoordenadorEntity> optionalCoordenadorEntity = repository.findById(matricula);
-		CoordenadorVO retorno = null;
-		if (optionalCoordenadorEntity.isPresent()) {
-			retorno = coordenadorMapper.coordenadorEntityToCoordenadorVO(optionalCoordenadorEntity.get());
-		}
+		var entity = repository.findById(matricula).orElseThrow(() -> new ResourceNotFoundException(matricula));
+		CoordenadorVO retorno = coordenadorMapper.coordenadorEntityToCoordenadorVO(entity);
 		return retorno;
 	}
 
 	public void delete(String matricula) {
-		repository.deleteById(matricula);
+		try {
+			repository.deleteById(matricula);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException(matricula);
+		}
 	}
 
 	public CoordenadorVO update(String matricula, CoordenadorVO coordenadorVoAtualizacao) {
-		Optional<CoordenadorEntity> optionalCoordenadorEntity = repository.findById(matricula);
-		if (optionalCoordenadorEntity.isPresent()) {
-			CoordenadorEntity coordenadorEncontrado = optionalCoordenadorEntity.get();
-			CoordenadorEntity coordenadorAtualizacao = coordenadorMapper
-					.coordenadorVOToCoordenadorEntity(coordenadorVoAtualizacao);
-			if (coordenadorAtualizacao.getNome() != null) {
-				coordenadorEncontrado.setNome(coordenadorAtualizacao.getNome());
-			}
-			if (coordenadorAtualizacao.getEmail() != null) {
-				coordenadorEncontrado.setEmail(coordenadorAtualizacao.getEmail());
-			}
+		try {
+			var entity = repository.findById(matricula);
+
+			CoordenadorEntity coordenadorEncontrado = entity.get();
+
+			coordenadorEncontrado.setNome(coordenadorVoAtualizacao.getNome());
+			coordenadorEncontrado.setEmail(coordenadorVoAtualizacao.getEmail());
+
 			CoordenadorEntity coordenadorAtualizado = repository.save(coordenadorEncontrado);
 			return coordenadorMapper.coordenadorEntityToCoordenadorVO(coordenadorAtualizado);
-		} else {
-			throw new RuntimeException("Coordenador não encontrado");
+		} catch (NoSuchElementException e) {
+			throw new ResourceNotFoundException(matricula);
 		}
+
 	}
 }

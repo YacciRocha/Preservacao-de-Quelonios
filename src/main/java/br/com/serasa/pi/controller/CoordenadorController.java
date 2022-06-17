@@ -3,6 +3,8 @@ package br.com.serasa.pi.controller;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,7 +40,7 @@ public class CoordenadorController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<CoordenadorVO> insert(@RequestBody CoordenadorVO coordenadorVO) {
+	public ResponseEntity<CoordenadorVO> insert(@Valid @RequestBody CoordenadorVO coordenadorVO) {
 		CoordenadorVO retorno = coordenadorService.insert(coordenadorVO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matricula}")
 				.buildAndExpand(retorno.getMatricula()).toUri();
@@ -52,7 +54,7 @@ public class CoordenadorController {
 	}
 	
 	@PutMapping(value = "/{matricula}")
-	public ResponseEntity<CoordenadorVO> update(@PathVariable ("matricula") String matricula, @RequestBody CoordenadorVO coordenadorVO) {
+	public ResponseEntity<CoordenadorVO> update(@Valid @PathVariable ("matricula") String matricula, @RequestBody CoordenadorVO coordenadorVO) {
 		CoordenadorVO retorno = coordenadorService.update(matricula, coordenadorVO);
 		return ResponseEntity.ok().body(retorno);
 	}

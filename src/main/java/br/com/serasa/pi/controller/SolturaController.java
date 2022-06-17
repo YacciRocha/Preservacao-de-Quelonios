@@ -3,6 +3,8 @@ package br.com.serasa.pi.controller;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.serasa.pi.common.SolturaVO;
-import br.com.serasa.pi.mapper.SolturaMapper;
 import br.com.serasa.pi.service.SolturaService;
 
 @RestController
@@ -40,7 +41,7 @@ public class SolturaController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<SolturaVO> insert(@RequestBody SolturaVO solturaVO) {
+	public ResponseEntity<SolturaVO> insert(@Valid @RequestBody SolturaVO solturaVO) {
 		SolturaVO retorno = service.insert(solturaVO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(retorno.getIdSoltura()).toUri();
@@ -54,7 +55,7 @@ public class SolturaController {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<SolturaVO> update(@PathVariable ("id") Integer idSoltura, @RequestBody SolturaVO solturaVO) {
+	public ResponseEntity<SolturaVO> update(@Valid @PathVariable ("id") Integer idSoltura, @RequestBody SolturaVO solturaVO) {
 		SolturaVO retorno = service.update(idSoltura, solturaVO);
 		return ResponseEntity.ok().body(retorno);
 	}
