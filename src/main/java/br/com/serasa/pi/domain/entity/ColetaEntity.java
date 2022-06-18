@@ -25,9 +25,9 @@ public class ColetaEntity extends Viagem implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_coleta")
 	private Integer idColeta;
-
+	
 	@Column(name = "data_coleta")
-	@NotNull
+	@NotNull	
 	private Date dataColeta;
 
 	@Column(name = "nome_praia_tabuleiro")

@@ -57,8 +57,8 @@ public class SolturaController {
 	}
 	
 	@PutMapping(value = "/{id}",
-	consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE }, 
-	produces = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
+			consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE }, 
+			produces = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<SolturaVO> update(@Valid @PathVariable ("id") Integer idSoltura, @RequestBody SolturaVO solturaVO) {
 		SolturaVO retorno = service.update(idSoltura, solturaVO);
 		return ResponseEntity.ok().body(retorno);

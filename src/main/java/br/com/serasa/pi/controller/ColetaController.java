@@ -22,7 +22,7 @@ import br.com.serasa.pi.service.ColetaService;
 @RestController
 @RequestMapping("/coleta")
 public class ColetaController {
-
+	
 	@Autowired
 	private ColetaService coletaService;
 
@@ -39,7 +39,7 @@ public class ColetaController {
 	}
 
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, 
-			     produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+				produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<ColetaVO> insert(@RequestBody ColetaVO coletaVO) {
 		ColetaVO retorno = coletaService.insert(coletaVO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(retorno.getIdColeta())
@@ -54,8 +54,8 @@ public class ColetaController {
 	}
 
 	@PutMapping(value = "/{id}",
-			consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE }, 
-			produces = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
+			 consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, 
+		     produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<ColetaVO> update(@PathVariable("id") Integer idColeta, @RequestBody ColetaVO coletaVO) {
 		ColetaVO retorno = coletaService.update(idColeta, coletaVO);
 		return ResponseEntity.ok().body(retorno);

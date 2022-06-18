@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Data
 @MappedSuperclass
-public class Viagem {
+public abstract class Viagem {
 	
 	@Column(name = "data_viagem")
 	@NotNull

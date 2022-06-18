@@ -56,8 +56,8 @@ public class CoordenadorController {
 	}
 	
 	@PutMapping(value = "/{matricula}",
-	consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE }, 
-	produces = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
+			consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE }, 
+			produces = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<CoordenadorVO> update(@Valid @PathVariable ("matricula") String matricula, @RequestBody CoordenadorVO coordenadorVO) {
 		CoordenadorVO retorno = coordenadorService.update(matricula, coordenadorVO);
 		return ResponseEntity.ok().body(retorno);
