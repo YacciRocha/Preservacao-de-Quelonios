@@ -2,16 +2,21 @@ package br.com.serasa.pi.common;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 @Data
 public class ColetaVO {
 
-	private Integer idColeta;	
+	private Integer idColeta;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date dataViagem;	
 	private String estadoUF;		
 	private String municipio;		
 	private String comunidade;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date dataColeta;
 	private String nomePraiaTabuleiro;
 	private Integer numeroCova;
