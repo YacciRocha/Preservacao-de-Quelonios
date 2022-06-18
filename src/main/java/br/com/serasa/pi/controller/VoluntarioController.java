@@ -1,5 +1,8 @@
 package br.com.serasa.pi.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.net.URI;
 import java.util.List;
 
@@ -30,23 +33,26 @@ public class VoluntarioController {
 
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<List<VoluntarioVO>> findAll() {
-		List<VoluntarioVO> retorno = voluntarioService.findAll();
-		return ResponseEntity.ok().body(retorno);
+		List<VoluntarioVO> voluntariosVO = voluntarioService.findAll();
+		voluntariosVO.stream().forEach(p->p.add(linkTo(methodOn(VoluntarioController.class).findById(p.getMatricula())).withSelfRel()));
+		return ResponseEntity.ok().body(voluntariosVO);
 	}
 
 	@GetMapping(value = "/{matricula}",produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<VoluntarioVO> findById(@PathVariable("matricula") String matricula) {
-		VoluntarioVO retorno = voluntarioService.findById(matricula);
-		return ResponseEntity.ok().body(retorno);
+		VoluntarioVO voluntarioVO = voluntarioService.findById(matricula);
+		voluntarioVO.add(linkTo(methodOn(VoluntarioController.class).findById(matricula)).withSelfRel());
+		return ResponseEntity.ok().body(voluntarioVO);
 	}
 
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, 
 		         produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<VoluntarioVO> insert(@Valid @RequestBody VoluntarioVO voluntarioVO) {
-		VoluntarioVO retorno = voluntarioService.insert(voluntarioVO);
+	public ResponseEntity<VoluntarioVO> insert(@Valid @RequestBody VoluntarioVO voluntario) {
+		VoluntarioVO voluntarioVO = voluntarioService.insert(voluntario);
+		voluntarioVO.add(linkTo(methodOn(VoluntarioController.class).findById(voluntarioVO.getMatricula())).withSelfRel());
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matricula}")
-				.buildAndExpand(retorno.getMatricula()).toUri();
-		return ResponseEntity.created(uri).body(retorno);
+				.buildAndExpand(voluntarioVO.getMatricula()).toUri();
+		return ResponseEntity.created(uri).body(voluntarioVO);
 	}
 
 	@DeleteMapping(value = "/{matricula}")
@@ -59,8 +65,9 @@ public class VoluntarioController {
 			consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE }, 
 			produces = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<VoluntarioVO> update(@Valid @PathVariable("matricula") String matricula,
-			@RequestBody VoluntarioVO voluntarioVO) {
-		VoluntarioVO retorno = voluntarioService.update(matricula, voluntarioVO);
-		return ResponseEntity.ok().body(retorno);
+			@RequestBody VoluntarioVO voluntario) {
+		VoluntarioVO voluntarioVO = voluntarioService.update(matricula, voluntario);
+		voluntarioVO.add(linkTo(methodOn(VoluntarioController.class).findById(voluntarioVO.getMatricula())).withSelfRel());
+		return ResponseEntity.ok().body(voluntarioVO);
 	}
 }

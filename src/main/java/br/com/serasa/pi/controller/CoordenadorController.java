@@ -1,5 +1,8 @@
 package br.com.serasa.pi.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.net.URI;
 import java.util.List;
 
@@ -30,23 +33,26 @@ public class CoordenadorController {
 	
 	@GetMapping (produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<List<CoordenadorVO>> findAll() {
-		List<CoordenadorVO> retorno = coordenadorService.findAll();
-		return ResponseEntity.ok().body(retorno);
+		List<CoordenadorVO> coordenadoresVO = coordenadorService.findAll();
+		coordenadoresVO.stream().forEach(p->p.add(linkTo(methodOn(CoordenadorController.class).findById(p.getMatricula())).withSelfRel()));
+		return ResponseEntity.ok().body(coordenadoresVO);
 	}
 	
 	@GetMapping(value="/{matricula}",produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<CoordenadorVO> findById(@PathVariable("matricula") String matricula) {
-		CoordenadorVO retorno = coordenadorService.findById(matricula);
-		return ResponseEntity.ok().body(retorno);				
+		CoordenadorVO coordenadorVO = coordenadorService.findById(matricula);
+		coordenadorVO.add(linkTo(methodOn(CoordenadorController.class).findById(matricula)).withSelfRel());
+		return ResponseEntity.ok().body(coordenadorVO);				
 	}
 	
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, 
 			     produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<CoordenadorVO> insert(@Valid @RequestBody CoordenadorVO coordenadorVO) {
-		CoordenadorVO retorno = coordenadorService.insert(coordenadorVO);
+	public ResponseEntity<CoordenadorVO> insert(@Valid @RequestBody CoordenadorVO coordenador) {
+		CoordenadorVO coordenadorVO = coordenadorService.insert(coordenador);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matricula}")
-				.buildAndExpand(retorno.getMatricula()).toUri();
-		return ResponseEntity.created(uri).body(retorno);
+				.buildAndExpand(coordenadorVO.getMatricula()).toUri();
+		coordenadorVO.add(linkTo(methodOn(CoordenadorController.class).findById(coordenadorVO.getMatricula())).withSelfRel());
+		return ResponseEntity.created(uri).body(coordenadorVO);
 	}
 	
 	@DeleteMapping(value = "/{matricula}")
@@ -58,8 +64,9 @@ public class CoordenadorController {
 	@PutMapping(value = "/{matricula}",
 			consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE }, 
 			produces = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<CoordenadorVO> update(@Valid @PathVariable ("matricula") String matricula, @RequestBody CoordenadorVO coordenadorVO) {
-		CoordenadorVO retorno = coordenadorService.update(matricula, coordenadorVO);
-		return ResponseEntity.ok().body(retorno);
+	public ResponseEntity<CoordenadorVO> update(@Valid @PathVariable ("matricula") String matricula, @RequestBody CoordenadorVO coordenador) {
+		CoordenadorVO coordenadorVO = coordenadorService.update(matricula, coordenador);
+		coordenadorVO.add(linkTo(methodOn(CoordenadorController.class).findById(coordenadorVO.getMatricula())).withSelfRel());
+		return ResponseEntity.ok().body(coordenadorVO);
 	}
 }

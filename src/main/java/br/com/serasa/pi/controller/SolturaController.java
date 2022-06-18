@@ -1,5 +1,8 @@
 package br.com.serasa.pi.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.net.URI;
 import java.util.List;
 
@@ -26,42 +29,46 @@ import br.com.serasa.pi.service.SolturaService;
 public class SolturaController {
 	
 	@Autowired
-	SolturaService service;	
+	SolturaService solturaService;	
 	
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<List<SolturaVO>> findAll() {
-		List<SolturaVO> retorno = service.findAll();
-		return ResponseEntity.ok().body(retorno);
+		List<SolturaVO> eclosoesVO = solturaService.findAll();
+		eclosoesVO.stream().forEach(p->p.add(linkTo(methodOn(ColetaController.class).findById(p.getIdSoltura())).withSelfRel()));
+		return ResponseEntity.ok().body(eclosoesVO);
 	}
 	
 	@GetMapping(value ="/{id}",produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<SolturaVO> findById(@PathVariable("id") Integer idSoltura) {
-		SolturaVO retorno = service.findById(idSoltura);
-		return ResponseEntity.ok().body(retorno);
+		SolturaVO solturaVO = solturaService.findById(idSoltura);
+		solturaVO.add(linkTo(methodOn(SolturaController.class).findById(idSoltura)).withSelfRel());
+		return ResponseEntity.ok().body(solturaVO);
 				
 	}
 	
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, 
 			     produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<SolturaVO> insert(@Valid @RequestBody SolturaVO solturaVO) {
-		SolturaVO retorno = service.insert(solturaVO);
+	public ResponseEntity<SolturaVO> insert(@Valid @RequestBody SolturaVO soltura) {
+		SolturaVO solturaVO = solturaService.insert(soltura);
+		solturaVO.add(linkTo(methodOn(SolturaController.class).findById(solturaVO.getIdSoltura())).withSelfRel());
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(retorno.getIdSoltura()).toUri();
-		return ResponseEntity.created(uri).body(retorno);
+				.buildAndExpand(solturaVO.getIdSoltura()).toUri();
+		return ResponseEntity.created(uri).body(solturaVO);
 	}
 	
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable ("id") Integer idSoltura) {
-		service.delete(idSoltura);
+		solturaService.delete(idSoltura);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@PutMapping(value = "/{id}",
 			consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE }, 
 			produces = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<SolturaVO> update(@Valid @PathVariable ("id") Integer idSoltura, @RequestBody SolturaVO solturaVO) {
-		SolturaVO retorno = service.update(idSoltura, solturaVO);
-		return ResponseEntity.ok().body(retorno);
+	public ResponseEntity<SolturaVO> update(@Valid @PathVariable ("id") Integer idSoltura, @RequestBody SolturaVO soltura) {
+		SolturaVO solturaVO = solturaService.update(idSoltura, soltura);
+		solturaVO.add(linkTo(methodOn(SolturaController.class).findById(solturaVO.getIdSoltura())).withSelfRel());
+		return ResponseEntity.ok().body(solturaVO);
 	}
 
 }
