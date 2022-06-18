@@ -1,12 +1,18 @@
 package br.com.serasa.pi.common;
 
 import java.util.Date;
+import java.util.Objects;
+
+import org.springframework.hateoas.RepresentationModel;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import lombok.Data;
-@Data
-public class SolturaVO {
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class SolturaVO extends RepresentationModel<SolturaVO>{
 
 	private Integer idSoltura;
 	
@@ -26,4 +32,30 @@ public class SolturaVO {
 	private Float plastraoLargura;
 	private Float peso;
 	private Float altura;
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(altura, carapacaComprimento, carapacaLargura, comunidade, dataSoltura, dataViagem, especie,
+				estadoUF, idSoltura, municipio, numeroAnimal, peso, plastraoComprimento, plastraoLargura);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SolturaVO other = (SolturaVO) obj;
+		return Objects.equals(altura, other.altura) && Objects.equals(carapacaComprimento, other.carapacaComprimento)
+				&& Objects.equals(carapacaLargura, other.carapacaLargura)
+				&& Objects.equals(comunidade, other.comunidade) && Objects.equals(dataSoltura, other.dataSoltura)
+				&& Objects.equals(dataViagem, other.dataViagem) && Objects.equals(especie, other.especie)
+				&& Objects.equals(estadoUF, other.estadoUF) && Objects.equals(idSoltura, other.idSoltura)
+				&& Objects.equals(municipio, other.municipio) && Objects.equals(numeroAnimal, other.numeroAnimal)
+				&& Objects.equals(peso, other.peso) && Objects.equals(plastraoComprimento, other.plastraoComprimento)
+				&& Objects.equals(plastraoLargura, other.plastraoLargura);
+	}
+	
+	
 }

@@ -1,5 +1,8 @@
 package br.com.serasa.pi.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.net.URI;
 import java.util.List;
 
@@ -30,24 +33,27 @@ public class EclosaoController {
 	
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<List<EclosaoVO>> findAll() {
-		List<EclosaoVO> retorno = eclosaoService.findAll();
-		return ResponseEntity.ok().body(retorno);
+		List<EclosaoVO> eclosoesVO = eclosaoService.findAll();
+		eclosoesVO.stream().forEach(p->p.add(linkTo(methodOn(EclosaoController.class).findById(p.getIdEclosao())).withSelfRel()));
+		return ResponseEntity.ok().body(eclosoesVO);
 	}
 	
 	@GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<EclosaoVO> findById(@PathVariable("id") Integer idEclosao) {
-		EclosaoVO retorno = eclosaoService.findById(idEclosao);
-		return ResponseEntity.ok().body(retorno);
+		EclosaoVO eclosaoVO = eclosaoService.findById(idEclosao);
+		eclosaoVO.add(linkTo(methodOn(EclosaoController.class).findById(idEclosao)).withSelfRel());
+		return ResponseEntity.ok().body(eclosaoVO);
 				
 	}
 	
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, 
 		         produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<EclosaoVO> insert(@Valid @RequestBody EclosaoVO eclosaoVO) {
-		EclosaoVO retorno = eclosaoService.insert(eclosaoVO);
+	public ResponseEntity<EclosaoVO> insert(@Valid @RequestBody EclosaoVO eclosao) {
+		EclosaoVO eclosaoVO = eclosaoService.insert(eclosao);
+		eclosaoVO.add(linkTo(methodOn(EclosaoController.class).findById(eclosaoVO.getIdEclosao())).withSelfRel());
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(retorno.getIdEclosao()).toUri();
-		return ResponseEntity.created(uri).body(retorno);
+				.buildAndExpand(eclosaoVO.getIdEclosao()).toUri();
+		return ResponseEntity.created(uri).body(eclosaoVO);
 	}
 	
 	@DeleteMapping(value = "/{id}")
@@ -59,9 +65,10 @@ public class EclosaoController {
 	@PutMapping(value = "/{id}",
 			consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE }, 
 			produces = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<EclosaoVO> update(@Valid @PathVariable ("id") Integer idEclosao, @RequestBody EclosaoVO eclosaoVO) {
-		EclosaoVO retorno = eclosaoService.update(idEclosao, eclosaoVO);
-		return ResponseEntity.ok().body(retorno);
+	public ResponseEntity<EclosaoVO> update(@Valid @PathVariable ("id") Integer idEclosao, @RequestBody EclosaoVO eclosao) {
+		EclosaoVO eclosaoVO = eclosaoService.update(idEclosao, eclosao);
+		eclosaoVO.add(linkTo(methodOn(EclosaoController.class).findById(eclosaoVO.getIdEclosao())).withSelfRel());
+		return ResponseEntity.ok().body(eclosaoVO);
 	}
 
 }

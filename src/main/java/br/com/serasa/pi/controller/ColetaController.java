@@ -1,7 +1,12 @@
 package br.com.serasa.pi.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.net.URI;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -28,23 +33,26 @@ public class ColetaController {
 
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<List<ColetaVO>> findAll() {
-		List<ColetaVO> retorno = coletaService.findAll();
-		return ResponseEntity.ok().body(retorno);
+		List<ColetaVO> coletasVO = coletaService.findAll();
+		coletasVO.stream().forEach(p->p.add(linkTo(methodOn(ColetaController.class).findById(p.getIdColeta())).withSelfRel()));
+		return ResponseEntity.ok().body(coletasVO);
 	}
 
 	@GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<ColetaVO> findById(@PathVariable("id") Integer idColeta) {
-		ColetaVO retorno = coletaService.findById(idColeta);
-		return ResponseEntity.ok().body(retorno);
+		ColetaVO coletaVO = coletaService.findById(idColeta);
+		coletaVO.add(linkTo(methodOn(ColetaController.class).findById(idColeta)).withSelfRel());
+		return ResponseEntity.ok().body(coletaVO);
 	}
 
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, 
 				produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<ColetaVO> insert(@RequestBody ColetaVO coletaVO) {
-		ColetaVO retorno = coletaService.insert(coletaVO);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(retorno.getIdColeta())
+	public ResponseEntity<ColetaVO> insert(@Valid @RequestBody ColetaVO coleta) {
+		ColetaVO coletaVO = coletaService.insert(coleta);
+		coletaVO.add(linkTo(methodOn(ColetaController.class).findById(coletaVO.getIdColeta())).withSelfRel());
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(coletaVO.getIdColeta())
 				.toUri();
-		return ResponseEntity.created(uri).body(retorno);
+		return ResponseEntity.created(uri).body(coletaVO);
 	}
 
 	@DeleteMapping(value = "/{id}")
@@ -56,8 +64,9 @@ public class ColetaController {
 	@PutMapping(value = "/{id}",
 			 consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, 
 		     produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<ColetaVO> update(@PathVariable("id") Integer idColeta, @RequestBody ColetaVO coletaVO) {
-		ColetaVO retorno = coletaService.update(idColeta, coletaVO);
-		return ResponseEntity.ok().body(retorno);
+	public ResponseEntity<ColetaVO> update(@Valid @PathVariable("id") Integer idColeta, @RequestBody ColetaVO coleta) {
+		ColetaVO coletaVO = coletaService.update(idColeta, coleta);
+		coletaVO.add(linkTo(methodOn(ColetaController.class).findById(coletaVO.getIdColeta())).withSelfRel());
+		return ResponseEntity.ok().body(coletaVO);
 	}
 }
