@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,19 +28,20 @@ public class CoordenadorController {
 	@Autowired
 	private CoordenadorService coordenadorService;	
 	
-	@GetMapping
+	@GetMapping (produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<List<CoordenadorVO>> findAll() {
 		List<CoordenadorVO> retorno = coordenadorService.findAll();
 		return ResponseEntity.ok().body(retorno);
 	}
 	
-	@GetMapping("/{matricula}")
+	@GetMapping(value="/{matricula}",produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<CoordenadorVO> findById(@PathVariable("matricula") String matricula) {
 		CoordenadorVO retorno = coordenadorService.findById(matricula);
 		return ResponseEntity.ok().body(retorno);				
 	}
 	
-	@PostMapping
+	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, 
+			     produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<CoordenadorVO> insert(@Valid @RequestBody CoordenadorVO coordenadorVO) {
 		CoordenadorVO retorno = coordenadorService.insert(coordenadorVO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matricula}")
@@ -53,7 +55,9 @@ public class CoordenadorController {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PutMapping(value = "/{matricula}")
+	@PutMapping(value = "/{matricula}",
+	consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE }, 
+	produces = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<CoordenadorVO> update(@Valid @PathVariable ("matricula") String matricula, @RequestBody CoordenadorVO coordenadorVO) {
 		CoordenadorVO retorno = coordenadorService.update(matricula, coordenadorVO);
 		return ResponseEntity.ok().body(retorno);
