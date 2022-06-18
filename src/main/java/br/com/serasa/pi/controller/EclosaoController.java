@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +24,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.serasa.pi.common.EclosaoVO;
 import br.com.serasa.pi.service.EclosaoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name="Eclosão Endpoint")
 @RestController
 @RequestMapping("/eclosao")
 public class EclosaoController {
@@ -31,6 +35,8 @@ public class EclosaoController {
 	@Autowired
 	EclosaoService eclosaoService;
 	
+	@CrossOrigin("localhost:8080")
+	@Operation(summary="Listar todas as Eclosões")
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<List<EclosaoVO>> findAll() {
 		List<EclosaoVO> eclosoesVO = eclosaoService.findAll();
@@ -38,6 +44,8 @@ public class EclosaoController {
 		return ResponseEntity.ok().body(eclosoesVO);
 	}
 	
+	@CrossOrigin({"localhost:8080", "http://www.preservacaoquelonios.com.br"})
+	@Operation(summary="Listar a Eclosão por id")
 	@GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<EclosaoVO> findById(@PathVariable("id") Integer idEclosao) {
 		EclosaoVO eclosaoVO = eclosaoService.findById(idEclosao);
@@ -46,6 +54,7 @@ public class EclosaoController {
 				
 	}
 	
+	@Operation(summary="Inserir dados de Eclosão")
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, 
 		         produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<EclosaoVO> insert(@Valid @RequestBody EclosaoVO eclosao) {
@@ -56,12 +65,14 @@ public class EclosaoController {
 		return ResponseEntity.created(uri).body(eclosaoVO);
 	}
 	
+	@Operation(summary="Deletar dados de Eclosão por id")
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable ("id") Integer idEclosao) {
 		eclosaoService.delete(idEclosao);
 		return ResponseEntity.noContent().build();
 	}
 	
+	@Operation(summary="Atualizar dados de Eclosão por id")
 	@PutMapping(value = "/{id}",
 			consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE }, 
 			produces = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })

@@ -23,8 +23,7 @@ public class EclosaoEntity extends Viagem implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_eclosao")
-	@NotNull
+	@Column(name = "id_eclosao")	
 	private Integer idEclosao;
 
 	@Column(name = "numero_cova")
