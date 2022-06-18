@@ -26,24 +26,20 @@ public class ColetaController {
 	@Autowired
 	private ColetaService coletaService;
 
-	@GetMapping(
-		produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }
-	)
+	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<List<ColetaVO>> findAll() {
 		List<ColetaVO> retorno = coletaService.findAll();
 		return ResponseEntity.ok().body(retorno);
 	}
-	
-	@GetMapping("/{id}")
+
+	@GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<ColetaVO> findById(@PathVariable("id") Integer idColeta) {
 		ColetaVO retorno = coletaService.findById(idColeta);
 		return ResponseEntity.ok().body(retorno);
 	}
-	
-	@PostMapping(
-		consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE },
-		produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }
-	)
+
+	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, 
+			     produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<ColetaVO> insert(@RequestBody ColetaVO coletaVO) {
 		ColetaVO retorno = coletaService.insert(coletaVO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(retorno.getIdColeta())
@@ -57,7 +53,9 @@ public class ColetaController {
 		return ResponseEntity.noContent().build();
 	}
 
-	@PutMapping(value = "/{id}")
+	@PutMapping(value = "/{id}",
+			consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE }, 
+			produces = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<ColetaVO> update(@PathVariable("id") Integer idColeta, @RequestBody ColetaVO coletaVO) {
 		ColetaVO retorno = coletaService.update(idColeta, coletaVO);
 		return ResponseEntity.ok().body(retorno);

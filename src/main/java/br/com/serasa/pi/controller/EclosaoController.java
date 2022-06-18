@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,20 +28,21 @@ public class EclosaoController {
 	@Autowired
 	EclosaoService eclosaoService;
 	
-	@GetMapping
+	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<List<EclosaoVO>> findAll() {
 		List<EclosaoVO> retorno = eclosaoService.findAll();
 		return ResponseEntity.ok().body(retorno);
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<EclosaoVO> findById(@PathVariable("id") Integer idEclosao) {
 		EclosaoVO retorno = eclosaoService.findById(idEclosao);
 		return ResponseEntity.ok().body(retorno);
 				
 	}
 	
-	@PostMapping
+	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, 
+		         produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<EclosaoVO> insert(@Valid @RequestBody EclosaoVO eclosaoVO) {
 		EclosaoVO retorno = eclosaoService.insert(eclosaoVO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
@@ -54,7 +56,9 @@ public class EclosaoController {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PutMapping(value = "/{id}")
+	@PutMapping(value = "/{id}",
+			consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE }, 
+			produces = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<EclosaoVO> update(@Valid @PathVariable ("id") Integer idEclosao, @RequestBody EclosaoVO eclosaoVO) {
 		EclosaoVO retorno = eclosaoService.update(idEclosao, eclosaoVO);
 		return ResponseEntity.ok().body(retorno);

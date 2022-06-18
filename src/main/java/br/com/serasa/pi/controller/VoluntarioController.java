@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,19 +28,20 @@ public class VoluntarioController {
 	@Autowired
 	private VoluntarioService voluntarioService;
 
-	@GetMapping
+	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<List<VoluntarioVO>> findAll() {
 		List<VoluntarioVO> retorno = voluntarioService.findAll();
 		return ResponseEntity.ok().body(retorno);
 	}
 
-	@GetMapping("/{matricula}")
+	@GetMapping(value = "/{matricula}",produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<VoluntarioVO> findById(@PathVariable("matricula") String matricula) {
 		VoluntarioVO retorno = voluntarioService.findById(matricula);
 		return ResponseEntity.ok().body(retorno);
 	}
 
-	@PostMapping
+	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, 
+		         produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<VoluntarioVO> insert(@Valid @RequestBody VoluntarioVO voluntarioVO) {
 		VoluntarioVO retorno = voluntarioService.insert(voluntarioVO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matricula}")
@@ -53,7 +55,9 @@ public class VoluntarioController {
 		return ResponseEntity.noContent().build();
 	}
 
-	@PutMapping(value = "/{matricula}")
+	@PutMapping(value = "/{matricula}",
+			consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE }, 
+			produces = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<VoluntarioVO> update(@Valid @PathVariable("matricula") String matricula,
 			@RequestBody VoluntarioVO voluntarioVO) {
 		VoluntarioVO retorno = voluntarioService.update(matricula, voluntarioVO);

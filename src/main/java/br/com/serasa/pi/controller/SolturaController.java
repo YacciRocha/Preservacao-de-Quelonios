@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,20 +28,21 @@ public class SolturaController {
 	@Autowired
 	SolturaService service;	
 	
-	@GetMapping
+	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<List<SolturaVO>> findAll() {
 		List<SolturaVO> retorno = service.findAll();
 		return ResponseEntity.ok().body(retorno);
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping(value ="/{id}",produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<SolturaVO> findById(@PathVariable("id") Integer idSoltura) {
 		SolturaVO retorno = service.findById(idSoltura);
 		return ResponseEntity.ok().body(retorno);
 				
 	}
 	
-	@PostMapping
+	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, 
+			     produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<SolturaVO> insert(@Valid @RequestBody SolturaVO solturaVO) {
 		SolturaVO retorno = service.insert(solturaVO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
@@ -54,7 +56,9 @@ public class SolturaController {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PutMapping(value = "/{id}")
+	@PutMapping(value = "/{id}",
+	consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE }, 
+	produces = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<SolturaVO> update(@Valid @PathVariable ("id") Integer idSoltura, @RequestBody SolturaVO solturaVO) {
 		SolturaVO retorno = service.update(idSoltura, solturaVO);
 		return ResponseEntity.ok().body(retorno);
