@@ -29,7 +29,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name="Eclosão Endpoint")
 @RestController
-@RequestMapping("/eclosao")
+@RequestMapping("api/eclosao")
 public class EclosaoController {
 	
 	@Autowired

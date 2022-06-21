@@ -29,7 +29,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name="Coleta Endpoint")
 @RestController
-@RequestMapping("/coleta")
+@RequestMapping("api/coleta")
 public class ColetaController {
 	
 	@Autowired

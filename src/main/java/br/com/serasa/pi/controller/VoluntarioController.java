@@ -29,7 +29,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name="Voluntário Endpoint")
 @RestController
-@RequestMapping("/voluntario")
+@RequestMapping("api/voluntario")
 public class VoluntarioController {
 
 	@Autowired

@@ -15,7 +15,7 @@ public class SwaggerConfig {
 
 		return new OpenAPI().info(new Info().title("Restful API - Projeto Integrador - Preservação de Quelônios")
 				.version("v1")
-				.description("API desenvolvida como projeto integrador do curso Full Stack Java - DH/Serasa Experian")
+				.description("API desenvolvida como projeto integrador do curso Full Stack Java-Angular - DH/Serasa Experian")
 				.termsOfService("http://swagger.io/terms")
 				.license(new License().name("Apache 2.0").url("http://springdoc.org")));
 	}

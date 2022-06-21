@@ -29,7 +29,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name="Soltura Endpoint")
 @RestController
-@RequestMapping("/soltura")
+@RequestMapping("api/soltura")
 public class SolturaController {
 	
 	@Autowired

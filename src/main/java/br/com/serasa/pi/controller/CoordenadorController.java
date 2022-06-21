@@ -29,7 +29,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name="Coordenador Endpoint")
 @RestController
-@RequestMapping("/coordenador")
+@RequestMapping("api/coordenador")
 public class CoordenadorController {
 	
 	@Autowired
