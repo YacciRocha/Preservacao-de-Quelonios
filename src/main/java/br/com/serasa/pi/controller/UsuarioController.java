@@ -53,16 +53,18 @@ public class UsuarioController {
 		return ResponseEntity.ok().body(usuarioVO);				
 	}
 	
+		
 	@Operation(summary="Inserir dados de Usuário")
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, 
-			     produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<UsuarioVO> insert(@Valid @RequestBody UsuarioVO usuario) {
-		UsuarioVO usuarioVO = usuarioService.insert(usuario);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matricula}")
-				.buildAndExpand(usuarioVO.getMatricula()).toUri();
-		usuarioVO.add(linkTo(methodOn(UsuarioController.class).findById(usuarioVO.getMatricula())).withSelfRel());
-		return ResponseEntity.created(uri).body(usuarioVO);
+		         produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	public ResponseEntity<UsuarioVO> insert(@Valid @RequestBody UsuarioVO usuarioVO) {		
+		UsuarioVO usuarioInseridoVO = usuarioService.insert(usuarioVO);
+		usuarioInseridoVO.add(linkTo(methodOn(UsuarioController.class).findById(usuarioInseridoVO.getMatricula())).withSelfRel());
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+				.buildAndExpand(usuarioInseridoVO.getMatricula()).toUri();
+		return ResponseEntity.created(uri).body(usuarioInseridoVO);
 	}
+	
 	@Operation(summary="Deletar dados de  Usuário por id")
 	@DeleteMapping(value = "/{matricula}")
 	public ResponseEntity<Void> delete(@PathVariable ("matricula") String matricula) {

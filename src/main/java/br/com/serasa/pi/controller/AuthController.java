@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.serasa.pi.common.UsuarioVO;
 import br.com.serasa.pi.repository.UsuarioRepository;
-import br.com.serasa.pi.security.CredenciaisContaVO;
 import br.com.serasa.pi.security.jwt.JwtProvider;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -37,7 +37,7 @@ public class AuthController {
 
 	@PostMapping(value = "/signin", produces = { "application/json", "application/xml" }, 
 			consumes = { "application/json",	"application/xml" })
-	public ResponseEntity signin(@RequestBody CredenciaisContaVO cred) {
+	public ResponseEntity<?> signin(@RequestBody UsuarioVO cred) {
 		
 		try {
 			var username = cred.getUsername();
@@ -46,13 +46,13 @@ public class AuthController {
 			authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(username, password));
 			
-			var user = repository.findByUserName(username);
+			var user = repository.findByUsername(username);
 			var token = "";
 			
 			if (user !=null) {
 				token = tokenProvider.createToken(username, user.getRoles());
 			}else {
-				throw new UsernameNotFoundException("Usuário " + username+ "não localizado");
+				throw new UsernameNotFoundException("Usuário " + username+ " não localizado");
 			}
 			Map<Object, Object> model = new HashMap<>();
 			model.put("username", username);
@@ -61,8 +61,6 @@ public class AuthController {
 			return ok(model);
 		} catch (AuthenticationException e) {
 			throw new BadCredentialsException("Usuário ou senha inválidos");
-		}
-		
+		}		
 	}
-
 }

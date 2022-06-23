@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -29,12 +30,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="users") // colocou um "s" em user.
-public class UsuarioEntity implements UserDetails, Serializable{
-
-	
+@Table(name="users") 
+public class UsuarioEntity implements UserDetails, Serializable{	
 	private static final long serialVersionUID = 1L;
-
 	
 	@Id
 	@NotBlank
@@ -47,8 +45,10 @@ public class UsuarioEntity implements UserDetails, Serializable{
 	
 	@Column(name = "user_name")
 	@NotBlank
-	private String userName;	
+	@Email
+	private String username;	
 
+	@NotBlank
 	@Column(name = "password")
 	private String password;
 
@@ -70,7 +70,6 @@ public class UsuarioEntity implements UserDetails, Serializable{
 		return this.permissions;
 	}
 
-
 	@Override
 	public String getPassword() {
 		return this.password;
@@ -78,9 +77,8 @@ public class UsuarioEntity implements UserDetails, Serializable{
 
 	@Override
 	public String getUsername() {
-		return this.userName; 
+		return this.username; 
 	}
-
 	
 	@Override
 	public boolean isAccountNonExpired() {
@@ -94,8 +92,7 @@ public class UsuarioEntity implements UserDetails, Serializable{
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return this.credentialsNonExpired;
-		
+		return this.credentialsNonExpired;		
 	}
 
 	@Override
@@ -121,9 +118,8 @@ public class UsuarioEntity implements UserDetails, Serializable{
 	@Override
 	public int hashCode() {
 		return Objects.hash(accountNonExpired, accountNonLocked, credentialsNonExpired, enabled, matricula, nome,
-				password, permissions, userName);
+				password, permissions, username);
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -139,14 +135,6 @@ public class UsuarioEntity implements UserDetails, Serializable{
 				&& Objects.equals(credentialsNonExpired, other.credentialsNonExpired)
 				&& Objects.equals(enabled, other.enabled) && Objects.equals(matricula, other.matricula)
 				&& Objects.equals(nome, other.nome) && Objects.equals(password, other.password)
-				&& Objects.equals(permissions, other.permissions) && Objects.equals(userName, other.userName);
+				&& Objects.equals(permissions, other.permissions) && Objects.equals(username, other.username);
 	}
-
-
-	public String getUserName() {
-		return userName;
-	}
-	
-	
-
 }

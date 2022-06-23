@@ -9,6 +9,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.serasa.pi.common.UsuarioVO;
@@ -25,10 +26,14 @@ public class UsuarioService implements UserDetailsService{
 
 	@Autowired
 	private UsuarioMapper usuarioMapper;
+	
+	 private BCryptPasswordEncoder  bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
-	public UsuarioVO insert(UsuarioVO usuarioVO) {
+	public UsuarioVO insert(UsuarioVO usuarioVO) {	
+		usuarioVO.setPassword(bCryptPasswordEncoder.encode(usuarioVO.getPassword()));	
 		UsuarioEntity usuarioAInserir = usuarioMapper.usuarioVOToUsuarioEntity(usuarioVO);
 		UsuarioEntity usuarioInserido = repository.save(usuarioAInserir);
+		
 		return usuarioMapper.usuarioEntityToUsuarioVO(usuarioInserido);
 	}
 
@@ -63,14 +68,13 @@ public class UsuarioService implements UserDetailsService{
 			UsuarioEntity usuarioEncontrado = entity.get();
 
 			usuarioEncontrado.setNome(usuarioVoAtualizacao.getNome());
-			usuarioEncontrado.setUserName(usuarioVoAtualizacao.getUserName());
+			usuarioEncontrado.setUsername(usuarioVoAtualizacao.getUsername());
 
 			UsuarioEntity usuarioAtualizado = repository.save(usuarioEncontrado);
 			return usuarioMapper.usuarioEntityToUsuarioVO(usuarioAtualizado);
 		} catch (NoSuchElementException e) {
 			throw new ResourceNotFoundException(matricula);
 		}
-
 	}
 
 	public UsuarioService(UsuarioRepository repository) {
@@ -79,7 +83,7 @@ public class UsuarioService implements UserDetailsService{
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		var usuario = repository.findByUserName(username);
+		var usuario = repository.findByUsername(username);
 
 		if (usuario != null) {
 			return usuario;
@@ -87,5 +91,4 @@ public class UsuarioService implements UserDetailsService{
 			throw new UsernameNotFoundException("O usuario " + username + " não localizado");
 		}
 	}
-
 }

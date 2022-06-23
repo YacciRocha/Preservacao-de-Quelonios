@@ -1,5 +1,6 @@
 package br.com.serasa.pi.common;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
@@ -12,7 +13,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ColetaVO extends RepresentationModel<ColetaVO>{
+public class ColetaVO extends RepresentationModel<ColetaVO> implements Serializable{
+	private static final long serialVersionUID = 1L;
 
 	private Integer idColeta;
 	

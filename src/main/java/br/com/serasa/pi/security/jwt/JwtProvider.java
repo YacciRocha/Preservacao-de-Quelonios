@@ -39,12 +39,7 @@ public class JwtProvider {
 	protected void init() {
 		secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
 	}
-	/*
-	 * será feita a captura do username que será carregado assim que houver a
-	 * validaçao de usuario e senha do banco
-	 * 
-	 * criar o token com o tipo de algoritmo passado para criação
-	 */
+	
 	public String createToken(String username, List<String> roles) {
 		Claims claims = Jwts.claims().setSubject(username);
 		claims.put("roles", roles);
@@ -55,8 +50,7 @@ public class JwtProvider {
 		return Jwts.builder().setClaims(claims).setIssuedAt(now).setExpiration(tempoExpirar)
 				.signWith(SignatureAlgorithm.HS256, secretKey).compact();
 	}
-
-	// faz o cara crachá
+	
 	public Authentication getAuthentication(String token) {
 		UserDetails userDetails =
 				this.userDetailsService.loadUserByUsername(getUsername(token));
@@ -64,16 +58,10 @@ public class JwtProvider {
 				"", userDetails.getAuthorities());
 	}
 
-	// comportamento igual ao do modelo da pagina jwt
 
 	private String getUsername(String token) {
 		return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
 	}
-
-	/* vai criar retornar a string de autorização via cabeçalho. O detalhe que ele é
-	 * devolvido em texto com a palavra Bearer entao precisamos remover esse texto
-	 * atraves de uma substring
-	 */
 
 	public String resolveToken(HttpServletRequest req) {
 		String bearerToken = req.getHeader("Authorization");
@@ -82,8 +70,6 @@ public class JwtProvider {
 		}
 		return null;
 	}
-
-	//vamos criar a validação do nosso token pra saber de expirou ou nao
 	
 	public boolean validateToken(String token) {
 		try {
