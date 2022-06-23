@@ -1,4 +1,4 @@
 INSERT INTO `user_permission` (`id_user`, `id_permission`) VALUES
-	(1, 1),
-	(2, 1),
-	(1, 2);
+	(12345, 1),
+	(54321, 1),
+	(12345, 2);

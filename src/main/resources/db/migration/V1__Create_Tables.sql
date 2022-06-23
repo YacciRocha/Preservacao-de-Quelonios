@@ -18,13 +18,7 @@ CREATE TABLE `coleta` (
   `quantidade_ovos` int DEFAULT NULL,
   PRIMARY KEY (`id_coleta`)
 );
-CREATE TABLE `coordenador` (
-  `matricula` varchar(255) NOT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `nome` varchar(255) DEFAULT NULL,
-  `senha` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`matricula`)
-);
+
 CREATE TABLE `eclosao` (
   `id_eclosao` int NOT NULL AUTO_INCREMENT,
   `comunidade` varchar(255) DEFAULT NULL,
@@ -59,10 +53,3 @@ CREATE TABLE `soltura` (
   `plastrao_largura` float DEFAULT NULL,
   PRIMARY KEY (`id_soltura`)
 );
-CREATE TABLE `voluntario` (
-  `matricula` varchar(255) NOT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `nome` varchar(255) DEFAULT NULL,
-  `senha` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`matricula`)
-)

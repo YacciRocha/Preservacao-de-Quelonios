@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.serasa.pi.repository.UserRepository;
+import br.com.serasa.pi.repository.UsuarioRepository;
 import br.com.serasa.pi.security.CredenciaisContaVO;
 import br.com.serasa.pi.security.jwt.JwtProvider;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,7 +33,7 @@ public class AuthController {
 	JwtProvider tokenProvider;
 
 	@Autowired
-	UserRepository repository;
+	UsuarioRepository repository;
 
 	@PostMapping(value = "/signin", produces = { "application/json", "application/xml" }, 
 			consumes = { "application/json",	"application/xml" })

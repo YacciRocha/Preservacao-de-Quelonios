@@ -9,16 +9,16 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class VoluntarioVO extends RepresentationModel<VoluntarioVO> {
+public class UsuarioVO extends RepresentationModel<UsuarioVO>{
 
 	private String matricula;
 	private String nome;
-	private String email;
-	private String senha;
+	private String userName;
+	private String password;
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(email, matricula, nome, senha);
+		return Objects.hash(userName, matricula, nome, password);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -28,11 +28,10 @@ public class VoluntarioVO extends RepresentationModel<VoluntarioVO> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		VoluntarioVO other = (VoluntarioVO) obj;
-		return Objects.equals(email, other.email) && Objects.equals(matricula, other.matricula)
-				&& Objects.equals(nome, other.nome) && Objects.equals(senha, other.senha);
+		UsuarioVO other = (UsuarioVO) obj;
+		return Objects.equals(userName, other.userName) && Objects.equals(matricula, other.matricula)
+				&& Objects.equals(nome, other.nome) && Objects.equals(password, other.password);
 	}
-	
-	
 
+	
 }
