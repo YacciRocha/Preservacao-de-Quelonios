@@ -13,16 +13,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ColetaVO extends RepresentationModel<ColetaVO> implements Serializable{
+public class ColetaVO extends RepresentationModel<ColetaVO> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer idColeta;
-	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-	private Date dataViagem;	
-	private String estadoUF;		
-	private String municipio;		
-	private String comunidade;
+
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date dataColeta;
 	private String nomePraiaTabuleiro;
@@ -36,35 +31,38 @@ public class ColetaVO extends RepresentationModel<ColetaVO> implements Serializa
 	private Float larguraNinho;
 	private Float larguraPata;
 	private Float larguraEntrePatas;
-	
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(comunidade, dataColeta, dataViagem, distanciaAgua, distanciaVegetacao, especie, estadoUF,
-				idColeta, larguraEntrePatas, larguraNinho, larguraPata, municipio, nomePraiaTabuleiro, numeroCova,
-				profundidadePrimeiroOvo, profundidadeTotal, quantidadeOvos);
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(dataColeta, distanciaAgua, distanciaVegetacao, especie, idColeta,
+				larguraEntrePatas, larguraNinho, larguraPata, nomePraiaTabuleiro, numeroCova, profundidadePrimeiroOvo,
+				profundidadeTotal, quantidadeOvos);
+		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		ColetaVO other = (ColetaVO) obj;
-		return Objects.equals(comunidade, other.comunidade) && Objects.equals(dataColeta, other.dataColeta)
-				&& Objects.equals(dataViagem, other.dataViagem) && Objects.equals(distanciaAgua, other.distanciaAgua)
+		return Objects.equals(dataColeta, other.dataColeta) && Objects.equals(distanciaAgua, other.distanciaAgua)
 				&& Objects.equals(distanciaVegetacao, other.distanciaVegetacao)
-				&& Objects.equals(especie, other.especie) && Objects.equals(estadoUF, other.estadoUF)
-				&& Objects.equals(idColeta, other.idColeta)
+				&& Objects.equals(especie, other.especie) && Objects.equals(idColeta, other.idColeta)
 				&& Objects.equals(larguraEntrePatas, other.larguraEntrePatas)
 				&& Objects.equals(larguraNinho, other.larguraNinho) && Objects.equals(larguraPata, other.larguraPata)
-				&& Objects.equals(municipio, other.municipio)
 				&& Objects.equals(nomePraiaTabuleiro, other.nomePraiaTabuleiro)
 				&& Objects.equals(numeroCova, other.numeroCova)
 				&& Objects.equals(profundidadePrimeiroOvo, other.profundidadePrimeiroOvo)
 				&& Objects.equals(profundidadeTotal, other.profundidadeTotal)
 				&& Objects.equals(quantidadeOvos, other.quantidadeOvos);
 	}
-	
+
 }
+	
+

@@ -4,11 +4,14 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -18,7 +21,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "eclosao")
-public class EclosaoEntity extends Viagem implements Serializable {
+public class EclosaoEntity  implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -56,6 +59,14 @@ public class EclosaoEntity extends Viagem implements Serializable {
 
 	@Column(name = "quantidade_filhote_morto_outros")
 	private Integer quantidadeFilhoteMortoOutros;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "matriculaVoluntario", referencedColumnName = "matricula")
+	private UsuarioEntity voluntario;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idViagem", referencedColumnName = "id_viagem")
+	private ViagemEntity viagem;
 
 	@Override
 	public boolean equals(Object obj) {

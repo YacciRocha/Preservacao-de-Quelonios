@@ -61,10 +61,7 @@ public class ColetaService {
 			ColetaEntity coletaEncontrada = entity.get();
 			ColetaEntity coletaAtualizacao = coletaMapper.coletaVOToColetaEntity(coletaVoAtualizacao);
 
-			coletaEncontrada.setDataViagem(coletaAtualizacao.getDataViagem());
-			coletaEncontrada.setEstadoUF(coletaAtualizacao.getEstadoUF());
-			coletaEncontrada.setMunicipio(coletaAtualizacao.getMunicipio());
-			coletaEncontrada.setComunidade(coletaAtualizacao.getComunidade());
+	
 			coletaEncontrada.setDataColeta(coletaAtualizacao.getDataColeta());
 			coletaEncontrada.setNomePraiaTabuleiro(coletaAtualizacao.getNomePraiaTabuleiro());
 			coletaEncontrada.setNumeroCova(coletaAtualizacao.getNumeroCova());

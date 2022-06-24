@@ -62,10 +62,7 @@ public class EclosaoService {
 			EclosaoEntity eclosaoEncontrada = entity.get();
 			EclosaoEntity eclosaoAtualizacao = eclosaoMapper.eclosaoVOToEclosaoEntity(eclosaoVoAtualizacao);
 
-			eclosaoEncontrada.setDataViagem(eclosaoAtualizacao.getDataViagem());
-			eclosaoEncontrada.setEstadoUF(eclosaoAtualizacao.getEstadoUF());
-			eclosaoEncontrada.setMunicipio(eclosaoAtualizacao.getMunicipio());
-			eclosaoEncontrada.setComunidade(eclosaoAtualizacao.getComunidade());
+	
 			eclosaoEncontrada.setNumeroCova(eclosaoAtualizacao.getNumeroCova());
 			eclosaoEncontrada.setDataNascimento(eclosaoAtualizacao.getDataNascimento());
 			eclosaoEncontrada.setEspecie(eclosaoAtualizacao.getEspecie());

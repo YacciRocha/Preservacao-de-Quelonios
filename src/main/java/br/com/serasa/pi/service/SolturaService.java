@@ -61,10 +61,6 @@ public class SolturaService {
 			SolturaEntity solturaEncontrada = entity.get();
 			SolturaEntity solturaAtualizacao = solturaMapper.solturaVOToSolturaEntity(solturaVoAtualizacao);	
 		
-		solturaEncontrada.setDataViagem(solturaAtualizacao.getDataViagem());		
-		solturaEncontrada.setEstadoUF(solturaAtualizacao.getEstadoUF());		
-		solturaEncontrada.setMunicipio(solturaAtualizacao.getMunicipio());		
-		solturaEncontrada.setComunidade(solturaAtualizacao.getComunidade());
 		solturaEncontrada.setNumeroAnimal(solturaAtualizacao.getNumeroAnimal());
 		solturaEncontrada.setEspecie(solturaAtualizacao.getEspecie());
 		solturaEncontrada.setDataSoltura(solturaAtualizacao.getDataSoltura());
