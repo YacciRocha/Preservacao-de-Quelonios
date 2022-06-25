@@ -1,4 +1,4 @@
-package br.com.serasa.pi.exceptions;
+/*package br.com.serasa.pi.exceptions;
 
 import java.io.Serializable;
 import java.time.OffsetDateTime;
@@ -19,4 +19,4 @@ public class ExceptionResponse implements Serializable{
 	public ExceptionResponse() {
 	
 }
-}
+}*/

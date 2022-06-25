@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `users` (
+CREATE TABLE IF NOT EXISTS `usuario` (
   `matricula` varchar(255) NOT NULL,
   `user_name` varchar(255) DEFAULT NULL,
   `nome` varchar(255) DEFAULT NULL,

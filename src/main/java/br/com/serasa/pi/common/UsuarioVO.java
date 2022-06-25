@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import org.springframework.hateoas.RepresentationModel;
 
+import br.com.serasa.pi.enums.TipoUsuarioEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +22,7 @@ public class UsuarioVO extends RepresentationModel<UsuarioVO> implements Seriali
 	private Boolean accountNonLocked;
 	private Boolean credentialsNonExpired;
 	private Boolean enabled;
+	private TipoUsuarioEnum tipoUsuario;
 
 	public UsuarioVO() {
 	}

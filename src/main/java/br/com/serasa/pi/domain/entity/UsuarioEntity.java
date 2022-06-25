@@ -4,10 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -20,17 +22,12 @@ import javax.validation.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import br.com.serasa.pi.enums.TipoUsuarioEnum;
+import lombok.Data;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Entity
-@Table(name="users") 
+@Table(name="usuario") 
 public class UsuarioEntity implements UserDetails, Serializable{	
 	private static final long serialVersionUID = 1L;
 	
@@ -43,7 +40,16 @@ public class UsuarioEntity implements UserDetails, Serializable{
 	@NotBlank
 	private String nome;
 	
-	@Column(name = "user_name")
+	@Enumerated(EnumType.STRING)
+	@Column(name = "tipoUsuario", columnDefinition = "enum('ADMIN','COORDENADOR','VOLUNTARIO')")
+	private TipoUsuarioEnum tipoUsuario;
+	
+	@ManyToMany(cascade  = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "usuario_permissao", joinColumns = { @JoinColumn(name = "id_usuario", nullable = false) }, inverseJoinColumns = {
+			@JoinColumn(name = "id_permissao", nullable = false) })
+	private List<PermissaoEntity> permissions;
+	
+	@Column(name = "user_name", unique = true)
 	@NotBlank
 	@Email
 	private String username;	
@@ -100,41 +106,12 @@ public class UsuarioEntity implements UserDetails, Serializable{
 		return this.enabled;
 	}
 	
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "user_permission", 
-	joinColumns = { @JoinColumn(name = "id_user") }
-	, inverseJoinColumns = {@JoinColumn(name = "id_permission") })
-	private List<Permission>permissions;
-	
 	public List<String> getRoles() {
 		List<String> roles = new ArrayList<>();
-		for (Permission permission : this.permissions) {
+		for (PermissaoEntity permission : this.permissions) {
 			roles.add(permission.getDescription());
 		}
 		return roles;
 	}
 
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(accountNonExpired, accountNonLocked, credentialsNonExpired, enabled, matricula, nome,
-				password, permissions, username);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		UsuarioEntity other = (UsuarioEntity) obj;
-		return Objects.equals(accountNonExpired, other.accountNonExpired)
-				&& Objects.equals(accountNonLocked, other.accountNonLocked)
-				&& Objects.equals(credentialsNonExpired, other.credentialsNonExpired)
-				&& Objects.equals(enabled, other.enabled) && Objects.equals(matricula, other.matricula)
-				&& Objects.equals(nome, other.nome) && Objects.equals(password, other.password)
-				&& Objects.equals(permissions, other.permissions) && Objects.equals(username, other.username);
-	}
 }

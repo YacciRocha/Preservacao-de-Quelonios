@@ -1,4 +1,4 @@
-package br.com.serasa.pi.exceptions.handler;
+/*package br.com.serasa.pi.exceptions.handler;
 
 import java.time.OffsetDateTime;
 
@@ -27,4 +27,4 @@ public class ManipuladorGlobalDeExceptions {
 	}
 	
 
-}
+}*/
