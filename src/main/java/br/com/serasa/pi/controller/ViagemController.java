@@ -4,11 +4,16 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.net.URI;
-import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -38,10 +44,19 @@ public class ViagemController {
 	@CrossOrigin("localhost:8080")
 	@Operation(summary="Listar todas as Viagens")
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<List<ViagemVO>> findAll() {
-		List<ViagemVO> viagensVO = viagemService.findAll();
-		viagensVO.stream().forEach(p->p.add(linkTo(methodOn(ViagemController.class).findById(p.getIdViagem())).withSelfRel()));
-		return ResponseEntity.ok().body(viagensVO);
+	public ResponseEntity<CollectionModel<ViagemVO>> findAll(
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "limit", defaultValue = "10") int limit,
+			@RequestParam(value = "direction", defaultValue = "asc") String direction) {
+		
+		var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
+		Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "comunidade"));
+		Page<ViagemVO> viagensVO = viagemService.findAll(pageable);
+		
+		viagensVO.stream()
+			.forEach(p->p.add(linkTo(methodOn(ViagemController.class).findById(p.getIdViagem())).withSelfRel()));
+		
+		return ResponseEntity.ok(CollectionModel.of(viagensVO));  
 	}
 	
 	@CrossOrigin({"localhost:8080", "http://www.preservacaoquelonios.com.br"})
@@ -79,4 +94,24 @@ public class ViagemController {
 		viagemVO.add(linkTo(methodOn(ViagemController.class).findById(viagemVO.getIdViagem())).withSelfRel());
 		return ResponseEntity.ok().body(viagemVO);
 	}
+	
+	@CrossOrigin("localhost:8080")
+	@Operation(summary = "Listar viagem por nome da comunidade")
+	@GetMapping(value = "/buscarPorNomeComunidade/{comunidade}", produces = { "application/json", "application/xml" })
+	public ResponseEntity<CollectionModel<ViagemVO>> findViagemByName(@PathVariable("comunidade") String comunidade,
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "limit", defaultValue = "10") int limit,
+			@RequestParam(value = "direction", defaultValue = "asc") String direction) {
+		var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
+		Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "comunidade"));
+		Page<ViagemVO> viagensVO = viagemService.findByName(comunidade, pageable);
+		viagensVO.stream()
+		.forEach(p->p.add(linkTo(methodOn(ViagemController.class).findById(p.getIdViagem())).withSelfRel()));
+	
+	return ResponseEntity.ok(CollectionModel.of(viagensVO));  
+	}
+	
+	
+	
+	
 }

@@ -1,11 +1,11 @@
 package br.com.serasa.pi.service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.serasa.pi.common.ColetaVO;
@@ -28,15 +28,9 @@ public class ColetaService {
 		return coletaMapper.coletaEntityToColetaVO(coletaInserida);
 	}
 
-	public List<ColetaVO> findAll() {
-		List<ColetaEntity> allColetas = repository.findAll();
-
-		List<ColetaVO> retorno = new ArrayList<>();
-		if (allColetas != null && !allColetas.isEmpty()) {
-
-			retorno = coletaMapper.listColetaEntityToListColetaVO(allColetas);
-		}
-		return retorno;
+	public Page<ColetaVO> findAll(Pageable pageable) {
+		var page = repository.findAll(pageable);
+		return page.map(this::convertToColetaVO);
 	}
 
 	public ColetaVO findById(Integer idColeta) {
@@ -60,7 +54,6 @@ public class ColetaService {
 
 			ColetaEntity coletaEncontrada = entity.get();
 			ColetaEntity coletaAtualizacao = coletaMapper.coletaVOToColetaEntity(coletaVoAtualizacao);
-
 	
 			coletaEncontrada.setDataColeta(coletaAtualizacao.getDataColeta());
 			coletaEncontrada.setNomePraiaTabuleiro(coletaAtualizacao.getNomePraiaTabuleiro());
@@ -81,4 +74,14 @@ public class ColetaService {
 			throw new ResourceNotFoundException(idColeta);
 		}
 	}
+	
+	public Page<ColetaVO> findByName(String nomePraiaTabuleiro,Pageable pageable){
+		var page = repository.findByNomePraiaTabuleiro(nomePraiaTabuleiro, pageable);
+		return page.map(this::convertToColetaVO);
+	}
+	
+	private ColetaVO convertToColetaVO(ColetaEntity entity) {
+		return coletaMapper.coletaEntityToColetaVO(entity);
+	}
+	
 }

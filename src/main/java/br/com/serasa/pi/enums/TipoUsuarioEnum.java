@@ -8,7 +8,7 @@ public enum TipoUsuarioEnum {
 	TipoUsuarioEnum(long codigoTipoUsuario) {
 		this.codigoTipoUsuario = codigoTipoUsuario;
 	}
-	
+
 	public long getCodigoTipoUsuario() {
 		return this.codigoTipoUsuario;
 	}

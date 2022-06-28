@@ -1,11 +1,11 @@
 package br.com.serasa.pi.service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.serasa.pi.common.SolturaVO;
@@ -28,14 +28,10 @@ public class SolturaService {
 		return solturaMapper.solturaEntityToSolturaVO(solturaInserida);
 	}
 
-	public List<SolturaVO> findAll() {
-		List<SolturaEntity> allSolturas = repository.findAll();
-
-		List<SolturaVO> retorno = new ArrayList<>();
-		if (allSolturas != null && !allSolturas.isEmpty()) {
-			retorno = solturaMapper.listSolturaEntityToListSolturaVO(allSolturas);
-		}
-		return retorno;
+	public Page<SolturaVO> findAll(Pageable pageable) {
+		var page = repository.findAll(pageable);
+		return page.map(this::convertToSolturaVO);
+		
 	}
 
 	public SolturaVO findById(Integer idSoltura) {
@@ -77,5 +73,14 @@ public class SolturaService {
 		}catch (NoSuchElementException e) {
 			throw new ResourceNotFoundException(idSoltura);
 		}
+	}
+	
+	public Page<SolturaVO> findByNumber(Integer numeroAnimal, Pageable pageable){
+		var page = repository.findByNumeroAnimal(numeroAnimal, pageable);
+		return page.map(this::convertToSolturaVO);
+	}
+	
+	private SolturaVO convertToSolturaVO(SolturaEntity entity) {
+		return solturaMapper.solturaEntityToSolturaVO(entity);
 	}
 }

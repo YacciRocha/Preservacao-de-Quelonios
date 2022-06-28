@@ -30,8 +30,8 @@ public class SolturaEntity implements Serializable {
 	private Integer idSoltura;
 
 	@Column(name = "numero_animal")
-	@NotBlank
-	private String numeroAnimal;
+	@NotNull
+	private Integer numeroAnimal;
 
 	@Column(name = "especie")
 	@NotBlank

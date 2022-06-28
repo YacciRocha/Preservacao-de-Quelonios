@@ -1,11 +1,11 @@
 package br.com.serasa.pi.service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.serasa.pi.common.EclosaoVO;
@@ -29,14 +29,9 @@ public class EclosaoService {
 		return eclosaoMapper.eclosaoEntityToEclosaoVO(eclosaoInserida);
 	}
 
-	public List<EclosaoVO> findAll() {
-		List<EclosaoEntity> allEclosao = repository.findAll();
-
-		List<EclosaoVO> retorno = new ArrayList<>();
-		if (allEclosao != null && !allEclosao.isEmpty()) {
-			retorno = eclosaoMapper.listEclosaoEntityToListEclosaoVO(allEclosao);
-		}
-		return retorno;
+	public Page<EclosaoVO> findAll(Pageable pageable) {
+		var page = repository.findAll(pageable);
+		return page.map(this::convertToEclosaoVO);
 	}
 
 	public EclosaoVO findById(Integer idEclosao) {
@@ -78,5 +73,14 @@ public class EclosaoService {
 		} catch (NoSuchElementException e) {
 			throw new ResourceNotFoundException(idEclosao);
 		}
+	}
+	
+	public Page<EclosaoVO> findByNumber(Integer numeroCova, Pageable pageable) {
+		var page = repository.findByNumeroCova(numeroCova, pageable);
+		return page.map(this::convertToEclosaoVO);
+	}
+	
+	private EclosaoVO convertToEclosaoVO(EclosaoEntity entity) {
+		return eclosaoMapper.eclosaoEntityToEclosaoVO(entity);
 	}
 }

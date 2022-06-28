@@ -24,6 +24,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import br.com.serasa.pi.enums.TipoUsuarioEnum;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
