@@ -4,11 +4,16 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.net.URI;
-import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -38,10 +44,17 @@ public class EclosaoController {
 	@CrossOrigin("localhost:8080")
 	@Operation(summary="Listar todas as Eclosões")
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<List<EclosaoVO>> findAll() {
-		List<EclosaoVO> eclosoesVO = eclosaoService.findAll();
+	public ResponseEntity<CollectionModel<EclosaoVO>> findAll(
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "limit", defaultValue = "10") int limit,
+			@RequestParam(value = "direction", defaultValue = "asc") String direction) {
+		var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
+		Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "numeroCova"));
+		
+		Page<EclosaoVO> eclosoesVO = eclosaoService.findAll(pageable);
+		
 		eclosoesVO.stream().forEach(p->p.add(linkTo(methodOn(EclosaoController.class).findById(p.getIdEclosao())).withSelfRel()));
-		return ResponseEntity.ok().body(eclosoesVO);
+		return ResponseEntity.ok(CollectionModel.of(eclosoesVO));
 	}
 	
 	@CrossOrigin({"localhost:8080", "http://www.preservacaoquelonios.com.br"})
@@ -81,5 +94,22 @@ public class EclosaoController {
 		eclosaoVO.add(linkTo(methodOn(EclosaoController.class).findById(eclosaoVO.getIdEclosao())).withSelfRel());
 		return ResponseEntity.ok().body(eclosaoVO);
 	}
+	
+	@CrossOrigin("localhost:8080")
+	@Operation(summary = "Listar eclosão por número da cova")
+	@GetMapping(value = "/buscarPorNumeroCova/{numeroCova}", produces = { "application/json", "application/xml" })
+	public ResponseEntity<CollectionModel<EclosaoVO>> findEclosaoByNumeroCova(@PathVariable("numeroCova") Integer numeroCova,
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "limit", defaultValue = "10") int limit,
+			@RequestParam(value = "direction", defaultValue = "asc") String direction) {
+		var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
+		Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "comunidade"));
+		Page<EclosaoVO> eclosaoVO = eclosaoService.findByNumber(numeroCova, pageable);
+		eclosaoVO.stream()
+		.forEach(p->p.add(linkTo(methodOn(ViagemController.class).findById(p.getIdEclosao())).withSelfRel()));
+	
+	return ResponseEntity.ok(CollectionModel.of(eclosaoVO));  
+	}
+	
 
 }

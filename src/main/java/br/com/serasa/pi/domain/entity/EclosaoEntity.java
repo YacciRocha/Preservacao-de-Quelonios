@@ -30,8 +30,8 @@ public class EclosaoEntity  implements Serializable {
 	private Integer idEclosao;
 
 	@Column(name = "numero_cova")
-	@NotBlank
-	private String numeroCova;
+	@NotNull
+	private Integer numeroCova;
 
 	@Column(name = "data_nascimento")
 	@NotNull

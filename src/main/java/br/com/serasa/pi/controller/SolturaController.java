@@ -4,11 +4,16 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.net.URI;
-import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -38,10 +44,17 @@ public class SolturaController {
 	@CrossOrigin("localhost:8080")
 	@Operation(summary="Listar todas as Solturas")
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<List<SolturaVO>> findAll() {
-		List<SolturaVO> eclosoesVO = solturaService.findAll();
+	public ResponseEntity<CollectionModel<SolturaVO>> findAll(
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "limit", defaultValue = "10") int limit,
+			@RequestParam(value = "direction", defaultValue = "asc") String direction) {
+		
+		var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
+		Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "numeroAnimal"));		
+		Page<SolturaVO> eclosoesVO = solturaService.findAll(pageable);
+		
 		eclosoesVO.stream().forEach(p->p.add(linkTo(methodOn(ColetaController.class).findById(p.getIdSoltura())).withSelfRel()));
-		return ResponseEntity.ok().body(eclosoesVO);
+		return ResponseEntity.ok(CollectionModel.of(eclosoesVO));
 	}
 	
 	@CrossOrigin({"localhost:8080", "http://www.preservacaoquelonios.com.br"})
@@ -80,6 +93,23 @@ public class SolturaController {
 		SolturaVO solturaVO = solturaService.update(idSoltura, soltura);
 		solturaVO.add(linkTo(methodOn(SolturaController.class).findById(solturaVO.getIdSoltura())).withSelfRel());
 		return ResponseEntity.ok().body(solturaVO);
+	}
+	
+
+	@CrossOrigin("localhost:8080")
+	@Operation(summary = "Listar soltura por numero do animal")
+	@GetMapping(value = "/buscarPorNumeroAnimal/{numeroAnimal}", produces = { "application/json", "application/xml" })
+	public ResponseEntity<CollectionModel<SolturaVO>> findSolturaByNumeroAnimal(@PathVariable("numeroAnimal") Integer numeroAnimal,
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "limit", defaultValue = "10") int limit,
+			@RequestParam(value = "direction", defaultValue = "asc") String direction) {
+		var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
+		Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "numeroAnimal"));
+		Page<SolturaVO> solturasVO = solturaService.findByNumber(numeroAnimal, pageable);
+		solturasVO.stream()
+		.forEach(p->p.add(linkTo(methodOn(ViagemController.class).findById(p.getIdSoltura())).withSelfRel()));
+	
+	return ResponseEntity.ok(CollectionModel.of(solturasVO));  
 	}
 
 }

@@ -17,7 +17,7 @@ public class ColetaVO extends RepresentationModel<ColetaVO> implements Serializa
 	private static final long serialVersionUID = 1L;
 
 	private Integer idColeta;
-
+	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date dataColeta;
 	private String nomePraiaTabuleiro;

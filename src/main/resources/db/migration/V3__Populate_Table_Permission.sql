@@ -1,4 +1,4 @@
 INSERT INTO `permissao` (`description`) VALUES
-	('ADMIN'),
-	('COORDENADOR'),
-	('VOLUNTARIO');
+	('ROLE_ADMIN'),
+	('ROLE_COORDENADOR'),
+	('ROLE_VOLUNTARIO');

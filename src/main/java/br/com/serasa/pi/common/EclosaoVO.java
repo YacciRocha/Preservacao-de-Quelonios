@@ -16,14 +16,8 @@ import lombok.Setter;
 public class EclosaoVO extends RepresentationModel<EclosaoVO> implements Serializable{
 	private static final long serialVersionUID = 1L;
 
-	private Integer idEclosao;	
-	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-	private Date dataViagem;
-	private String estadoUF;
-	private String municipio;
-	private String comunidade;
-	private String numeroCova;
+	private Integer idEclosao;		
+	private Integer numeroCova;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Date dataNascimento;
@@ -35,25 +29,27 @@ public class EclosaoVO extends RepresentationModel<EclosaoVO> implements Seriali
 	private Integer quantidadeFilhoteMortoBicheira;
 	private Integer quantidadeFilhoteMortoOutros;
 	
+	
 	@Override
 	public int hashCode() {
-		return Objects.hash(comunidade, dataNascimento, dataViagem, especie, estadoUF, idEclosao, municipio, numeroCova,
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(dataNascimento, especie, idEclosao, numeroCova,
 				quantidadeFilhoteMortoBicheira, quantidadeFilhoteMortoFormiga, quantidadeFilhoteMortoOutros,
 				quantidadeFilhoteVivo, quantidadeOvoInfertil, quantidadeOvoInviavel);
+		return result;
 	}
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		EclosaoVO other = (EclosaoVO) obj;
-		return Objects.equals(comunidade, other.comunidade) && Objects.equals(dataNascimento, other.dataNascimento)
-				&& Objects.equals(dataViagem, other.dataViagem) && Objects.equals(especie, other.especie)
-				&& Objects.equals(estadoUF, other.estadoUF) && Objects.equals(idEclosao, other.idEclosao)
-				&& Objects.equals(municipio, other.municipio) && Objects.equals(numeroCova, other.numeroCova)
+		return Objects.equals(dataNascimento, other.dataNascimento) && Objects.equals(especie, other.especie)
+				&& Objects.equals(idEclosao, other.idEclosao) && Objects.equals(numeroCova, other.numeroCova)
 				&& Objects.equals(quantidadeFilhoteMortoBicheira, other.quantidadeFilhoteMortoBicheira)
 				&& Objects.equals(quantidadeFilhoteMortoFormiga, other.quantidadeFilhoteMortoFormiga)
 				&& Objects.equals(quantidadeFilhoteMortoOutros, other.quantidadeFilhoteMortoOutros)
@@ -61,6 +57,10 @@ public class EclosaoVO extends RepresentationModel<EclosaoVO> implements Seriali
 				&& Objects.equals(quantidadeOvoInfertil, other.quantidadeOvoInfertil)
 				&& Objects.equals(quantidadeOvoInviavel, other.quantidadeOvoInviavel);
 	}
+	
+	
+	
+	
 
 	
 	
