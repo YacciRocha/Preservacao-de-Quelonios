@@ -30,9 +30,10 @@ public class ViagemService {
 	public ViagemVO insert(ViagemVO viagemVO) {
 		ViagemEntity viagemAInserir = viagemMapper.viagemVOToViagemEntity(viagemVO);		
 		
-//		UsuarioEntity coordenador =new UsuarioEntity();
-//		Optional<UsuarioEntity> optionalCoordenador = usuarioRepository.findById(coordenador.getMatricula()); //viagemVO.getCoordenador()
-//		viagemAInserir.setCoordenador(coordenador);
+		Optional<UsuarioEntity> optionalCoordenador = usuarioRepository.findById(viagemVO.getCoordenador().getMatricula());
+		if(optionalCoordenador.isPresent()) {			
+			viagemAInserir.setCoordenador(optionalCoordenador.get());
+		}
 		
 		ViagemEntity viagemInserida = repository.save(viagemAInserir);
 		return viagemMapper.viagemEntityToViagemVO(viagemInserida);

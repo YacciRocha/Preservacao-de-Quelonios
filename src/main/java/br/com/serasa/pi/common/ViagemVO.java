@@ -8,9 +8,7 @@ import org.springframework.hateoas.RepresentationModel;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import br.com.serasa.pi.domain.entity.UsuarioEntity;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 public class ViagemVO extends RepresentationModel<ViagemVO> implements Serializable {
@@ -23,9 +21,8 @@ public class ViagemVO extends RepresentationModel<ViagemVO> implements Serializa
 	private String estadoUF;
 	private String municipio;
 	private String comunidade;
-	private UsuarioEntity coordenador;
-	
-	
+	private UsuarioVO coordenador;
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -39,6 +36,7 @@ public class ViagemVO extends RepresentationModel<ViagemVO> implements Serializa
 				&& Objects.equals(dataViagem, other.dataViagem) && Objects.equals(estadoUF, other.estadoUF)
 				&& Objects.equals(idViagem, other.idViagem) && Objects.equals(municipio, other.municipio);
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -46,7 +44,4 @@ public class ViagemVO extends RepresentationModel<ViagemVO> implements Serializa
 		result = prime * result + Objects.hash(comunidade, coordenador, dataViagem, estadoUF, idViagem, municipio);
 		return result;
 	}
-
-	
-
 }

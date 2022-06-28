@@ -28,12 +28,16 @@ public class SolturaVO extends RepresentationModel<SolturaVO> implements Seriali
 	private Float plastraoLargura;
 	private Float peso;
 	private Float altura;
+	private ViagemVO viagem;
+	private UsuarioVO voluntario;
+
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + Objects.hash(altura, carapacaComprimento, carapacaLargura, dataSoltura, especie,
-				idSoltura, numeroAnimal, peso, plastraoComprimento, plastraoLargura);
+				idSoltura, numeroAnimal, peso, plastraoComprimento, plastraoLargura, viagem, voluntario);
 		return result;
 	}
 	@Override
@@ -50,11 +54,8 @@ public class SolturaVO extends RepresentationModel<SolturaVO> implements Seriali
 				&& Objects.equals(dataSoltura, other.dataSoltura) && Objects.equals(especie, other.especie)
 				&& Objects.equals(idSoltura, other.idSoltura) && Objects.equals(numeroAnimal, other.numeroAnimal)
 				&& Objects.equals(peso, other.peso) && Objects.equals(plastraoComprimento, other.plastraoComprimento)
-				&& Objects.equals(plastraoLargura, other.plastraoLargura);
+				&& Objects.equals(plastraoLargura, other.plastraoLargura) && Objects.equals(viagem, other.viagem)
+				&& Objects.equals(voluntario, other.voluntario);
 	}
-	
-	
-	
-	
-	
+		
 }

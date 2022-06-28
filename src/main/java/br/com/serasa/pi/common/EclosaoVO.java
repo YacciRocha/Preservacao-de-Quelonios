@@ -28,7 +28,8 @@ public class EclosaoVO extends RepresentationModel<EclosaoVO> implements Seriali
 	private Integer quantidadeFilhoteMortoFormiga;
 	private Integer quantidadeFilhoteMortoBicheira;
 	private Integer quantidadeFilhoteMortoOutros;
-	
+	private ViagemVO viagem;
+	private UsuarioVO voluntario;
 	
 	@Override
 	public int hashCode() {
@@ -36,7 +37,7 @@ public class EclosaoVO extends RepresentationModel<EclosaoVO> implements Seriali
 		int result = super.hashCode();
 		result = prime * result + Objects.hash(dataNascimento, especie, idEclosao, numeroCova,
 				quantidadeFilhoteMortoBicheira, quantidadeFilhoteMortoFormiga, quantidadeFilhoteMortoOutros,
-				quantidadeFilhoteVivo, quantidadeOvoInfertil, quantidadeOvoInviavel);
+				quantidadeFilhoteVivo, quantidadeOvoInfertil, quantidadeOvoInviavel, viagem, voluntario);
 		return result;
 	}
 	@Override
@@ -55,7 +56,8 @@ public class EclosaoVO extends RepresentationModel<EclosaoVO> implements Seriali
 				&& Objects.equals(quantidadeFilhoteMortoOutros, other.quantidadeFilhoteMortoOutros)
 				&& Objects.equals(quantidadeFilhoteVivo, other.quantidadeFilhoteVivo)
 				&& Objects.equals(quantidadeOvoInfertil, other.quantidadeOvoInfertil)
-				&& Objects.equals(quantidadeOvoInviavel, other.quantidadeOvoInviavel);
+				&& Objects.equals(quantidadeOvoInviavel, other.quantidadeOvoInviavel)
+				&& Objects.equals(viagem, other.viagem) && Objects.equals(voluntario, other.voluntario);
 	}
 	
 	
