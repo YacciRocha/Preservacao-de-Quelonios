@@ -3,6 +3,7 @@ package br.com.serasa.pi.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -10,15 +11,25 @@ import org.springframework.stereotype.Service;
 
 import br.com.serasa.pi.common.CicloVO;
 import br.com.serasa.pi.domain.entity.CicloEntity;
+import br.com.serasa.pi.domain.entity.ComunidadeEntity;
+import br.com.serasa.pi.domain.entity.MunicipioEntity;
 import br.com.serasa.pi.exceptions.ResourceNotFoundException;
 import br.com.serasa.pi.mapper.CicloMapper;
 import br.com.serasa.pi.repository.CicloRepository;
+import br.com.serasa.pi.repository.ComunidadeRepository;
+import br.com.serasa.pi.repository.MunicipioRepository;
 
 @Service
 public class CicloService {
 
 	@Autowired
 	CicloRepository repository;
+	
+	@Autowired
+	MunicipioRepository municipioRepository;
+	
+	@Autowired
+	ComunidadeRepository comunidadeRepository;
 
 	@Autowired
 	CicloMapper cicloMapper;
@@ -26,6 +37,19 @@ public class CicloService {
 
 	public CicloVO insert(CicloVO cicloVO) {
 		CicloEntity cicloAInserir = cicloMapper.cicloVOToCicloEntity(cicloVO);
+		
+		Optional<MunicipioEntity> optionalMunicipio = municipioRepository
+				.findById(cicloVO.getMunicipio().getIdMunicipio());
+		if (optionalMunicipio.isPresent()) {
+			cicloAInserir.setMunicipio(optionalMunicipio.get());
+		}
+
+		Optional<ComunidadeEntity> optionalComunidade = comunidadeRepository.findById(cicloVO.getComunidade().getIdComunidade());
+		if (optionalComunidade.isPresent()) {
+			cicloAInserir.setComunidade(optionalComunidade.get());
+		}
+
+
 		CicloEntity cicloInserida = repository.save(cicloAInserir);
 		return cicloMapper.cicloEntityToCicloVO(cicloInserida);
 	}

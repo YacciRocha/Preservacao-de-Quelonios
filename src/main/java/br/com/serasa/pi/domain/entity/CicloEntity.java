@@ -33,7 +33,7 @@ public class CicloEntity implements Serializable {
 	private String nomeCiclo;	
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name = "UF", columnDefinition = "enum('AM','PA')")
+	@Column(name = "uf", columnDefinition = "enum('AM','PA')")
 	private UFEnum UF;
 	
 	@OneToOne(cascade = CascadeType.ALL)
@@ -44,5 +44,4 @@ public class CicloEntity implements Serializable {
     @JoinColumn(name = "nomeComunidadeCiclo", referencedColumnName = "nome_comunidade")
 	private ComunidadeEntity comunidade;
 	
-
 }
