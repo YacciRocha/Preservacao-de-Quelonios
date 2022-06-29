@@ -4,6 +4,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.net.URI;
+import java.time.LocalDate;
 
 import javax.validation.Valid;
 
@@ -98,13 +99,14 @@ public class ViagemController {
 	@CrossOrigin("localhost:8080")
 	@Operation(summary = "Listar viagem por nome da comunidade")
 	@GetMapping(value = "/buscarPorNomeComunidade/{comunidade}", produces = { "application/json", "application/xml" })
-	public ResponseEntity<CollectionModel<ViagemVO>> findViagemByName(@PathVariable("comunidade") String comunidade,
+	public ResponseEntity<CollectionModel<ViagemVO>> findBydataViagem(@PathVariable("dataViagem") LocalDate dataViagem,
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "limit", defaultValue = "10") int limit,
 			@RequestParam(value = "direction", defaultValue = "asc") String direction) {
 		var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
-		Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "comunidade"));
-		Page<ViagemVO> viagensVO = viagemService.findByName(comunidade, pageable);
+		Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "dataViagem"));
+		//Page<ViagemVO> viagensVO = viagemService.findByName(comunidade, pageable);
+		Page<ViagemVO> viagensVO = viagemService.findBydataViagem(dataViagem, pageable);
 		viagensVO.stream()
 		.forEach(p->p.add(linkTo(methodOn(ViagemController.class).findById(p.getIdViagem())).withSelfRel()));
 	

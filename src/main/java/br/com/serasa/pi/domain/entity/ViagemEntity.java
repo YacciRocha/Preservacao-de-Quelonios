@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -30,7 +32,7 @@ public class ViagemEntity implements Serializable {
 	@Column(name = "data_viagem")	
 	private LocalDate dataViagem;
 	
-	@Column(name = "estado_uf")	
+	/* @Column(name = "estado_uf")	
 	private String estadoUF;	
 	
 	@Column(name = "municipio")
@@ -38,8 +40,15 @@ public class ViagemEntity implements Serializable {
 
 	@Column(name = "comunidade")	
 	private String comunidade;
+	*/
 	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "matriculaCoordenador", referencedColumnName = "matricula")
 	private UsuarioEntity coordenador;
+	
+	// TODO Se der errado, testar o ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idCicloViagem", referencedColumnName = "id_ciclo")
+	private CicloEntity idCiclo;
+	
 }

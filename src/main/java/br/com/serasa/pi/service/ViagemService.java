@@ -1,5 +1,6 @@
 package br.com.serasa.pi.service;
 
+import java.time.LocalDate;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -67,10 +68,12 @@ public class ViagemService {
 			ViagemEntity viagemAtualizacao = viagemMapper.viagemVOToViagemEntity(viagemVoAtualizacao);
 
 			viagemEncontrada.setDataViagem(viagemAtualizacao.getDataViagem());
-			viagemEncontrada.setEstadoUF(viagemAtualizacao.getEstadoUF());
-			viagemEncontrada.setMunicipio(viagemAtualizacao.getMunicipio());
-			viagemEncontrada.setComunidade(viagemAtualizacao.getComunidade());
-
+			//viagemEncontrada.setEstadoUF(viagemAtualizacao.getEstadoUF());
+			//viagemEncontrada.setMunicipio(viagemAtualizacao.getMunicipio());
+			//viagemEncontrada.setComunidade(viagemAtualizacao.getComunidade());
+			viagemEncontrada.setIdCiclo(viagemAtualizacao.getIdCiclo());
+	
+			
 			ViagemEntity viagemAtualizada = repository.save(viagemEncontrada);
 			return viagemMapper.viagemEntityToViagemVO(viagemAtualizada);
 		} catch (NoSuchElementException e) {
@@ -78,9 +81,14 @@ public class ViagemService {
 		}
 	}
 
-	public Page<ViagemVO> findByName(String comunidade, Pageable pageable) {
-		var page = repository.findByComunidade(comunidade, pageable);
-		return page.map(this::convertToViagemVO);
+	//public Page<ViagemVO> findByName(String comunidade, Pageable pageable) {
+		//var page = repository.findByComunidade(comunidade, pageable);
+		//return page.map(this::convertToViagemVO);
+	
+	public Page<ViagemVO> findBydataViagem(LocalDate dataViagem, Pageable pageable) {
+			var page = repository.findBydataViagem(dataViagem, pageable);
+			return page.map(this::convertToViagemVO);
+		
 	}
 
 	private ViagemVO convertToViagemVO(ViagemEntity entity) {
