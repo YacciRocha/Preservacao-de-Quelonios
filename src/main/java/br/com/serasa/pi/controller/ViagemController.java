@@ -34,6 +34,7 @@ import br.com.serasa.pi.service.ViagemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+
 @Tag(name="Viagem Endpoint")
 @RestController
 @RequestMapping("api/viagem")
@@ -51,7 +52,7 @@ public class ViagemController {
 			@RequestParam(value = "direction", defaultValue = "asc") String direction) {
 		
 		var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
-		Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "comunidade"));
+		Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "dataViagem"));
 		Page<ViagemVO> viagensVO = viagemService.findAll(pageable);
 		
 		viagensVO.stream()
@@ -97,23 +98,20 @@ public class ViagemController {
 	}
 	
 	@CrossOrigin("localhost:8080")
-	@Operation(summary = "Listar viagem por nome da comunidade")
-	@GetMapping(value = "/buscarPorNomeComunidade/{comunidade}", produces = { "application/json", "application/xml" })
+	@Operation(summary = "Listar viagem por data")
+	@GetMapping(value = "/buscarPorData/{dataViagem}", produces = { "application/json", "application/xml" })
 	public ResponseEntity<CollectionModel<ViagemVO>> findBydataViagem(@PathVariable("dataViagem") LocalDate dataViagem,
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "limit", defaultValue = "10") int limit,
 			@RequestParam(value = "direction", defaultValue = "asc") String direction) {
 		var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
 		Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "dataViagem"));
-		//Page<ViagemVO> viagensVO = viagemService.findByName(comunidade, pageable);
+		
 		Page<ViagemVO> viagensVO = viagemService.findBydataViagem(dataViagem, pageable);
 		viagensVO.stream()
 		.forEach(p->p.add(linkTo(methodOn(ViagemController.class).findById(p.getIdViagem())).withSelfRel()));
 	
 	return ResponseEntity.ok(CollectionModel.of(viagensVO));  
-	}
-	
-	
-	
+	}	
 	
 }

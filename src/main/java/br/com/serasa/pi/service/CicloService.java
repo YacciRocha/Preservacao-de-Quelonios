@@ -24,31 +24,30 @@ public class CicloService {
 
 	@Autowired
 	CicloRepository repository;
-	
+
 	@Autowired
 	MunicipioRepository municipioRepository;
-	
+
 	@Autowired
 	ComunidadeRepository comunidadeRepository;
 
 	@Autowired
 	CicloMapper cicloMapper;
-	
 
 	public CicloVO insert(CicloVO cicloVO) {
 		CicloEntity cicloAInserir = cicloMapper.cicloVOToCicloEntity(cicloVO);
-		
+
 		Optional<MunicipioEntity> optionalMunicipio = municipioRepository
 				.findById(cicloVO.getMunicipio().getIdMunicipio());
 		if (optionalMunicipio.isPresent()) {
 			cicloAInserir.setMunicipio(optionalMunicipio.get());
 		}
 
-		Optional<ComunidadeEntity> optionalComunidade = comunidadeRepository.findById(cicloVO.getComunidade().getIdComunidade());
+		Optional<ComunidadeEntity> optionalComunidade = comunidadeRepository
+				.findById(cicloVO.getComunidade().getIdComunidade());
 		if (optionalComunidade.isPresent()) {
 			cicloAInserir.setComunidade(optionalComunidade.get());
 		}
-
 
 		CicloEntity cicloInserida = repository.save(cicloAInserir);
 		return cicloMapper.cicloEntityToCicloVO(cicloInserida);
@@ -82,25 +81,22 @@ public class CicloService {
 
 	public CicloVO update(Integer idCiclo, CicloVO cicloVoAtualizacao) {
 		try {
-var entity = repository.findById(idCiclo);
-			
+			var entity = repository.findById(idCiclo);
+
 			CicloEntity cicloEncontrada = entity.get();
 			CicloEntity cicloAtualizacao = cicloMapper.cicloVOToCicloEntity(cicloVoAtualizacao);
 
-	
 			cicloEncontrada.setIdCiclo(cicloAtualizacao.getIdCiclo());
 			cicloEncontrada.setNomeCiclo(cicloAtualizacao.getNomeCiclo());
 			cicloEncontrada.setUF(cicloAtualizacao.getUF());
 			cicloEncontrada.setMunicipio(cicloAtualizacao.getMunicipio());
 			cicloEncontrada.setComunidade(cicloAtualizacao.getComunidade());
-			
-			
+
 			CicloEntity cicloAtualizada = repository.save(cicloEncontrada);
 			return cicloMapper.cicloEntityToCicloVO(cicloAtualizada);
 		} catch (NoSuchElementException e) {
 			throw new ResourceNotFoundException(idCiclo);
 		}
 	}
-		
-	
+
 }

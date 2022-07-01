@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.RepresentationModel;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -17,12 +18,11 @@ public class ViagemVO extends RepresentationModel<ViagemVO> implements Serializa
 	private Integer idViagem;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-	private LocalDate dataViagem;
-	//private String estadoUF;
-	//private String municipio;
-	//private String comunidade;
+	private LocalDate dataViagem;	
 	private UsuarioVO coordenador;
 	private CicloVO idCiclo;
+	
+	
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -44,5 +44,6 @@ public class ViagemVO extends RepresentationModel<ViagemVO> implements Serializa
 		return result;
 	}
 
+	
 	
 }

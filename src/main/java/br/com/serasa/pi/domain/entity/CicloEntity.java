@@ -37,11 +37,11 @@ public class CicloEntity implements Serializable {
 	private UFEnum UF;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "nomeMunicipioCiclo", referencedColumnName = "nome_municipio")
+    @JoinColumn(name = "nome_municipio_ciclo", referencedColumnName = "nome_municipio")
 	private MunicipioEntity municipio;
 	
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "nomeComunidadeCiclo", referencedColumnName = "nome_comunidade")
+    @JoinColumn(name = "nome_comunidade_ciclo", referencedColumnName = "nome_comunidade")
 	private ComunidadeEntity comunidade;
 	
 }

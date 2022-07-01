@@ -42,12 +42,11 @@ CREATE TABLE `soltura` (
   PRIMARY KEY (`id_soltura`)
 );
 
-CREATE TABLE `viagem`(
- 	`id_viagem` int NOT NULL AUTO_INCREMENT,  
-	`comunidade` varchar(255) DEFAULT NULL,
+	CREATE TABLE `viagem`(
+ 	`id_viagem` int NOT NULL AUTO_INCREMENT,  	
   	`data_viagem` datetime DEFAULT NULL,
-  	`estado_uf` varchar(255) DEFAULT NULL,
-  	`municipio` varchar(255) DEFAULT NULL,
-  	 PRIMARY KEY (`id_viagem`)
+  	`matricula_coordenador` varchar(255) DEFAULT NULL,
+  	`id_ciclo_viagem` int DEFAULT NULL,  	
+  	 PRIMARY KEY (`id_viagem`)  	 
 
 );

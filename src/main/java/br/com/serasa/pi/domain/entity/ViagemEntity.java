@@ -11,12 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
-
 
 @Data
 @Entity
@@ -26,29 +24,18 @@ public class ViagemEntity implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_viagem")	
+	@Column(name = "id_viagem")
 	private Integer idViagem;
-	
-	@Column(name = "data_viagem")	
-	private LocalDate dataViagem;
-	
-	/* @Column(name = "estado_uf")	
-	private String estadoUF;	
-	
-	@Column(name = "municipio")
-	private String municipio;
 
-	@Column(name = "comunidade")	
-	private String comunidade;
-	*/
-	
+	@Column(name = "data_viagem")
+	private LocalDate dataViagem;
+
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "matriculaCoordenador", referencedColumnName = "matricula")
+	@JoinColumn(name = "matricula_coordenador", referencedColumnName = "matricula")
 	private UsuarioEntity coordenador;
-	
-	// TODO Se der errado, testar o ManyToOne
+
 	@ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idCicloViagem", referencedColumnName = "id_ciclo")
+	@JoinColumn(name = "id_ciclo_viagem", referencedColumnName = "id_ciclo")
 	private CicloEntity idCiclo;
-	
+
 }

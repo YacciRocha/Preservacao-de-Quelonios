@@ -11,10 +11,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.serasa.pi.common.ViagemVO;
+import br.com.serasa.pi.domain.entity.CicloEntity;
 import br.com.serasa.pi.domain.entity.UsuarioEntity;
 import br.com.serasa.pi.domain.entity.ViagemEntity;
 import br.com.serasa.pi.exceptions.ResourceNotFoundException;
 import br.com.serasa.pi.mapper.ViagemMapper;
+import br.com.serasa.pi.repository.CicloRepository;
 import br.com.serasa.pi.repository.UsuarioRepository;
 import br.com.serasa.pi.repository.ViagemRepository;
 
@@ -27,6 +29,8 @@ public class ViagemService {
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	@Autowired
+	private CicloRepository cicloRepository;
 
 	public ViagemVO insert(ViagemVO viagemVO) {
 		ViagemEntity viagemAInserir = viagemMapper.viagemVOToViagemEntity(viagemVO);		
@@ -34,6 +38,10 @@ public class ViagemService {
 		Optional<UsuarioEntity> optionalCoordenador = usuarioRepository.findById(viagemVO.getCoordenador().getMatricula());
 		if(optionalCoordenador.isPresent()) {			
 			viagemAInserir.setCoordenador(optionalCoordenador.get());
+		}
+		Optional<CicloEntity> optionalCiclo = cicloRepository.findById(viagemVO.getIdCiclo().getIdCiclo());
+		if(optionalCiclo.isPresent()) {			
+			viagemAInserir.setIdCiclo(optionalCiclo.get());
 		}
 		
 		ViagemEntity viagemInserida = repository.save(viagemAInserir);
