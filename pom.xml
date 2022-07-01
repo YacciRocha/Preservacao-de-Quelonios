@@ -20,8 +20,15 @@
 		<m2e.apt.activation>jdt_apt</m2e.apt.activation>
 	</properties>
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
+		<!-- https://mvnrepository.com/artifact/com.itextpdf/itext7-core -->
+	<dependency>
+    	<groupId>com.itextpdf</groupId>
+    	<artifactId>itext7-core</artifactId>
+    	<version>7.2.2</version>
+    	<type>pom</type>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
@@ -88,8 +95,7 @@
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
-			<artifactId>jackson-datatype-jsr310</artifactId>
-			<version>2.9.7</version>
+			<artifactId>jackson-datatype-jsr310</artifactId>			
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -124,6 +130,13 @@
             <artifactId>itext</artifactId>
             <version>4.2.2</version>
         </dependency> 
+        
+        	
+		<dependency>
+		    <groupId>net.sf.jasperreports</groupId>
+		    <artifactId>jasperreports</artifactId>
+		    <version>6.19.1</version>
+		</dependency>
 		
 	</dependencies>
 
