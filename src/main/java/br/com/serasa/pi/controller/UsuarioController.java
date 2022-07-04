@@ -13,12 +13,6 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -32,14 +26,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.serasa.pi.common.UsuarioVO;
-import br.com.serasa.pi.common.ViagemVO;
-import br.com.serasa.pi.serasa.pdf.MyPdfView;
 import br.com.serasa.pi.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -106,18 +96,9 @@ public class UsuarioController {
 		usuarioVO.add(linkTo(methodOn(UsuarioController.class).findById(usuarioVO.getMatricula())).withSelfRel());
 		return ResponseEntity.ok().body(usuarioVO);
 	}
-
-	@CrossOrigin({ "localhost:8080", "http://www.preservacaoquelonios.com.br" })
-	@Operation(summary = "Listar o Usuário por id")
-	@GetMapping(value = "/report-itext", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public ModelAndView report() {
-		Map<String, Object> model = new HashMap<>();
-		List<UsuarioVO> usuarios = usuarioService.findAll();
-		model.put("usuarios", usuarios);
-
-		return new ModelAndView(new MyPdfView(), model);
-	}
 	
+	
+	// jasper
 	@CrossOrigin({ "localhost:8080", "http://www.preservacaoquelonios.com.br" })
 	@Operation(summary = "Listar o Usuário por id")
 	@GetMapping(value = "/report-jasper", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_PDF_VALUE })

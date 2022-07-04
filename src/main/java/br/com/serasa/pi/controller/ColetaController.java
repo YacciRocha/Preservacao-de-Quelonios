@@ -3,6 +3,7 @@ package br.com.serasa.pi.controller;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import java.io.FileNotFoundException;
 import java.net.URI;
 
 import javax.validation.Valid;
@@ -30,8 +31,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.serasa.pi.common.ColetaVO;
 import br.com.serasa.pi.service.ColetaService;
+import br.com.serasa.pi.service.RelatoriosService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import net.sf.jasperreports.engine.JRException;
 
 @Tag(name="Coleta Endpoint")
 @RestController
@@ -40,6 +43,9 @@ public class ColetaController {
 	
 	@Autowired
 	private ColetaService coletaService;
+	
+	@Autowired
+	private RelatoriosService relatoriosService;
 
 	@CrossOrigin("localhost:8080")
 	@Operation(summary="Listar todas as Coletas")
@@ -106,5 +112,13 @@ public class ColetaController {
 		.forEach(p->p.add(linkTo(methodOn(ViagemController.class).findById(p.getIdColeta())).withSelfRel()));
 	
 	return ResponseEntity.ok(CollectionModel.of(coletasVO));  
+	}
+	
+	
+	@CrossOrigin("localhost:8080")
+	@Operation(summary = "Gerar relatórios de coleta ")
+	@GetMapping(value= "/relatorio{format}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_PDF_VALUE })
+	public ResponseEntity<byte[]> gerarRelatorioColeta() throws FileNotFoundException, JRException {
+		return relatoriosService.exportarRelatorioColeta();
 	}
 }

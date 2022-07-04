@@ -1,5 +1,7 @@
 package br.com.serasa.pi.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -10,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.serasa.pi.common.ColetaVO;
+import br.com.serasa.pi.common.ViagemVO;
 import br.com.serasa.pi.domain.entity.ColetaEntity;
 import br.com.serasa.pi.domain.entity.UsuarioEntity;
 import br.com.serasa.pi.domain.entity.ViagemEntity;
@@ -107,5 +110,16 @@ public class ColetaService {
 	private ColetaVO convertToColetaVO(ColetaEntity entity) {
 		return coletaMapper.coletaEntityToColetaVO(entity);
 	}
+	
+	public List<ColetaVO> findAllForReports() {
+		List<ColetaEntity> allViagens = coletaRepository.findAll();
+		List<ColetaVO> retorno = new ArrayList<>();
+		if(allViagens != null && !allViagens.isEmpty()) {
+			
+			retorno = coletaMapper.listColetaEntityToListColetaVO(allViagens);
+		}
+		return retorno;
+	}
+	
 
 }

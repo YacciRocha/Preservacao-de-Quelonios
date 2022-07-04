@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.RepresentationModel;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -22,7 +21,13 @@ public class ViagemVO extends RepresentationModel<ViagemVO> implements Serializa
 	private UsuarioVO coordenador;
 	private CicloVO idCiclo;
 	
-	
+
+	public String getUsuarioVOString() {
+		return coordenador.toString();
+	}
+	public String getCicloVOString() {
+		return idCiclo.toString();
+	}
 	
 	@Override
 	public boolean equals(Object obj) {

@@ -1,7 +1,7 @@
 package br.com.serasa.pi.common;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import org.springframework.hateoas.RepresentationModel;
@@ -21,7 +21,7 @@ public class SolturaVO extends RepresentationModel<SolturaVO> implements Seriali
 	private String especie;	
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-	private Date dataSoltura;
+	private LocalDate dataSoltura;
 	private Float carapacaComprimento;
 	private Float carapacaLargura;
 	private Float plastraoComprimento;

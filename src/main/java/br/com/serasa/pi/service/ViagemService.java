@@ -1,6 +1,8 @@
 package br.com.serasa.pi.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -89,9 +91,6 @@ public class ViagemService {
 		}
 	}
 
-	//public Page<ViagemVO> findByName(String comunidade, Pageable pageable) {
-		//var page = repository.findByComunidade(comunidade, pageable);
-		//return page.map(this::convertToViagemVO);
 	
 	public Page<ViagemVO> findBydataViagem(LocalDate dataViagem, Pageable pageable) {
 			var page = repository.findBydataViagem(dataViagem, pageable);
@@ -102,5 +101,18 @@ public class ViagemService {
 	private ViagemVO convertToViagemVO(ViagemEntity entity) {
 		return viagemMapper.viagemEntityToViagemVO(entity);
 	}
+	
+	
+	public List<ViagemVO> findAll() {
+		List<ViagemEntity> allViagens = repository.findAll();
+		List<ViagemVO> retorno = new ArrayList<>();
+		if(allViagens != null && !allViagens.isEmpty()) {
+			
+			retorno = viagemMapper.listViagemEntityToListViagemVO(allViagens);
+		}
+		return retorno;
+	}
 
+	
+	
 }

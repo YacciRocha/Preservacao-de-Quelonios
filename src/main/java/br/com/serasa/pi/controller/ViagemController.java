@@ -3,10 +3,9 @@ package br.com.serasa.pi.controller;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import java.io.FileNotFoundException;
 import java.net.URI;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -32,9 +31,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.serasa.pi.common.ViagemVO;
+import br.com.serasa.pi.service.RelatoriosService;
 import br.com.serasa.pi.service.ViagemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import net.sf.jasperreports.engine.JRException;
 
 
 @Tag(name="Viagem Endpoint")
@@ -44,6 +45,10 @@ public class ViagemController {
 
 	@Autowired
 	private ViagemService viagemService;
+	
+	@Autowired
+	private RelatoriosService relatoriosService;
+	
 
 	@CrossOrigin("localhost:8080")
 	@Operation(summary="Listar todas as Viagens")
@@ -114,5 +119,10 @@ public class ViagemController {
 	
 	return ResponseEntity.ok(CollectionModel.of(viagensVO));  
 	}	
+	
+	@GetMapping(value= "/relatorio{format}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_PDF_VALUE })
+	public ResponseEntity<byte[]> gerarRelatorio() throws FileNotFoundException, JRException {
+		return relatoriosService.exportarRelatorioViagem();
+	}
 	
 }

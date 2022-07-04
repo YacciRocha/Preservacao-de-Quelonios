@@ -33,16 +33,16 @@ public class UsuarioVO extends RepresentationModel<UsuarioVO> implements Seriali
 		this.username = userName;
 		this.password = password;
 	}
+	
+		public String getTipoUsuarioString() {
+		return tipoUsuario.toString();
+	}
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(username, matricula, nome, password);
 	}
 	
-	public String getTipoUsuarioString() {
-		return tipoUsuario.toString();
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

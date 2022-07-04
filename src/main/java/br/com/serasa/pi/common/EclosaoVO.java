@@ -1,7 +1,7 @@
 package br.com.serasa.pi.common;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import org.springframework.hateoas.RepresentationModel;
@@ -20,7 +20,7 @@ public class EclosaoVO extends RepresentationModel<EclosaoVO> implements Seriali
 	private Integer numeroCova;
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-	private Date dataNascimento;
+	private LocalDate dataNascimento;
 	private String especie;
 	private Integer quantidadeFilhoteVivo;
 	private Integer quantidadeOvoInviavel;

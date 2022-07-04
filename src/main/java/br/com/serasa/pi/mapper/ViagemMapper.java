@@ -19,6 +19,7 @@ public interface ViagemMapper {
 	List<ViagemVO> listViagemEntityToListViagemVO(List<ViagemEntity> viagem);
 	
 	List<ViagemEntity> listViagemVOToListViagemEntity(List<ViagemVO> viagemVO);
+	
 
 	default ViagemEntity createviagem() {
 		return new ViagemEntity();

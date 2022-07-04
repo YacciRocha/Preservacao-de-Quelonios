@@ -8,10 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.Cell;
-import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
-import com.itextpdf.layout.properties.UnitValue;
 
 import br.com.serasa.pi.common.UsuarioVO;
 
@@ -37,3 +34,4 @@ public class MyPdfView extends AbstractPdfView {
 		document.add(table);		
 	}
 }
+
