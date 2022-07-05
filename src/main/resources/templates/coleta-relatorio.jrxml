@@ -21,7 +21,7 @@
 		<property name="com.jaspersoft.studio.field.label" value="id_coleta"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="coleta"/>
 	</field>
-	<field name="dataColeta" class="java.time.LocalDateTime">
+	<field name="dataColeta" class="java.time.LocalDate">
 		<property name="com.jaspersoft.studio.field.name" value="data_coleta"/>
 		<property name="com.jaspersoft.studio.field.label" value="data_coleta"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="coleta"/>
@@ -81,12 +81,12 @@
 		<property name="com.jaspersoft.studio.field.label" value="quantidade_ovos"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="coleta"/>
 	</field>
-	<field name="viagem" class="java.lang.Integer">
+	<field name="viagem" class="br.com.serasa.pi.domain.entity.ViagemEntity">
 		<property name="com.jaspersoft.studio.field.name" value="id_viagem"/>
 		<property name="com.jaspersoft.studio.field.label" value="id_viagem"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="coleta"/>
 	</field>
-	<field name="voluntario" class="java.lang.String">
+	<field name="voluntario" class="br.com.serasa.pi.domain.entity.UsuarioEntity">
 		<property name="com.jaspersoft.studio.field.name" value="matricula_voluntario"/>
 		<property name="com.jaspersoft.studio.field.label" value="matricula_voluntario"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="coleta"/>
@@ -132,7 +132,7 @@
 			</frame>
 			<image>
 				<reportElement x="726" y="5" width="74" height="62" uuid="0e26abdf-a9e1-4916-ae9f-106de694a188"/>
-				<imageExpression><![CDATA["C:/Users/yacci/OneDrive/Imagens/logo-turtle.png"]]></imageExpression>
+				<imageExpression><![CDATA["imagens/logo-turtle.png"]]></imageExpression>
 			</image>
 		</band>
 	</title>
@@ -447,7 +447,7 @@ Voluntário]]></text>
 					<textElement textAlignment="Center">
 						<font size="14"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{dataColeta}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{dataColeta}.format( java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy") )]]></textFieldExpression>
 				</textField>
 				<textField textAdjust="StretchHeight">
 					<reportElement style="Detail" positionType="Float" x="285" y="0" width="53" height="18" uuid="eefc8aeb-f389-48c1-bff5-f7c44b98e3e0">
@@ -548,7 +548,7 @@ Voluntário]]></text>
 					<textElement textAlignment="Center">
 						<font size="14"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{viagem}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{viagem}.getIdViagem()]]></textFieldExpression>
 				</textField>
 				<textField textAdjust="StretchHeight">
 					<reportElement style="Detail" positionType="Float" x="740" y="0" width="62" height="18" uuid="ac69f383-e25d-473a-8444-f306263c4045">
@@ -558,7 +558,7 @@ Voluntário]]></text>
 					<textElement textAlignment="Center">
 						<font size="14"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{voluntario}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{voluntario}.getMatricula()]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>

@@ -1,8 +1,6 @@
 package br.com.serasa.pi.service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -28,24 +26,25 @@ public class ViagemService {
 	private ViagemRepository repository;
 	@Autowired
 	private ViagemMapper viagemMapper;
-	
+
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	@Autowired
 	private CicloRepository cicloRepository;
 
 	public ViagemVO insert(ViagemVO viagemVO) {
-		ViagemEntity viagemAInserir = viagemMapper.viagemVOToViagemEntity(viagemVO);		
-		
-		Optional<UsuarioEntity> optionalCoordenador = usuarioRepository.findById(viagemVO.getCoordenador().getMatricula());
-		if(optionalCoordenador.isPresent()) {			
+		ViagemEntity viagemAInserir = viagemMapper.viagemVOToViagemEntity(viagemVO);
+
+		Optional<UsuarioEntity> optionalCoordenador = usuarioRepository
+				.findById(viagemVO.getCoordenador().getMatricula());
+		if (optionalCoordenador.isPresent()) {
 			viagemAInserir.setCoordenador(optionalCoordenador.get());
 		}
 		Optional<CicloEntity> optionalCiclo = cicloRepository.findById(viagemVO.getIdCiclo().getIdCiclo());
-		if(optionalCiclo.isPresent()) {			
+		if (optionalCiclo.isPresent()) {
 			viagemAInserir.setIdCiclo(optionalCiclo.get());
 		}
-		
+
 		ViagemEntity viagemInserida = repository.save(viagemAInserir);
 		return viagemMapper.viagemEntityToViagemVO(viagemInserida);
 	}
@@ -78,12 +77,8 @@ public class ViagemService {
 			ViagemEntity viagemAtualizacao = viagemMapper.viagemVOToViagemEntity(viagemVoAtualizacao);
 
 			viagemEncontrada.setDataViagem(viagemAtualizacao.getDataViagem());
-			//viagemEncontrada.setEstadoUF(viagemAtualizacao.getEstadoUF());
-			//viagemEncontrada.setMunicipio(viagemAtualizacao.getMunicipio());
-			//viagemEncontrada.setComunidade(viagemAtualizacao.getComunidade());
 			viagemEncontrada.setIdCiclo(viagemAtualizacao.getIdCiclo());
-	
-			
+
 			ViagemEntity viagemAtualizada = repository.save(viagemEncontrada);
 			return viagemMapper.viagemEntityToViagemVO(viagemAtualizada);
 		} catch (NoSuchElementException e) {
@@ -91,28 +86,14 @@ public class ViagemService {
 		}
 	}
 
-	
 	public Page<ViagemVO> findBydataViagem(LocalDate dataViagem, Pageable pageable) {
-			var page = repository.findBydataViagem(dataViagem, pageable);
-			return page.map(this::convertToViagemVO);
-		
+		var page = repository.findBydataViagem(dataViagem, pageable);
+		return page.map(this::convertToViagemVO);
+
 	}
 
 	private ViagemVO convertToViagemVO(ViagemEntity entity) {
 		return viagemMapper.viagemEntityToViagemVO(entity);
 	}
-	
-	
-	public List<ViagemVO> findAll() {
-		List<ViagemEntity> allViagens = repository.findAll();
-		List<ViagemVO> retorno = new ArrayList<>();
-		if(allViagens != null && !allViagens.isEmpty()) {
-			
-			retorno = viagemMapper.listViagemEntityToListViagemVO(allViagens);
-		}
-		return retorno;
-	}
 
-	
-	
 }

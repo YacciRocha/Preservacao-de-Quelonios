@@ -15,24 +15,19 @@ import org.springframework.web.filter.GenericFilterBean;
 
 public class JwtTokenFilter extends GenericFilterBean {
 
-	
 	@Autowired
 	private JwtProvider jwtProvider;
-	
-	
+
 	public JwtTokenFilter(JwtProvider jwtProvider) {
-	
+
 		this.jwtProvider = jwtProvider;
 	}
 
-	//o filtro serve para filtrar  se há um token devolvido pelo cabeçalho 
-	// trabalhado no nosso resolverToken
-	
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		String token =jwtProvider.resolveToken((HttpServletRequest) request);
-		
+		String token = jwtProvider.resolveToken((HttpServletRequest) request);
+
 		if (token != null && jwtProvider.validateToken(token)) {
 			Authentication auth = jwtProvider.getAuthentication(token);
 			if (auth != null) {
@@ -40,7 +35,7 @@ public class JwtTokenFilter extends GenericFilterBean {
 			}
 		}
 		chain.doFilter(request, response);
-		
+
 	}
 
 }

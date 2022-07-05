@@ -1,7 +1,7 @@
 package br.com.serasa.pi.common;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import org.springframework.hateoas.RepresentationModel;
@@ -19,7 +19,7 @@ public class ColetaVO extends RepresentationModel<ColetaVO> implements Serializa
 	private Integer idColeta;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-	private Date dataColeta;
+	private LocalDate dataColeta;
 	private String nomePraiaTabuleiro;
 	private Integer numeroCova;
 	private Integer quantidadeOvos;

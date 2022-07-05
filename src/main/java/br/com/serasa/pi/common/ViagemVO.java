@@ -17,18 +17,10 @@ public class ViagemVO extends RepresentationModel<ViagemVO> implements Serializa
 	private Integer idViagem;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-	private LocalDate dataViagem;	
+	private LocalDate dataViagem;
 	private UsuarioVO coordenador;
 	private CicloVO idCiclo;
-	
 
-	public String getUsuarioVOString() {
-		return coordenador.toString();
-	}
-	public String getCicloVOString() {
-		return idCiclo.toString();
-	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -41,6 +33,7 @@ public class ViagemVO extends RepresentationModel<ViagemVO> implements Serializa
 		return Objects.equals(coordenador, other.coordenador) && Objects.equals(dataViagem, other.dataViagem)
 				&& Objects.equals(idCiclo, other.idCiclo) && Objects.equals(idViagem, other.idViagem);
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -49,6 +42,4 @@ public class ViagemVO extends RepresentationModel<ViagemVO> implements Serializa
 		return result;
 	}
 
-	
-	
 }

@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 public class UsuarioVO extends RepresentationModel<UsuarioVO> implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private String matricula;
 	private String nome;
 	private String username;
@@ -33,16 +33,12 @@ public class UsuarioVO extends RepresentationModel<UsuarioVO> implements Seriali
 		this.username = userName;
 		this.password = password;
 	}
-	
-		public String getTipoUsuarioString() {
-		return tipoUsuario.toString();
-	}
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(username, matricula, nome, password);
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

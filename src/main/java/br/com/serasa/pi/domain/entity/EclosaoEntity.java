@@ -1,7 +1,7 @@
 package br.com.serasa.pi.domain.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
@@ -35,7 +35,7 @@ public class EclosaoEntity  implements Serializable {
 
 	@Column(name = "data_nascimento")
 	@NotNull
-	private Date dataNascimento;
+	private LocalDate dataNascimento;
 
 	@Column(name = "especie")
 	@NotBlank

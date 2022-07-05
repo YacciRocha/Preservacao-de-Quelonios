@@ -12,7 +12,6 @@ import br.com.serasa.pi.domain.entity.ViagemEntity;
 @Repository
 public interface ViagemRepository extends JpaRepository<ViagemEntity, Integer> {
 	
-	//Page<ViagemEntity> findByComunidade(String comunidade, Pageable peageable);
 	Page<ViagemEntity> findBydataViagem(LocalDate dataViagem, Pageable peageable);
 
 }

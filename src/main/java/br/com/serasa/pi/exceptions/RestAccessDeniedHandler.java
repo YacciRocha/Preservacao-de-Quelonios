@@ -31,4 +31,3 @@ public class RestAccessDeniedHandler implements AccessDeniedHandler {
 		out.flush();
 	}
 }
-/**/

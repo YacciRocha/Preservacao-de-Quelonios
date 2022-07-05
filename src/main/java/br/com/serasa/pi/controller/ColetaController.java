@@ -3,7 +3,6 @@ package br.com.serasa.pi.controller;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import java.io.FileNotFoundException;
 import java.net.URI;
 
 import javax.validation.Valid;
@@ -31,77 +30,75 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.serasa.pi.common.ColetaVO;
 import br.com.serasa.pi.service.ColetaService;
-import br.com.serasa.pi.service.RelatoriosService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import net.sf.jasperreports.engine.JRException;
 
-@Tag(name="Coleta Endpoint")
+@Tag(name = "Coleta Endpoint")
 @RestController
 @RequestMapping("api/coleta")
 public class ColetaController {
-	
+
 	@Autowired
 	private ColetaService coletaService;
-	
-	@Autowired
-	private RelatoriosService relatoriosService;
 
 	@CrossOrigin("localhost:8080")
-	@Operation(summary="Listar todas as Coletas")
+	@Operation(summary = "Listar todas as Coletas")
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<CollectionModel<ColetaVO>> findAll(
-			@RequestParam(value = "page", defaultValue = "0") int page,
+	public ResponseEntity<CollectionModel<ColetaVO>> findAll(@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "limit", defaultValue = "10") int limit,
 			@RequestParam(value = "direction", defaultValue = "asc") String direction) {
-		
+
 		var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
 		Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "nomePraiaTabuleiro"));
 		Page<ColetaVO> coletasVO = coletaService.findAll(pageable);
-		coletasVO.stream().forEach(p->p.add(linkTo(methodOn(ColetaController.class).findById(p.getIdColeta())).withSelfRel()));
+		coletasVO.stream()
+				.forEach(p -> p.add(linkTo(methodOn(ColetaController.class).findById(p.getIdColeta())).withSelfRel()));
 		return ResponseEntity.ok(CollectionModel.of(coletasVO));
 	}
-	
-	@CrossOrigin({"localhost:8080", "http://www.preservacaoquelonios.com.br"})
-	@Operation(summary="Listar a Coleta por id")
+
+	@CrossOrigin({ "localhost:8080", "http://www.preservacaoquelonios.com.br" })
+	@Operation(summary = "Listar a Coleta por id")
 	@GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<ColetaVO> findById(@PathVariable("id") Integer idColeta) {
 		ColetaVO coletaVO = coletaService.findById(idColeta);
 		coletaVO.add(linkTo(methodOn(ColetaController.class).findById(idColeta)).withSelfRel());
 		return ResponseEntity.ok().body(coletaVO);
 	}
-	@Operation(summary="Inserir dados de Coleta")
-	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, 
-				produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+
+	@Operation(summary = "Inserir dados de Coleta")
+	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
+			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<ColetaVO> insert(@Valid @RequestBody ColetaVO coleta) {
 		ColetaVO coletaVO = coletaService.insert(coleta);
 		coletaVO.add(linkTo(methodOn(ColetaController.class).findById(coletaVO.getIdColeta())).withSelfRel());
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(coletaVO.getIdColeta())
 				.toUri();
 		return ResponseEntity.created(uri).body(coletaVO);
-	}	
-	
-	@Operation(summary="Deletar dados de Coleta por id")
+	}
+
+	@Operation(summary = "Deletar dados de Coleta por id")
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable("id") Integer idColeta) {
 		coletaService.delete(idColeta);
 		return ResponseEntity.noContent().build();
 	}
-	
-	@Operation(summary="Atualizar dados de Coleta por id")
-	@PutMapping(value = "/{id}",
-			 consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, 
-		     produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+
+	@Operation(summary = "Atualizar dados de Coleta por id")
+	@PutMapping(value = "/{id}", consumes = { MediaType.APPLICATION_JSON_VALUE,
+			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
+					MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<ColetaVO> update(@Valid @PathVariable("id") Integer idColeta, @RequestBody ColetaVO coleta) {
 		ColetaVO coletaVO = coletaService.update(idColeta, coleta);
 		coletaVO.add(linkTo(methodOn(ColetaController.class).findById(coletaVO.getIdColeta())).withSelfRel());
 		return ResponseEntity.ok().body(coletaVO);
 	}
-	
+
 	@CrossOrigin("localhost:8080")
 	@Operation(summary = "Listar coleta por nome de praia ou tabuleiro")
-	@GetMapping(value = "/buscarPorNomePraia/{nomePraiaTabuleiro}", produces = { "application/json", "application/xml" })
-	public ResponseEntity<CollectionModel<ColetaVO>> findColetaByName(@PathVariable("nomePraiaTabuleiro") String nomePraiaTabuleiro,
+	@GetMapping(value = "/buscarPorNomePraia/{nomePraiaTabuleiro}", produces = { "application/json",
+			"application/xml" })
+	public ResponseEntity<CollectionModel<ColetaVO>> findColetaByName(
+			@PathVariable("nomePraiaTabuleiro") String nomePraiaTabuleiro,
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "limit", defaultValue = "10") int limit,
 			@RequestParam(value = "direction", defaultValue = "asc") String direction) {
@@ -109,16 +106,9 @@ public class ColetaController {
 		Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "nomePraiaTabuleiro"));
 		Page<ColetaVO> coletasVO = coletaService.findByName(nomePraiaTabuleiro, pageable);
 		coletasVO.stream()
-		.forEach(p->p.add(linkTo(methodOn(ViagemController.class).findById(p.getIdColeta())).withSelfRel()));
-	
-	return ResponseEntity.ok(CollectionModel.of(coletasVO));  
+				.forEach(p -> p.add(linkTo(methodOn(ViagemController.class).findById(p.getIdColeta())).withSelfRel()));
+
+		return ResponseEntity.ok(CollectionModel.of(coletasVO));
 	}
-	
-	
-	@CrossOrigin("localhost:8080")
-	@Operation(summary = "Gerar relatórios de coleta ")
-	@GetMapping(value= "/relatorio{format}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_PDF_VALUE })
-	public ResponseEntity<byte[]> gerarRelatorioColeta() throws FileNotFoundException, JRException {
-		return relatoriosService.exportarRelatorioColeta();
-	}
+
 }

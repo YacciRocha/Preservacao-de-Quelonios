@@ -1,7 +1,7 @@
 package br.com.serasa.pi.domain.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
@@ -31,7 +31,7 @@ public class ColetaEntity implements Serializable {
 	
 	@Column(name = "data_coleta")
 	@NotNull	
-	private Date dataColeta;
+	private LocalDate dataColeta;
 
 	@Column(name = "nome_praia_tabuleiro")
 	@NotBlank

@@ -51,6 +51,7 @@ public class SecurityConfiguration {
 	        .antMatchers("/api/coleta**").hasAnyRole("ADMIN","COORDENADOR","VOLUNTARIO")
 	        .antMatchers("/api/eclosao**").hasAnyRole("ADMIN","COORDENADOR","VOLUNTARIO")
 	        .antMatchers("/api/soltura**").hasAnyRole("ADMIN","COORDENADOR","VOLUNTARIO")
+	        .antMatchers("/api/relatorio**").hasAnyRole("ADMIN","COORDENADOR","VOLUNTARIO")
         .and()
 	        .apply(new JwtConfigurer(jwtProvider)).and()
 	        .exceptionHandling()        

@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -49,14 +51,9 @@ public class UsuarioService implements UserDetailsService {
 		return usuarioMapper.usuarioEntityToUsuarioVO(usuarioInserido);
 	}
 
-	public List<UsuarioVO> findAll() {
-		List<UsuarioEntity> allUsuariosEntity = usuarioRepository.findAll();
-
-		List<UsuarioVO> retorno = new ArrayList<>();
-		if (allUsuariosEntity != null && !allUsuariosEntity.isEmpty()) {
-			retorno = usuarioMapper.listUsuarioEntityToListUsuarioVO(allUsuariosEntity);
-		}
-		return retorno;
+	public Page<UsuarioVO> findAll(Pageable pageable) {
+		var page= usuarioRepository.findAll(pageable);
+		return page.map(this::convertToUsuarioVO);
 	}
 
 	public UsuarioVO findById(String matricula) {
@@ -102,5 +99,14 @@ public class UsuarioService implements UserDetailsService {
 		} else {
 			throw new UsernameNotFoundException("O usuario " + username + " não localizado");
 		}
+	}
+	
+	public Page<UsuarioVO> findByNome(String nome, Pageable pageable) {
+		var page = usuarioRepository.findByNome(nome, pageable);
+		return page.map(this::convertToUsuarioVO);
+	}
+
+	private UsuarioVO convertToUsuarioVO(UsuarioEntity entity) {
+		return usuarioMapper.usuarioEntityToUsuarioVO(entity);
 	}
 }
