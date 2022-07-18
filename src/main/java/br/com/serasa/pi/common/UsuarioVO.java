@@ -33,6 +33,22 @@ public class UsuarioVO extends RepresentationModel<UsuarioVO> implements Seriali
 		this.username = userName;
 		this.password = password;
 	}
+	
+	public UsuarioVO(String matricula, String nome, String username, String password, Boolean accountNonExpired,
+			Boolean accountNonLocked, Boolean credentialsNonExpired, Boolean enabled, TipoUsuarioEnum tipoUsuario) {
+		super();
+		this.matricula = matricula;
+		this.nome = nome;
+		this.username = username;
+		this.password = password;
+		this.accountNonExpired = accountNonExpired;
+		this.accountNonLocked = accountNonLocked;
+		this.credentialsNonExpired = credentialsNonExpired;
+		this.enabled = enabled;
+		this.tipoUsuario = tipoUsuario;
+	}
+	
+	
 
 	@Override
 	public int hashCode() {

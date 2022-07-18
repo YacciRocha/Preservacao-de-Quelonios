@@ -27,32 +27,33 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="usuario") 
-public class UsuarioEntity implements UserDetails, Serializable{	
+@Table(name = "usuario")
+public class UsuarioEntity implements UserDetails, Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@NotBlank
-	@Column(name="matricula",unique=true)
+	@Column(name = "matricula", unique = true)
 	private String matricula;
-	
+
 	@Column(name = "nome")
 	@NotBlank
 	private String nome;
-	
+
 	@Enumerated(EnumType.STRING)
 	@Column(name = "tipoUsuario", columnDefinition = "enum('ADMIN','COORDENADOR','VOLUNTARIO')")
 	private TipoUsuarioEnum tipoUsuario;
-	
-	@ManyToMany(cascade  = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "usuario_permissao", joinColumns = { @JoinColumn(name = "id_usuario", nullable = false) }, inverseJoinColumns = {
-			@JoinColumn(name = "id_permissao", nullable = false) })
+
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "usuario_permissao", joinColumns = {
+			@JoinColumn(name = "id_usuario", nullable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "id_permissao", nullable = false) })
 	private List<PermissaoEntity> permissions;
-	
+
 	@Column(name = "user_name", unique = true)
 	@NotBlank
 	@Email
-	private String username;	
+	private String username;
 
 	@NotBlank
 	@Column(name = "password")
@@ -70,7 +71,25 @@ public class UsuarioEntity implements UserDetails, Serializable{
 	@Column(name = "enabled")
 	private Boolean enabled;
 	
+	public UsuarioEntity() {
+		super();
+	}
 	
+	public UsuarioEntity(@NotBlank String matricula, @NotBlank String nome, TipoUsuarioEnum tipoUsuario,
+			@NotBlank @Email String username, @NotBlank String password, Boolean accountNonExpired,
+			Boolean accountNonLocked, Boolean credentialsNonExpired, Boolean enabled) {
+		super();
+		this.matricula = matricula;
+		this.nome = nome;
+		this.tipoUsuario = tipoUsuario;
+		this.username = username;
+		this.password = password;
+		this.accountNonExpired = accountNonExpired;
+		this.accountNonLocked = accountNonLocked;
+		this.credentialsNonExpired = credentialsNonExpired;
+		this.enabled = enabled;
+	}
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return this.permissions;
@@ -83,9 +102,9 @@ public class UsuarioEntity implements UserDetails, Serializable{
 
 	@Override
 	public String getUsername() {
-		return this.username; 
+		return this.username;
 	}
-	
+
 	@Override
 	public boolean isAccountNonExpired() {
 		return this.accountNonExpired;
@@ -98,14 +117,14 @@ public class UsuarioEntity implements UserDetails, Serializable{
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return this.credentialsNonExpired;		
+		return this.credentialsNonExpired;
 	}
 
 	@Override
 	public boolean isEnabled() {
 		return this.enabled;
 	}
-	
+
 	public List<String> getRoles() {
 		List<String> roles = new ArrayList<>();
 		for (PermissaoEntity permission : this.permissions) {
@@ -113,5 +132,4 @@ public class UsuarioEntity implements UserDetails, Serializable{
 		}
 		return roles;
 	}
-
 }

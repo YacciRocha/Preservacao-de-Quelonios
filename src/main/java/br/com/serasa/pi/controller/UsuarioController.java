@@ -77,7 +77,7 @@ public class UsuarioController {
 		UsuarioVO usuarioInseridoVO = usuarioService.insert(usuarioVO);
 		usuarioInseridoVO.add(
 				linkTo(methodOn(UsuarioController.class).findById(usuarioInseridoVO.getMatricula())).withSelfRel());
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{matricula}")
 				.buildAndExpand(usuarioInseridoVO.getMatricula()).toUri();
 		return ResponseEntity.created(uri).body(usuarioInseridoVO);
 	}

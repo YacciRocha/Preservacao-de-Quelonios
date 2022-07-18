@@ -50,7 +50,7 @@ public class ColetaController {
 
 		var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
 		Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "nomePraiaTabuleiro"));
-		Page<ColetaVO> coletasVO = coletaService.findAll(pageable);
+		Page<ColetaVO> coletasVO = coletaService.findAll(pageable);		
 		coletasVO.stream()
 				.forEach(p -> p.add(linkTo(methodOn(ColetaController.class).findById(p.getIdColeta())).withSelfRel()));
 		return ResponseEntity.ok(CollectionModel.of(coletasVO));

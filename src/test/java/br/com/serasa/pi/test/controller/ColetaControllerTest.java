@@ -119,7 +119,7 @@ public class ColetaControllerTest {
 
 		Assert.assertThrows(ResourceNotFoundException.class, () -> {
 			coletaController.delete(1);		
-		});
+		});		
 	} 
 
 	@Test
