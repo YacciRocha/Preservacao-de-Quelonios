@@ -51,7 +51,7 @@ INSERT INTO `comunidade` VALUES
 INSERT INTO `ciclo` VALUES 
 	(1,'AM','Ciclo Mamori 2022','Comunidade Mamori','Careiro Castanho'),
 	(2,'PA','Ciclo Terra Santa 2022','Comunidade Barreto','Terra Santa'),
-	(3,'PA','Oriximiná','Comunidade Salgado I','Oriximina');
+	(3,'PA','Ciclo Oriximiná 2022','Comunidade Salgado I','Oriximina');
 
 
 INSERT INTO `viagem` VALUES 
