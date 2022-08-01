@@ -57,6 +57,7 @@ public class AuthController {
 			Map<Object, Object> model = new HashMap<>();
 			model.put("username", username);
 			model.put("token", token);
+			model.put("nome", user.getNome());
 			
 			return ok(model);
 		} catch (AuthenticationException e) {
