@@ -44,7 +44,7 @@ public class UsuarioEntity implements UserDetails, Serializable {
 	@Column(name = "tipoUsuario", columnDefinition = "enum('ADMIN','COORDENADOR','VOLUNTARIO')")
 	private TipoUsuarioEnum tipoUsuario;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "usuario_permissao", joinColumns = {
 			@JoinColumn(name = "id_usuario", nullable = false) }, inverseJoinColumns = {
 					@JoinColumn(name = "id_permissao", nullable = false) })

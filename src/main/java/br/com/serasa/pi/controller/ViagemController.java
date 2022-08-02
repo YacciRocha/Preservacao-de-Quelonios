@@ -47,7 +47,7 @@ public class ViagemController {
 	@GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<CollectionModel<ViagemVO>> findAll(@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "limit", defaultValue = "10") int limit,
-			@RequestParam(value = "direction", defaultValue = "asc") String direction) {
+			@RequestParam(value = "direction", defaultValue = "desc") String direction) {
 
 		var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
 		Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "dataViagem"));
