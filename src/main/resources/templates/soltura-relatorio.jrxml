@@ -89,7 +89,7 @@
 					<textElement verticalAlignment="Bottom">
 						<font isBold="false"/>
 					</textElement>
-					<text><![CDATA[Relatório Soltura]]></text>
+					<text><![CDATA[Relatório ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement style="SubTitle" x="370" y="37" width="316" height="29" uuid="cfa21334-0634-4605-9ea7-aca4981f67e4"/>

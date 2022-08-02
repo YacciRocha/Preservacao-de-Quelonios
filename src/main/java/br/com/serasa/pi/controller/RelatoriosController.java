@@ -41,7 +41,7 @@ public class RelatoriosController {
 	@Operation(summary = "Gerar relatórios de soltura ")
 	@GetMapping(value = "/soltura", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_PDF_VALUE })
 	public ResponseEntity<byte[]> gerarRelatorioSoltura() throws FileNotFoundException, JRException {
-		return relatoriosService.exportarRelatorioEclosao();
+		return relatoriosService.exportarRelatorioSoltura();
 	}
 
 }
