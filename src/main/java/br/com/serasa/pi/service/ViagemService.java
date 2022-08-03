@@ -77,7 +77,7 @@ public class ViagemService {
 			ViagemEntity viagemAtualizacao = viagemMapper.viagemVOToViagemEntity(viagemVoAtualizacao);
 
 			viagemEncontrada.setDataViagem(viagemAtualizacao.getDataViagem());
-			viagemEncontrada.setIdCiclo(viagemAtualizacao.getIdCiclo());
+			//viagemEncontrada.setIdCiclo(viagemAtualizacao.getIdCiclo());
 
 			ViagemEntity viagemAtualizada = repository.save(viagemEncontrada);
 			return viagemMapper.viagemEntityToViagemVO(viagemAtualizada);
