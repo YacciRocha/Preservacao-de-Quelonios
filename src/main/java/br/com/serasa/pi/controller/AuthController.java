@@ -58,7 +58,7 @@ public class AuthController {
 			model.put("username", username);
 			model.put("token", token);
 			model.put("nome", user.getNome());
-			
+			model.put("tipo", user.getTipoUsuario());		
 			return ok(model);
 		} catch (AuthenticationException e) {
 			throw new BadCredentialsException("Usuário ou senha inválidos");

@@ -74,6 +74,9 @@ public class UsuarioController {
 	@PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, produces = {
 			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<UsuarioVO> insert(@Valid @RequestBody UsuarioVO usuarioVO) {
+		usuarioVO.setAccountNonLocked(true);
+		usuarioVO.setAccountNonExpired(true);
+		usuarioVO.setCredentialsNonExpired(true);
 		UsuarioVO usuarioInseridoVO = usuarioService.insert(usuarioVO);
 		usuarioInseridoVO.add(
 				linkTo(methodOn(UsuarioController.class).findById(usuarioInseridoVO.getMatricula())).withSelfRel());
