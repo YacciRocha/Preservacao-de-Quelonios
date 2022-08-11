@@ -78,6 +78,7 @@ public class UsuarioService implements UserDetailsService {
 
 			usuarioEncontrado.setNome(usuarioVoAtualizacao.getNome());
 			usuarioEncontrado.setUsername(usuarioVoAtualizacao.getUsername());
+			usuarioEncontrado.setEnabled(usuarioVoAtualizacao.getEnabled());
 
 			UsuarioEntity usuarioAtualizado = usuarioRepository.save(usuarioEncontrado);
 			return usuarioMapper.usuarioEntityToUsuarioVO(usuarioAtualizado);
