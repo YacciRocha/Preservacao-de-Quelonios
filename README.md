@@ -130,3 +130,5 @@ Funcionalidades e correções previstas para o próximo release
 📝Fazer buscas por nome,data, estado, município ou comunidade de ciclo
 
 📝 Corrigir o retorno dos erros no back-end : HTTP Response
+
+📝 Corrigir bug do método de gerar relatório de soltura
