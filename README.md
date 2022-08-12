@@ -32,12 +32,12 @@ Projeto Integrador - Squad Amazonas - Digital House Brasil - Programação Full 
 
 ## 📋 Pré-requisitos
 Para executar o projeto, será necessário instalar os seguintes programas:
-* **JDK 11**
-* **Spring Boot**
-* **Angular**
-* **Eclipse**
-* **VS Code**
-* **MySQL**
+* **`JDK 11`**
+* **`Spring Boot`**
+* **`Angular`**
+* **`Eclipse`**
+* **`VS Code`**
+* **`MySQL`**
 
 ## 🔧 Começando
 
@@ -113,3 +113,20 @@ O projeto foi desenvolvido utilizando as seguintes tecnologias:
 * **Pamela Guerra** - [Github ](https://github.com/Pam-Guerra)  |  [Linkedin  ](https://www.linkedin.com/in/pamela-guerra-a3a29b230/)
 * **Viviane Mayumi** - [Github](https://github.com/VivianeMayumi) |  [Linkedin](https://www.linkedin.com/in/viviane-mayumi-ogusko-saitou-67465418a/)
 * **Yacci Rocha** -  [Github](https://github.com/YacciRocha) |  [Linkedin](https://www.linkedin.com/in/yacci-da-rocha-sousa-9b0342149/)
+
+## 📌 Em construção
+Funcionalidades e correções previstas para o próximo release
+
+📝 Corrigir bug de validação do input de status no cadastro de usuário
+
+📝 Criar a página  de edição de formulários
+
+📝 Analisar a integridade referencial do Banco de Dados para viabilizar exclusão de Ciclos e Viagens.
+
+📝 Fazer busca  de formulários por tipo, data e voluntário
+
+📝 Fazer buscas por nome e/ou email de usuário
+
+📝Fazer buscas por nome,data, estado, município ou comunidade de ciclo
+
+📝 Corrigir o retorno dos erros no back-end : HTTP Response
