@@ -112,7 +112,7 @@ O projeto foi desenvolvido utilizando as seguintes tecnologias:
 * **Naara Marinheiro** - [Github](https://github.com/NaaraMarinheiro)  | [Linkedin ](https://www.linkedin.com/in/naaramarinheiro/)
 * **Pamela Guerra** - [Github ](https://github.com/Pam-Guerra)  |  [Linkedin  ](https://www.linkedin.com/in/pamela-guerra-a3a29b230/)
 * **Viviane Mayumi** - [Github](https://github.com/VivianeMayumi) |  [Linkedin](https://www.linkedin.com/in/viviane-mayumi-ogusko-saitou-67465418a/)
-* **Yacci Rocha** -  [Github](https://github.com/YacciRocha) |  [Linkedin](https://www.linkedin.com/in/yacci-da-rocha-sousa-9b0342149/)
+* **Yacci Rocha** -  [Github](https://github.com/YacciRocha) |  [Linkedin](https://www.linkedin.com/in/yaccirocha/)
 
 ## 📌 Em construção
 Funcionalidades e correções previstas para o próximo release
